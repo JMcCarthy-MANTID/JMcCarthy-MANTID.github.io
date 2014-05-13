@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mask Detectors According To Instrument &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm will flag the detectors listed as
+masked(<a class="reference external" href="IDetector">IDetector</a> isMasked() method) and will zero the
+data in the spectra related to those detectors.</p>
+<p>All but the first property are optional and at least one of the must be
+set. If several are set, the first will be used.</p>
+<p>The set of detectors to be masked can be given as a list of either
+spectrum numbers, detector IDs or workspace indices. The list should be
+set against the appropriate property.</p>
+<div class="section" id="mask-detectors-according-to-instrument">
+<h1>Mask Detectors According To Instrument<a class="headerlink" href="#mask-detectors-according-to-instrument" title="Permalink to this headline">¶</a></h1>
+<p>If the input MaskedWorkspace is not a SpecialWorkspace2D object, this
+algorithm will check every detectors in input MaskedWorkspace&#8217;s
+Instrument. If the detector is masked, then the corresponding detector
+will be masked in Workspace.</p>
+</div>
+<div class="section" id="mask-detectors-according-to-masking-workspace">
+<h1>Mask Detectors According to Masking Workspace<a class="headerlink" href="#mask-detectors-according-to-masking-workspace" title="Permalink to this headline">¶</a></h1>
+<p>If the input MaskedWorkspace is a <a class="reference external" href="MaskWorkspace">MaskWorkspace</a>
+object, i.e., masking workspace, then the algorithm will mask
+Workspace&#8217;s detector according to the histogram data of the
+SpecialWorkspace2D object</p>
+<div class="section" id="definition-of-mask">
+<h2>Definition of Mask<a class="headerlink" href="#definition-of-mask" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>If a pixel is masked, it means that the data from this pixel won&#8217;t be
+used. In the masking workspace (i.e.,
+<a class="reference external" href="SpecialWorkspace2D">SpecialWorkspace2D</a>), the corresponding value
+is 1.</li>
+<li>If a pixel is NOT masked, it means that the data from this pixel will
+be used. In the masking workspace (i.e.,
+<a class="reference external" href="SpecialWorkspace2D">SpecialWorkspace2D</a>), the corresponding value
+is 0.</li>
+</ul>
+</div>
+<div class="section" id="about-input-parameters">
+<h2>About Input Parameters<a class="headerlink" href="#about-input-parameters" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="MaskDetectors">MaskDetectors</a> supports various format of input to
+mask detectors, including</p>
+<ul class="simple">
+<li>Workspace indices</li>
+<li>Spectra</li>
+<li>Detectors</li>
+<li><a class="reference external" href="MaskWorkspace">MaskWorkspace</a></li>
+<li>General <a class="reference external" href="MatrixWorkspace">MatrixWorkspace</a> other than
+<a class="reference external" href="MaskWorkspace">MaskWorkspace</a> (In this case, the mask will be
+extracted from this workspace)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rules">
+<h1>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h1>
+<p>Here are the rules for input information for masking</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;At&nbsp;least&nbsp;one&nbsp;of&nbsp;the&nbsp;inputs&nbsp;must&nbsp;be&nbsp;specified.&nbsp;&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;Workspace&nbsp;indices&nbsp;and&nbsp;Spectra&nbsp;cannot&nbsp;be&nbsp;given&nbsp;at&nbsp;the&nbsp;same&nbsp;time.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">3.&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MaskWorkspace</span></tt> &lt;MaskWorkspace&gt;`__<tt class="docutils literal"><span class="pre">&nbsp;and&nbsp;general&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MatrixWorkspace</span></tt> &lt;MatrixWorkspace&gt;`__<tt class="docutils literal"><span class="pre">&nbsp;cannot&nbsp;be&nbsp;given&nbsp;at&nbsp;the&nbsp;same&nbsp;time.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">4.&nbsp;When&nbsp;a&nbsp;general&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MatrixWorkspace</span></tt> &lt;MatrixWorkspace&gt;`__<tt class="docutils literal"><span class="pre">&nbsp;is&nbsp;specified,&nbsp;then&nbsp;all&nbsp;detectors&nbsp;in&nbsp;a&nbsp;spectrum&nbsp;are&nbsp;treated&nbsp;as&nbsp;masked&nbsp;if&nbsp;the&nbsp;effective&nbsp;detector&nbsp;of&nbsp;that&nbsp;spectrum&nbsp;is&nbsp;masked.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">5.&nbsp;The&nbsp;masks&nbsp;specified&nbsp;from&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;a)&nbsp;workspace&nbsp;indices/spectra</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;b)&nbsp;detectors</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;c)&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MaskWorkspace</span></tt> &lt;MaskWorkspace&gt;`__<tt class="docutils literal"><span class="pre">/general&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MatrixWorkspace</span></tt> &lt;MatrixWorkspace&gt;`__</div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;will&nbsp;be&nbsp;combined&nbsp;by&nbsp;the&nbsp;</span></tt><em>``plus``</em><tt class="docutils literal"><span class="pre">&nbsp;operation.</span></tt></div>
+</div>
+<div class="section" id="operations-involved-in-masking">
+<h2>Operations Involved in Masking<a class="headerlink" href="#operations-involved-in-masking" title="Permalink to this headline">¶</a></h2>
+<p>There are 2 operations to mask a detector and thus spectrum related</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;Set&nbsp;the&nbsp;detector&nbsp;in&nbsp;workspace's&nbsp;instrument's&nbsp;</span></tt><a href="#id1"><span class="problematic" id="id2">*</span></a><tt class="docutils literal"><span class="pre">parameter</span></tt></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">map``*\</span> <span class="pre">``&nbsp;to&nbsp;</span></tt><em>``masked``</em><tt class="docutils literal"><span class="pre">;</span></tt>
+| <tt class="docutils literal"><span class="pre">2.&nbsp;Clear&nbsp;the&nbsp;data&nbsp;associated&nbsp;with&nbsp;the&nbsp;spectrum&nbsp;with&nbsp;detectors&nbsp;that&nbsp;are&nbsp;masked;</span></tt></p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>In the plan, the workflow to mask detectors should be</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;Convert&nbsp;input&nbsp;detectors,&nbsp;workspace&nbsp;indices&nbsp;or&nbsp;spectra,&nbsp;and&nbsp;general&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MatrixWorkspace</span></tt> &lt;MatrixWorkspace&gt;`__<tt class="docutils literal"><span class="pre">&nbsp;to&nbsp;a&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MaskWorkspace</span></tt> &lt;MaskWorkspace&gt;`__<tt class="docutils literal"><span class="pre">;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;Mask&nbsp;detectors&nbsp;according&nbsp;to&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`MaskWorkspace</span></tt> &lt;MaskWorkspace&gt;`__<tt class="docutils literal"><span class="pre">;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">3.&nbsp;Clear&nbsp;data&nbsp;on&nbsp;all&nbsp;spectra,&nbsp;which&nbsp;have&nbsp;at&nbsp;least&nbsp;one&nbsp;detector&nbsp;that&nbsp;is&nbsp;masked.</span></tt></div>
+</div>
+</div>
+<div class="section" id="concern">
+<h2>Concern<a class="headerlink" href="#concern" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Speed!</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mask Detectors According To Instrument</a></li>
+<li><a class="reference internal" href="#mask-detectors-according-to-masking-workspace">Mask Detectors According to Masking Workspace</a><ul>
+<li><a class="reference internal" href="#definition-of-mask">Definition of Mask</a></li>
+<li><a class="reference internal" href="#about-input-parameters">About Input Parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rules">Rules</a><ul>
+<li><a class="reference internal" href="#operations-involved-in-masking">Operations Involved in Masking</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#concern">Concern</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/MaskDetectors.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

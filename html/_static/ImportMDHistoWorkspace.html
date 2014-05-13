@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Details &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm takes a text file (.txt extension) containing two columns
+and converts it into an MDHistoWorkspace.</p>
+<div class="section" id="details">
+<h1>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h1>
+<p>The columns are in the order <strong>signal</strong> then <strong>error</strong>. The file must
+only contain two columns, these may be separated by any whitespace
+character. The algorithm expects there to be 2*product(nbins in each
+dimension) entries in this file. So if you have set the dimensionality
+to be <em>4,4,4</em> then you will need to provide 64 rows of data, in 2
+columns or 124 floating point entries.</p>
+<p>The Names, Units, Extents and NumberOfBins inputs are all linked by the
+order they are provided in. For example, if you provide Names <em>A, B, C</em>
+and Units <em>U1, U2, U3</em> then the dimension <em>A</em> will have units <em>U1</em>.</p>
+<p>Signal and Error inputs are read in such that, the first entries in the
+file will be entered across the first dimension specified, and the
+zeroth index in the other dimensions. The second set of entries will be
+entered across the first dimension and the 1st index in the second
+dimension, and the zeroth index in the others.</p>
+<div class="section" id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h2>
+<p>A very similar algorithm to this is
+<a class="reference external" href="CreateMDHistoWorkspace">CreateMDHistoWorkspace</a>, which takes it&#8217;s
+input signal and error values from arrays rather than a text file.
+Another alternative is to use <a class="reference external" href="ConvertToMD">ConvertToMD</a> which works
+on MatrixWorkspaces, and allows log values to be included in the
+dimensionality.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Details</a><ul>
+<li><a class="reference internal" href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/ImportMDHistoWorkspace.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

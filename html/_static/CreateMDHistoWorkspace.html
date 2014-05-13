@@ -1,0 +1,116 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alternatives &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Takes two arrays of signal and error values, as well as information
+describing the dimensionality and extents, and creates a
+MDHistoWorkspace (histogrammed multi-dimensional workspace). The
+<em>SignalInput</em> and <em>ErrorInput</em> arrays must be of equal length and have a
+length that is equal to the product of all the comma separated arguments
+provided to <strong>NumberOfBins</strong>. The order in which the arguments are
+specified to each of the properties (for those taking multiple
+arguments) is important, as they are assumed to match by the order they
+are declared. For example, specifying <strong>Names</strong>=&#8217;A,B&#8217; and
+<strong>Units</strong>=&#8217;U1,U2&#8217; will generate two dimensions, the first with a name
+of <em>A</em> and units of <em>U1</em> and the second with a name of <em>B</em> and units of
+<em>U2</em>. The same logic applies to the <strong>Extents</strong> inputs. Signal and Error
+inputs are read in such that, the first entries in the file will be
+entered across the first dimension specified, and the zeroth index in
+the other dimensions. The second set of entries will be entered across
+the first dimension and the 1st index in the second dimension, and the
+zeroth index in the others.</p>
+<div class="section" id="alternatives">
+<h1>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h1>
+<p>A very similar algorithm to this is
+<a class="reference external" href="ImportMDHistoWorkspace">ImportMDHistoWorkspace</a>, which takes it&#8217;s
+input signal and error values from a text file rather than from arrays.
+Another alternative is to use <a class="reference external" href="ConvertToMD">ConvertToMD</a> which works
+on MatrixWorkspaces, and allows log values to be included in the
+dimensionality.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/CreateMDHistoWorkspace.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

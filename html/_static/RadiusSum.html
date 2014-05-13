@@ -1,0 +1,120 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>RadiusSum sums the counts in rings against radius.</p>
+<p>Below, there is an example of the execution of the RadiusSum to a
+Workspace2D where the position of the pixels are not associated to
+detector positions, but it is derived from the Axes.</p>
+<div class="figure">
+<img alt="800px" src="../_images/ExecuteRadiusSum.png" />
+</div>
+<p>The image below shows a visual interpretation for the inputs of the
+algorithm</p>
+<div class="figure">
+<img alt="300px" src="../_images/RadiusSumInputs.png" />
+</div>
+<p>The Algorithm create <strong>NumBins</strong> rings around the <strong>Centre</strong> point each
+one with <span class="math">\(width = BinSize\)</span> for
+<span class="math">\(BinSize=\frac{MaxRadius-MinRadius}{NumBins}\)</span>.</p>
+<p>The algorithm applies a rudimentary calculation to define the bin for
+each that each pixel or detector in the <a class="reference external" href="Workspace2D">Workspace2D</a>,
+but taking its center point. If the center point belongs to one bin, it
+is considered that the whole pixel belongs to the bin. The picture
+below, shows what does this means. An ideal solution for RadiusSum is
+the left image, while the right image is what is current implemented.</p>
+<div class="figure">
+<img alt="300px" src="../_images/RadiusSumSolutions.png" />
+</div>
+<p>Although the images were applied to an image
+<a class="reference external" href="Workspace2D">Workspace2D</a>, the image below shows that it is possible
+to apply this algorithm to Workspaces attached to instruments.</p>
+<div class="figure">
+<img alt="800 px" src="../_images/RadiusSumInstrument.png" />
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/RadiusSum.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

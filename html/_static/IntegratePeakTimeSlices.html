@@ -1,0 +1,119 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm fits a bivariate normal distribution( plus background) to
+the data on each time slice. The Fit program uses
+<a class="reference external" href="BivariateNormal">BivariateNormal</a> for the Fit Function.</p>
+<p>The area used for the fitting is calculated based on the dQ parameter. A
+good value for dQ is 1/largest unit cell length. This parameter dictates
+the size of the area used to approximate the intensity of the peak. The
+estimate .1667/ max(a,b,c) assumes |Q|=1/d.</p>
+<p>The result is returned in this algorithm&#8217;s output &#8220;Intensity&#8221; and
+&#8220;SigmaIntensity&#8221; properties. The peak object is NOT CHANGED.</p>
+<p>The table workspace is also a result. Each line contains information on
+the fit for each good time slice. The column names( and information) in
+the table are:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;Time,&nbsp;Channel,&nbsp;Background,&nbsp;Intensity,&nbsp;Mcol,&nbsp;Mrow,&nbsp;SScol,SSrow,&nbsp;SSrc,&nbsp;NCells,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;ChiSqrOverDOF,&nbsp;TotIntensity,&nbsp;BackgroundError,&nbsp;FitIntensityError,&nbsp;ISAWIntensity,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;ISAWIntensityError,TotalBoundary,&nbsp;NBoundaryCells,&nbsp;Start&nbsp;Row,&nbsp;End&nbsp;Row,Start&nbsp;Col,&nbsp;and&nbsp;End&nbsp;Col.</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;The&nbsp;last&nbsp;column&nbsp;has&nbsp;a&nbsp;comma&nbsp;separated&nbsp;List&nbsp;of&nbsp;sepctral&nbsp;ID's&nbsp;used&nbsp;in&nbsp;the&nbsp;time&nbsp;slice.</span></tt></div>
+</div>
+<p>The final Peak intensity is the sum of the IsawIntensity for each time
+slice. The error is the square root of the sum of squares of the
+IsawIntensityError values.</p>
+<p>The columns whose names are Background, Intensity, Mcol, Mrow, SScol,
+SSrow, and SSrc correspond to the parameters for the BivariateNormal
+curve fitting function.</p>
+<p>This algorithm has been carefully tweaked to give good results for
+interior peaks only. Peaks close to the edge of the detector may not
+give good results.</p>
+<p>This Algorithm is also used by the <a class="reference external" href="PeakIntegration">PeakIntegration</a>
+algorithm when the Fit tag is selected.</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/IntegratePeakTimeSlices.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

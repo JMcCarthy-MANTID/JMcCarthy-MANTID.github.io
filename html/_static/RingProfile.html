@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>RingProfile sums the counts against a ring.</p>
+<p>Below, there is an example of the execution of the RingProfile to a
+<a class="reference external" href="Workspace2D">Workspace2D</a> where the position of the pixels are not
+associated to detector positions, but it is derived from the
+<a class="reference external" href="Interacting_with_Matrix_Workspaces#Axes">Axes</a>.</p>
+<div class="figure">
+<img alt="800px" src="../_images/ExecuteRingProfile.png" />
+</div>
+<p>The image below shows a visual interpretation for the inputs of the
+algorithm</p>
+<div class="figure">
+<img alt="RingProfileInputsView.png" src="../_images/RingProfileInputsView.png" />
+<p class="caption">RingProfileInputsView.png</p>
+</div>
+<p>The algorithm goes through each pixel and find its distance from the
+center. If it relies inside the defined ring, it checks the angle
+between the pixel position and the center and uses this information to
+define the bin where to put the count for that pixel.</p>
+<p>The RingProfile is also defined for Workspace2D which has the positions
+based on the detectors, as you can see in the picture below.</p>
+<div class="figure">
+<img alt="800px" src="../_images/RingProfileInstrument.png" />
+</div>
+<p>In this case, the inputs of the algorithm is like the image below</p>
+<div class="figure">
+<img alt="Ringprofileinstrument.png" src="../_images/Ringprofileinstrument.png" />
+<p class="caption">Ringprofileinstrument.png</p>
+</div>
+<p>The algorithm does to each spectrum, get the associated detector from
+which it get the positions. From the positions it work out if it belongs
+or not to the ring and in which bin it must be placed. It finally
+accumulate all the spectrum values inside the target bin.</p>
+<p>It is possible to setup the <em>StartAngle</em> from where to starting the Ring
+as well as the Sense, if in clockwise direction or anti-clockwise
+direction. But, the resulting workspace will always place the bins in a
+relative angle position from the start. Which means that for
+anti-clockwise sense, the real 3D angle is:</p>
+<p>RealAngle = StartAngle + Angle</p>
+<p>While for clockwise sense, the real 3D angle is:</p>
+<p>RealAngle = StartAngle - Angle</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/RingProfile.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

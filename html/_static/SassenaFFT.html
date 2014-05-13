@@ -1,0 +1,142 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Details &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>The Sassena application <a class="reference external" href="http://sassena.org">1</a> generates
+intermediate scattering factors from molecular dynamics trajectories.
+This algorithm reads Sassena output and stores all data in workspaces of
+type <a class="reference external" href="Workspace2D">Workspace2D</a>, grouped under a single
+<a class="reference external" href="WorkspaceGroup">WorkspaceGroup</a>. It is implied that the time unit is
+one <strong>picosecond</strong>.</p>
+<p>Sassena ouput files are in HDF5 format
+<a class="reference external" href="http://www.hdfgroup.org/HDF5">2</a>, and can be made up of the
+following datasets: <em>qvectors</em>, <em>fq</em>, <em>fq0</em>, <em>fq2</em>, and <em>fqt</em></p>
+<p>The group workspace should contain workspaces <strong>_fqt.Re</strong> and
+<strong>_fqt.Im</strong> containing the real and imaginary parts of the intermediate
+structure factor, respectively. This algorithm will take both and
+perform <a class="reference external" href="FFT">FFT</a>, storing the real part of the transform in
+workspace <strong>_fqw</strong> and placing this workspace under the input group
+workspace. Assuming the time unit to be one picosecond, the resulting
+energies will be in units of one <strong>micro-eV</strong>.</p>
+<p>The Schofield correction (P. Schofield, <em>Phys. Rev. Letters</em> <strong>4</strong>(5),
+239 (1960)) is optionally applied to the resulting dynamic structure
+factor to reinstate the detailed balance condition
+<span class="math">\(S(Q,\omega)=e^{\beta \hbar \omega}S(-Q,-\omega)\)</span>.</p>
+<div class="section" id="details">
+<h1>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="parameter-fftonlyrealpart">
+<h2>Parameter FFTonlyRealPart<a class="headerlink" href="#parameter-fftonlyrealpart" title="Permalink to this headline">¶</a></h2>
+<p>Setting parameter FFTonlyRealPart to true will produce a transform on
+only the real part of I(Q,t). This is convenient if we know that I(Q,t)
+should be real but a residual imaginary part was left in a Sassena
+calculation due to finite orientational average in Q-space.</p>
+<p>Below are plots after application of SassenaFFT to
+<span class="math">\(I(Q,t) = e^{-t^2/(2\sigma^2)} + i\cdot t \cdot e^{-t^2/(2\sigma^2)}\)</span>
+with <span class="math">\(\sigma=1ps\)</span>. Real an imaginary parts are shown in panels (a)
+and (b). Note that <span class="math">\(I(Q,t)*=I(Q,-t)\)</span>. If only <span class="math">\(Re[I(Q,t)]\)</span>
+is transformed, the result is another Gaussian:
+<span class="math">\(\sqrt{2\pi}\cdot e^{-E^2/(2\sigma'^2)}\)</span> with
+<span class="math">\(\sigma'=4,136/(2\pi \sigma)\)</span> in units of <span class="math">\(\mu\)</span>eV (panel
+(c)). If I(Q,t) is transformed, the result is a modulated Gaussian:
+<span class="math">\((1+\sigma' E)\sqrt{2\pi}\cdot e^{-E^2/(2\sigma'^2)}\)</span>(panel
+(d)).</p>
+<div class="figure">
+<img alt="SassenaFFTexample.jpg" src="../_images/SassenaFFTexample.jpg" />
+<p class="caption">SassenaFFTexample.jpg</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Details</a><ul>
+<li><a class="reference internal" href="#parameter-fftonlyrealpart">Parameter FFTonlyRealPart</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SassenaFFT.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Choosing an absorption correction algorithm &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm uses a numerical integration method to calculate
+attenuation factors resulting from absorption and single scattering in a
+sample with the material properties given. Factors are calculated for
+each spectrum (i.e. detector position) and wavelength point, as defined
+by the input workspace. The sample is first bounded by a cuboid, which
+is divided up into small cubes. The cubes whose centres lie within the
+sample make up the set of integration elements (so you have a kind of
+&#8216;Lego&#8217; model of the sample) and path lengths through the sample are
+calculated for the centre-point of each element, and a numerical
+integration is carried out using these path lengths over the volume
+elements.</p>
+<p>Note that the duration of this algorithm is strongly dependent on the
+element size chosen, and that too small an element size can cause the
+algorithm to fail because of insufficient memory.</p>
+<p>Note that The number density of the sample is in
+<span class="math">\(\mathrm{\AA}^{-3}\)</span></p>
+<div class="section" id="choosing-an-absorption-correction-algorithm">
+<h1>Choosing an absorption correction algorithm<a class="headerlink" href="#choosing-an-absorption-correction-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>This flow chart is given as a way of selecting the most appropriate of
+the absorption correction algorithms. It also shows the algorithms that
+must be run first in each case. Note that this does not cover the
+following absorption correction algorithms:
+<a class="reference external" href="MonteCarloAbsorption">MonteCarloAbsorption</a> (correction factors for
+a generic sample using a Monte Carlo instead of a numerical integration
+method),
+<a class="reference external" href="MultipleScatteringCylinderAbsorption">MultipleScatteringCylinderAbsorption</a>
+&amp; <a class="reference external" href="AnvredCorrection">AnvredCorrection</a> (corrections in a spherical
+sample, using a method imported from ISAW). Also, HRPD users can use the
+<a class="reference external" href="HRPDSlabCanAbsorption">HRPDSlabCanAbsorption</a> to add rudimentary
+calculations of the effects of the sample holder. <img alt="AbsorptionFlow.png" src="_static\AbsorptionFlow.png" /></p>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<p>This algorithm assumes that the (parallel) beam illuminates the entire
+sample <strong>unless</strong> a &#8216;gauge volume&#8217; has been defined using the
+<a class="reference external" href="DefineGaugeVolume">DefineGaugeVolume</a> algorithm (or by otherwise
+adding a valid XML string <a class="reference external" href="HowToDefineGeometricShape">defining a
+shape</a> to a <a class="reference external" href="Run">Run</a> property called
+&#8220;GaugeVolume&#8221;). In this latter case only scattering within this volume
+(and the sample) is integrated, because this is all the detector can
+&#8216;see&#8217;. The full sample is still used for the neutron paths. (<strong>N.B.</strong> If
+your gauge volume is of axis-aligned cuboid shape and fully enclosed by
+the sample then you will get a more accurate result from the
+<a class="reference external" href="CuboidGaugeVolumeAbsorption">CuboidGaugeVolumeAbsorption</a>
+algorithm.)</p>
+</div>
+<div class="section" id="restrictions-on-the-input-workspace">
+<h2>Restrictions on the input workspace<a class="headerlink" href="#restrictions-on-the-input-workspace" title="Permalink to this headline">¶</a></h2>
+<p>The input workspace must have units of wavelength. The
+<a class="reference external" href="instrument">instrument</a> associated with the workspace must be fully
+defined because detector, source &amp; sample position are needed.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Choosing an absorption correction algorithm</a><ul>
+<li><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li><a class="reference internal" href="#restrictions-on-the-input-workspace">Restrictions on the input workspace</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/AbsorptionCorrection.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

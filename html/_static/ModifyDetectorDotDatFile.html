@@ -1,0 +1,113 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Modifies an ISIS detector dot data file, so that the detector positions
+are as in the given workspace. This algorithm can be used to transfer a
+calibration done via the <a class="reference external" href="ApplyCalibration">ApplyCalibration</a>
+algorithm to an ISIS detector dot dat file by selecting a workspace that
+has been modified by ApplyCalibration.</p>
+<p>A typical ISIS dot data file has a format like this:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">DETECTOR.DAT&nbsp;generated&nbsp;by&nbsp;CREATE_DETECTOR_FILE</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;286729&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;det&nbsp;no.&nbsp;&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;l2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w_x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w_y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w_z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f_x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;0.000&nbsp;&nbsp;-3.25800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;180.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;0.000&nbsp;&nbsp;-1.50400&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;180.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00000&nbsp;&nbsp;&nbsp;&nbsp;...</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;....</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">1110001&nbsp;&nbsp;&nbsp;5.300&nbsp;&nbsp;&nbsp;2.88936&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;52.28653&nbsp;&nbsp;-140.67224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00283&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02750&nbsp;&nbsp;&nbsp;...&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">1110002&nbsp;&nbsp;&nbsp;5.300&nbsp;&nbsp;&nbsp;2.88794&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;52.26477&nbsp;&nbsp;-140.72720&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.00283&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.02750&nbsp;&nbsp;&nbsp;...</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;....</span></tt></div>
+</div>
+<p>Each row corresponds to a detector whose type is indicated in the
+<tt class="docutils literal"><span class="pre">code</span></tt> column. The algorithm will only modify values in colums <tt class="docutils literal"><span class="pre">l2</span></tt>,
+<tt class="docutils literal"><span class="pre">theta</span></tt> and <tt class="docutils literal"><span class="pre">phi</span></tt> and only if the value in the <tt class="docutils literal"><span class="pre">code</span></tt> column is 3,
+which indicates a PSD gas tube. For more details about the detector dot
+data file see
+<a class="reference external" href="LoadDetectorInfo#File_format">LoadDetectorInfo#File_format</a>.</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/ModifyDetectorDotDatFile.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

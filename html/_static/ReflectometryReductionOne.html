@@ -1,0 +1,127 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Analysis Modes &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Reduces a single TOF reflectometry run into a mod Q vs I/I0 workspace.
+Performs transmission corrections. Handles both point detector and
+multidetector cases. The algorithm can correct detector locations based
+on an input theta value.</p>
+<p>Historically the work performed by this algorithm was known as the Quick
+script.</p>
+<div class="section" id="analysis-modes">
+<h1>Analysis Modes<a class="headerlink" href="#analysis-modes" title="Permalink to this headline">¶</a></h1>
+<p>The default analysis mode is <em>PointDetectorAnalysis</em>. Only this mode
+supports Transmission corrections (see below). For PointAnalysisMode the
+analysis can be roughly reduced to IvsLam = DetectorWS / sum(I0) /
+TransmissionWS / sum(I0). The normalization by tranmission run(s) is
+optional. Input workspaces are converted to <em>Wavelength</em> first via
+<a class="reference external" href="ConvertUnits">ConvertUnits</a>.</p>
+<p>IvsQ is calculated via <a class="reference external" href="ConvertUnits">ConvertUnits</a> into units of
+<em>MomentumTransfer</em>. Corrections may be applied prior to the
+transformation to ensure that the detectors are in the correct location
+according to the input Theta value. Corrections are only enabled when a
+Theta input value has been provided.</p>
+</div>
+<div class="section" id="transmission-runs">
+<h1>Transmission Runs<a class="headerlink" href="#transmission-runs" title="Permalink to this headline">¶</a></h1>
+<p>Transmission correction is a normalization step, which may be applied to
+<em>PointDetectorAnalysis</em> reduction.</p>
+<p>Transmission runs are expected to be in TOF. The spectra numbers in the
+Transmission run workspaces must be the same as those in the Input Run
+workspace. If two Transmission runs are provided then the Stitching
+parameters associated with the transmission runs will also be required.
+If a single Transmission run is provided, then no stitching parameters
+will be needed.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Analysis Modes</a></li>
+<li><a class="reference internal" href="#transmission-runs">Transmission Runs</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/ReflectometryReductionOne.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

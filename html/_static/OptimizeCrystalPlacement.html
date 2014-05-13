@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm basically optimizes h,k, and l offsets from an integer by
+varying the parameters sample positions, sample orientations ( chi,phi,
+and omega), and/or the tilt of the goniometer for an experiment.</p>
+<p>-If the crystal orientation matrix, UB, was created from one run, that
+run may not need to have its goniometer settings optimized. There is a
+property to list the run numbers to NOT have their goniometer settings
+changed. This entry is IGNORED if the tilt or sample positions are
+included in the optimization. In this case NONE of the goniometer
+angles, relative to any tilt, will be changed.</p>
+<p>-The goniometer angles displayed are relative to the tilt,i,e, phi is
+the rotation around the axis perpendicular to the tilted plane. The
+resultant PeaksWorkspace has the goniometer angles relative to the Y and
+Z axes at that time.</p>
+<p>-The crystal orientation matrix, UB, from the PeaksWorkspace should
+index all the runs &#8220;very well&#8221;. Otherwise iterations that slowly build a
+UB with corrected sample orientations may be needed.</p>
+<p>-The parameters for the tilt are GonRotx, GonRoty, and GonRotz in
+degrees. The usage for this information is as follows:</p>
+<p><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;rotate('x',GonRotx)*rotate('y',GonRoty)*rotate('z',GonRotz)*&nbsp;SampleOrientation(&nbsp;i.e.&nbsp;omegaRot*chiRot*phiRot)).</span></tt></p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">-Note:&nbsp;To&nbsp;optimize&nbsp;by&nbsp;the&nbsp;tilt&nbsp;in&nbsp;the&nbsp;goniometer&nbsp;and&nbsp;then&nbsp;by&nbsp;the&nbsp;angles&nbsp;or&nbsp;by&nbsp;the&nbsp;sample&nbsp;position,&nbsp;it&nbsp;is&nbsp;possible&nbsp;to</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">run&nbsp;with&nbsp;one&nbsp;optimization,&nbsp;then&nbsp;using&nbsp;the&nbsp;resultant&nbsp;PeaksWorkspace&nbsp;for&nbsp;input,&nbsp;run&nbsp;another&nbsp;optimization.</span></tt></div>
+</div>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">Rerunning&nbsp;the&nbsp;same&nbsp;optimization&nbsp;with&nbsp;the&nbsp;result&nbsp;is&nbsp;also&nbsp;a&nbsp;good&nbsp;idea.&nbsp;If&nbsp;the&nbsp;first&nbsp;guess&nbsp;is&nbsp;very&nbsp;close,&nbsp;the&nbsp;optimize&nbsp;algorithm</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">does&nbsp;try&nbsp;cases&nbsp;far&nbsp;away&nbsp;and&nbsp;may&nbsp;not&nbsp;get&nbsp;back&nbsp;to&nbsp;the&nbsp;best&nbsp;value.&nbsp;&nbsp;Check&nbsp;the&nbsp;chisquared&nbsp;values.&nbsp;&nbsp;If&nbsp;they&nbsp;increase,&nbsp;that&nbsp;optimization</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">should&nbsp;probably&nbsp;not&nbsp;be&nbsp;used.</span></tt></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/OptimizeCrystalPlacement.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

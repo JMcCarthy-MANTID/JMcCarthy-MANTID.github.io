@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Additional properties for a 1D function and a MatrixWorkspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="additional-properties-for-a-1d-function-and-a-matrixworkspace">
+<h1>Additional properties for a 1D function and a MatrixWorkspace<a class="headerlink" href="#additional-properties-for-a-1d-function-and-a-matrixworkspace" title="Permalink to this headline">¶</a></h1>
+<p>If Function defines a one-dimensional function and InputWorkspace is a
+<a class="reference external" href="MatrixWorkspace">MatrixWorkspace</a> the algorithm will have these
+additional properties:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="10%" />
+<col width="8%" />
+<col width="18%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Direction</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>WorkspaceIndex</td>
+<td>Input</td>
+<td>integer</td>
+<td>0</td>
+<td>The spectrum to fit, using the workspace numbering of the spectra</td>
+</tr>
+<tr class="row-odd"><td>StartX</td>
+<td>Input</td>
+<td>double</td>
+<td>Start of the spectrum</td>
+<td>An X value in the first bin to be included in the fit</td>
+</tr>
+<tr class="row-even"><td>EndX</td>
+<td>Input</td>
+<td>double</td>
+<td>End of the spectrum</td>
+<td>An X value in the last bin to be included in the fit</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This is a generic algorithm for fitting data in a Workspace with a
+function. The workspace must have the type supported by the algorithm.
+Currently supported types are: <a class="reference external" href="MatrixWorkspace">MatrixWorkspace</a> for
+fitting with a <a class="reference external" href="IFunction1D">IFunction1D</a> and
+<a class="reference external" href="IMDWorkspace">IMDWorkspace</a> for fitting with
+<a class="reference external" href="IFunctionMD">IFunctionMD</a>. After Function and InputWorkspace
+properties are set the algorithm may decide that it needs more
+information from the caller to locate the fitting data. For example, if
+a spectrum in a MatrixWorkspace is to be fit with a 1D function it will
+need to know at least the index of that spectrum. To request this
+information Fit dynamically creates relevant properties which the caller
+can set. Note that the dynamic properties depend both on the workspace
+and the function. For example, the data in a MatrixWorkspace can be fit
+with a 2D function. In this case all spectra will be used in the fit and
+no additional properties will be declared. The Function property must be
+set before any other.</p>
+<p>The function and the initial values for its parameters are set with the
+Function property. A function can be simple or composite. A <a class="reference external" href=":Category:Fit_functions">simple
+function</a> has a name registered with Mantid
+framework. The Fit algorithm creates an instance of a function by this
+name. A composite function is an arithmetic sum of two or more functions
+(simple or composite). Each function has a number of named parameters,
+the names are case sensitive. All function parameters will be used in
+the fit unless some of them are tied. Parameters can be tied by setting
+the Ties property. A tie is a mathematical expression which is used to
+calculate the value of a (dependent) parameter. Only the parameter names
+of the same function can be used as variables in this expression.</p>
+<p>Using the Minimizer property, Fit can be set to use different algorithms
+to perform the minimization. By default if the function&#8217;s derivatives
+can be evaluated then Fit uses the GSL Levenberg-Marquardt minimizer.</p>
+<p>In Mantidplot this algorithm can be run from the <a class="reference external" href="MantidPlot:_DataAnalysisandCurveFitting#Simple_Peak_Fitting_with_the_Fit_Wizard">Fit Property
+Browser</a>
+which allows all the settings to be specified via its graphical user
+interface.</p>
+</div>
+<div class="section" id="setting-a-simple-function">
+<h1>Setting a simple function<a class="headerlink" href="#setting-a-simple-function" title="Permalink to this headline">¶</a></h1>
+<p>To use a simple function for a fit set its name and initial parameter
+values using the Function property. This property is a comma separated
+list of name=value pairs. The name of the first name=value pairs must be
+&#8220;name&#8221; and it must be set equal to the name of one of a <a class="reference external" href=":Category:Fit_functions">simple
+function</a>. This name=value pair is followed
+by name=value pairs specifying values for the parameters of this
+function. If a parameter is not set in Function it will be given its
+default value defined by the function. All names are case sensitive. For
+example for fitting a Gaussian the Function property might look like
+this:</p>
+<p><tt class="docutils literal"><span class="pre">Function:&nbsp;&quot;name=Gaussian,&nbsp;PeakCentre=4.6,&nbsp;Height=10,&nbsp;Sigma=0.5&quot;</span></tt></p>
+<p>Some functions have attributes. An attribute is a non-fitting parameter
+and can be of one of the following types: text string, integer, or
+double. Attributes are set just like the parameters using name=value
+pairs. For example:</p>
+<p><tt class="docutils literal"><span class="pre">Function:&nbsp;&quot;name=UserFunction,&nbsp;Formula=a+b*x,&nbsp;a=1,&nbsp;b=2&quot;</span></tt></p>
+<p>In this example Formula is the name of a string attribute which defines
+an expression for the user UserFunction. The fitting parameters a and b
+are created when the Formula attribute is set. It is important that
+Formula is defined before initializing the parameters.</p>
+<p>A list of the available simple functions can be found
+<a class="reference external" href=":Category:Fit_functions">here</a>.</p>
+</div>
+<div class="section" id="setting-a-composite-function">
+<h1>Setting a composite function<a class="headerlink" href="#setting-a-composite-function" title="Permalink to this headline">¶</a></h1>
+<p>A composite function is a sum of simple functions. It does not have a
+name. To define a composite function set a number of simple functions in
+the Function property. Each simple function definition must be separated
+by a semicolon &#8216;;&#8217;. For example fitting two Gaussians on a linear
+background might look like this:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">Function:&nbsp;&quot;name=LinearBackground,&nbsp;A0=0.3;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,&nbsp;PeakCentre=4.6,&nbsp;Height=10,&nbsp;Sigma=0.5;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,&nbsp;PeakCentre=7.6,&nbsp;Height=8,&nbsp;Sigma=0.5&quot;</span></tt></div>
+</div>
+</div>
+<div class="section" id="setting-ties">
+<h1>Setting ties<a class="headerlink" href="#setting-ties" title="Permalink to this headline">¶</a></h1>
+<p>Parameters can be tied to other parameters or to a constant. In this
+case they do not take part in the fitting but are evaluated using the
+tying expressions. Use Ties property to set any ties. In case of a
+simple function the parameter names are used as variables in the tying
+expressions. For example</p>
+<p><tt class="docutils literal"><span class="pre">Ties:&nbsp;&quot;a=2*b+1,&nbsp;c=2&quot;</span></tt></p>
+<p>This ties parameter &#8220;a&#8221; to parameter &#8220;b&#8221; and fixes &#8220;c&#8221; to the constant
+2.</p>
+<p>In case of a composite function the variable name must refer to both the
+parameter name and the simple function it belongs to. It is done by
+writing the variable name in the following format:</p>
+<p><tt class="docutils literal"><span class="pre">f</span></tt><tt class="docutils literal"><span class="pre">.</span></tt></p>
+<p>The format consists of two parts separated by a period &#8216;.&#8217;. The first
+part defines the function by its index in the composite function
+(starting at 0). The index corresponds to the order in which the
+functions are defined in the Function property. For example:</p>
+<p><tt class="docutils literal"><span class="pre">Ties:&nbsp;&quot;f1.Sigma=f0.Sigma,f2.Sigma=f0.Sigma&quot;</span></tt></p>
+<p>This ties parameter &#8220;Sigma&#8221; of functions 1 and 2 to the &#8220;Sigma&#8221; of
+function 0. Of course all three functions must have a parameter called
+&#8220;Sigma&#8221; for this to work. The last example can also be written</p>
+<p><tt class="docutils literal"><span class="pre">Ties:&nbsp;&quot;f1.Sigma=f2.Sigma=f0.Sigma&quot;</span></tt></p>
+</div>
+<div class="section" id="setting-constraints">
+<h1>Setting constraints<a class="headerlink" href="#setting-constraints" title="Permalink to this headline">¶</a></h1>
+<p>Parameters can be constrained to be above a lower boundary and/or below
+an upper boundary. If a constraint is violated a penalty to the fit is
+applied which should result the parameters satisfying the constraint.
+The penalty applied is described in more detail
+<a class="reference external" href="FitConstraint">here</a>. Use Constraints property to set any
+constraints. In case of a simple function the parameter names are used
+as variables in the constraint expressions. For example</p>
+<p><tt class="docutils literal"><span class="pre">Constraints:&nbsp;&quot;4.0&nbsp;&lt;&nbsp;c&nbsp;&lt;&nbsp;4.2&quot;</span></tt></p>
+<p>Constraint the parameter &#8220;c&#8221; to be with the range 4.0 to 4.2, whereas</p>
+<p><tt class="docutils literal"><span class="pre">Constraints:&nbsp;&quot;c&nbsp;&gt;&nbsp;4.0&quot;</span></tt></p>
+<p>means &#8220;c&#8221; is constrained to be above the lower value 4.0 and</p>
+<p><tt class="docutils literal"><span class="pre">Constraints:&nbsp;&quot;c&nbsp;&lt;&nbsp;4.2&quot;</span></tt></p>
+<p>means &#8220;c&#8221; is constrained to be below the upper value 4.2.</p>
+<p>In case of a composite function the same notation is used for
+constraints and for ties. For example</p>
+<p><tt class="docutils literal"><span class="pre">Constraints:&nbsp;&quot;f1.c&nbsp;&lt;&nbsp;4.2&quot;</span></tt></p>
+<p>constrain the parameter &#8220;c&#8221; of function 1.</p>
+</div>
+<div class="section" id="fitting-to-data-in-a-matrixworkspace">
+<h1>Fitting to data in a MatrixWorkspace<a class="headerlink" href="#fitting-to-data-in-a-matrixworkspace" title="Permalink to this headline">¶</a></h1>
+<p>The error values in the input workspace are used to weight the data in
+the fit. Zero error values are not allowed and are replaced with ones.</p>
+</div>
+<div class="section" id="output">
+<h1>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h1>
+<p>Setting the Output property defines the names of the two output
+workspaces. One of them is a <a class="reference external" href="TableWorkspace">TableWorkspace</a> with
+the fitted parameter values. The other is a
+<a class="reference external" href="Workspace2D">Workspace2D</a> which compares the fit with the original
+data. It has three spectra. The first (index 0) contains the original
+data, the second one the data simulated with the fitting function and
+the third spectrum is the difference between the first two. For example,
+if the Output was set to &#8220;MyResults&#8221; the parameter TableWorkspace will
+have name &#8220;MyResults_Parameters&#8221; and the Workspace2D will be named
+&#8220;MyResults_Workspace&#8221;. If the function&#8217;s derivatives can be evaluated
+an additional TableWorkspace is returned. When the Output is set to
+&#8220;MyResults&#8221; this TableWorkspace will have the name
+&#8220;MyResults_NormalisedCovarianceMatrix&#8221; and it returns a calculated
+correlation matrix. Denote this matrix C and its elements Cij then the
+diagonal elements are listed as 1.0 and the off diagnonal elements as
+percentages of correlation between parameter i and j equal to
+100*Cij/sqrt(Cii*Cjj).</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>This example shows a simple fit to a Gaussian function. The algorithm
+properties are:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">InputWorkspace:&nbsp;&nbsp;Test</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">WorkspaceIndex:&nbsp;&nbsp;0</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Function:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,&nbsp;PeakCentre=4,&nbsp;Height=1.3,&nbsp;Sigma=0.5</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res</span></tt></div>
+</div>
+<div class="figure">
+<img alt="GaussianFit.jpg" src="../_images/GaussianFit.jpg" />
+<p class="caption">GaussianFit.jpg</p>
+</div>
+<hr class="docutils" />
+<p>The next example shows a fit of the same data but with a tie.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">InputWorkspace:&nbsp;&nbsp;Test</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">WorkspaceIndex:&nbsp;&nbsp;0</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Function:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,&nbsp;PeakCentre=4,&nbsp;Height=1.3,&nbsp;Sigma=0.5</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Ties:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sigma=Height/2</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res</span></tt></div>
+</div>
+<div class="figure">
+<img alt="GaussianFit_Ties.jpg" src="../_images/GaussianFit_Ties.jpg" />
+<p class="caption">GaussianFit_Ties.jpg</p>
+</div>
+<hr class="docutils" />
+<p>This example shows a fit of two overlapping Gaussians on a linear
+background. Here we create a composite function with a LinearBackground
+and two Gaussians:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">InputWorkspace:&nbsp;&nbsp;Test</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">WorkspaceIndex:&nbsp;&nbsp;0</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Function:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=LinearBackground,A0=1;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,PeakCentre=4,Height=1.5,&nbsp;Sigma=0.5;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,PeakCentre=6,Height=4,&nbsp;Sigma=0.5&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res</span></tt></div>
+</div>
+<div class="figure">
+<img alt="Gaussian2Fit.jpg" src="../_images/Gaussian2Fit.jpg" />
+<p class="caption">Gaussian2Fit.jpg</p>
+</div>
+<hr class="docutils" />
+<p>This example repeats the previous one but with the Sigmas of the two
+Gaussians tied:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">InputWorkspace:&nbsp;&nbsp;Test</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">WorkspaceIndex:&nbsp;&nbsp;0</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Function:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=LinearBackground,A0=1;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,PeakCentre=4,Height=1.5,&nbsp;Sigma=0.5;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name=Gaussian,PeakCentre=6,Height=4,&nbsp;Sigma=0.5&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Ties:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f2.Sigma&nbsp;=&nbsp;f1.Sigma</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res</span></tt></div>
+</div>
+<div class="figure">
+<img alt="Gaussian2Fit_Ties.jpg" src="../_images/Gaussian2Fit_Ties.jpg" />
+<p class="caption">Gaussian2Fit_Ties.jpg</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Additional properties for a 1D function and a MatrixWorkspace</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#setting-a-simple-function">Setting a simple function</a></li>
+<li><a class="reference internal" href="#setting-a-composite-function">Setting a composite function</a></li>
+<li><a class="reference internal" href="#setting-ties">Setting ties</a></li>
+<li><a class="reference internal" href="#setting-constraints">Setting constraints</a></li>
+<li><a class="reference internal" href="#fitting-to-data-in-a-matrixworkspace">Fitting to data in a MatrixWorkspace</a></li>
+<li><a class="reference internal" href="#output">Output</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/Fit.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

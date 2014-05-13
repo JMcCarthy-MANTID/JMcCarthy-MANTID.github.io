@@ -1,0 +1,137 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Load ISIS log file(s) &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p><strong>Parameters Note:</strong> Note that it is possible to use both of the
+optional &#8216;spectrum&#8217; properties (i.e. a range and a list) together if so
+desired.</p>
+<div class="section" id="load-isis-log-file-s">
+<h1>Load ISIS log file(s)<a class="headerlink" href="#load-isis-log-file-s" title="Permalink to this headline">¶</a></h1>
+<p>Assumes that a log file originates from a PC (not VMS) environment, i.e.
+the log files to be loaded are assumed to have the extension .txt. Its
+filename is assumed to starts with the raw data file identifier followed
+by the character &#8216;_&#8217;, and a log file is assumed to have a format of two
+columns, where the first column consists of data-time strings of the ISO
+8601 form and the second column consists of either numbers or strings
+that may contain spaces.</p>
+</div>
+<div class="section" id="parent-algorithm">
+<h1>Parent algorithm<a class="headerlink" href="#parent-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>LoadLog is also a child algorithm of <a class="reference external" href="LoadRaw">LoadRaw</a>, i.e. it gets
+called whenever LoadRaw is executed.</p>
+</div>
+<div class="section" id="load-sns-text-log-file">
+<h1>Load SNS text log file<a class="headerlink" href="#load-sns-text-log-file" title="Permalink to this headline">¶</a></h1>
+<p>If the file is determined to be a SNS text log file it should be of the
+form</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">655747325.450625&nbsp;&nbsp;&nbsp;0.000000&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747325.716250&nbsp;&nbsp;&nbsp;0.296875&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747325.997500&nbsp;&nbsp;&nbsp;0.593750&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747326.263125&nbsp;&nbsp;&nbsp;0.906250&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747326.544375&nbsp;&nbsp;&nbsp;1.093750&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747326.825625&nbsp;&nbsp;&nbsp;1.406250&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747327.091250&nbsp;&nbsp;&nbsp;1.703125&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747327.372500&nbsp;&nbsp;&nbsp;2.000000&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747327.638125&nbsp;&nbsp;&nbsp;2.203125&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747327.919375&nbsp;&nbsp;&nbsp;2.500000&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747328.200625&nbsp;&nbsp;&nbsp;2.796875&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">655747328.466250&nbsp;&nbsp;&nbsp;3.093750&nbsp;&nbsp;&nbsp;&nbsp;24.000000&nbsp;&nbsp;&nbsp;26.000000&nbsp;&nbsp;&nbsp;0.000000</span></tt></div>
+</div>
+<p>The first column is the number of seconds since January 1, 1990, then
+the other columns (space delimited) are the log values. For this mode
+the <em>name</em> and <em>units</em> parameters must be specified.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Load ISIS log file(s)</a></li>
+<li><a class="reference internal" href="#parent-algorithm">Parent algorithm</a></li>
+<li><a class="reference internal" href="#load-sns-text-log-file">Load SNS text log file</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/LoadLog.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

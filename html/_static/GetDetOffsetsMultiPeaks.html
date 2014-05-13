@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Description &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
+<p>This algorithm requires a workspace that is both in d-spacing, but has
+also been preprocessed by the <a class="reference external" href="CrossCorrelate">CrossCorrelate</a>
+algorithm. In this first step you select one spectrum to be the
+reference spectrum and all of the other spectrum are cross correlated
+against it. Each output spectrum then contains a peak whose location
+defines the offset from the reference spectrum.</p>
+<p>The algorithm iterates over each spectrum in the workspace and fits a
+<a class="reference external" href="Gaussian">Gaussian</a> function to the reference peak. The fit is used
+to calculate the centre of the fitted peak, and the offset is then
+calculated as:</p>
+<p>This is then written into a <a class="reference external" href="CalFile">.cal file</a> for every detector
+that contributes to that spectrum. All of the entries in the cal file
+are initially set to both be included, but also to all group into a
+single group on <a class="reference external" href="DiffractionFocussing">DiffractionFocussing</a>. The
+<a class="reference external" href="CreateCalFileByNames">CreateCalFileByNames</a> algorithm can be used to
+alter the grouping in the cal file.</p>
+<div class="section" id="fit-for-peak-offset">
+<h2>Fit for peak offset<a class="headerlink" href="#fit-for-peak-offset" title="Permalink to this headline">¶</a></h2>
+<p>The algorithm to calculate offset of peaks&#8217; positions is to minimize a
+cost function as</p>
+<div class="math">
+\[\sum_{p} |X_{0, p} - (1+offset)\cdot X_{0, p}|/\chi^2_{p}\]</div>
+<p>, which p is the index of a peak whose position is within MinD and MaxD.</p>
+<div class="section" id="spectra-to-mask">
+<h3>Spectra to mask<a class="headerlink" href="#spectra-to-mask" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Empty spectrum marked as &#8220;empty det&#8221;</li>
+<li>Spectrum with counts less than 1.0E^-3 in defined d-range as &#8220;dead
+det&#8221;</li>
+<li>Calculated offset exceeds the user-defined maximum offset.</li>
+</ul>
+</div>
+<div class="section" id="criteria-on-peaks">
+<h3>Criteria on peaks<a class="headerlink" href="#criteria-on-peaks" title="Permalink to this headline">¶</a></h3>
+<p>The (fitted) peak must meet a series of criteria to be used to fit
+spectrum&#8217;s offset.</p>
+<p>A peak will not be used if</p>
+<ul class="simple">
+<li>its centre is out of pre-defined d-range, i.e., MinD and MaxD;</li>
+<li>its centre is out of fitting window if it is defined;</li>
+<li>its <span class="math">\(\chi^2\)</span> of peak fitting is larger than pre-defined maximum
+value;</li>
+<li>its height is lower than pre-defined lowest peak height;</li>
+<li>its signal/noise ratio is less than 5
+<span class="math">\(H\cdot FWHM\_To\_SIGMA/width &lt; 5\)</span>;</li>
+<li>its height is not outside of error bars of background
+<span class="math">\(H &lt; \sqrt{H + B}/2\)</span>;</li>
+<li>its z-value on <span class="math">\(\frac{\delta d}{d}\)</span> is larger than 2.0.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="generate-fit-window">
+<h2>Generate fit window<a class="headerlink" href="#generate-fit-window" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Required parameter: maxWidth. If it is not given, i.e., less or equal
+to zero, then there won&#8217;t be any window defined;</li>
+<li>Definition of fit window for peaks indexed from 0 to N-1<ul>
+<li>Peak 0: window = Min((X0_0-dmin), maxWidth), Min((X0_1-X0_0)/2,
+maxWidth)</li>
+<li>Peak i (0 &lt; i &lt; N-1): window = Min((X0_i-X0_{i-1})/2, maxWidth),
+Min((X0_1-X0_0)/2, maxWidth)</li>
+<li>Peak N-1: window = Min((X0_i-X0_{i-1})/2, maxWidth),
+Min((dmax-X0_i), maxWidth)</li>
+</ul>
+</li>
+</ul>
+<p>where X0_i is the centre of i-th peak.</p>
+</div>
+</div>
+<div class="section" id="fitting-quality">
+<h1>Fitting Quality<a class="headerlink" href="#fitting-quality" title="Permalink to this headline">¶</a></h1>
+<p>GetDetOffsetsMultiPeaks have 2 levels of fitting. First it will call
+FindPeaks to fit Bragg peaks within d-range. Then it will fit offsets
+from the peak positions obtained in the previous step. Therefore, the
+performance of FindPeaks is critical to this algorithm. It is necessary
+to output values reflecting the goodness of fitting of this algorithm to
+users.</p>
+<div class="section" id="number-of-spectra-that-are-not-masked">
+<h2>Number of spectra that are NOT masked<a class="headerlink" href="#number-of-spectra-that-are-not-masked" title="Permalink to this headline">¶</a></h2>
+<p>A spectrum will be masked if it is a dead pixel, has an empty detector
+or has no peak that can be fit with given peak positions. The
+performance of <em>FindPeaks</em> affects the third criteria. A better
+algorithm to find and fit peaks may save some spectrum with relatively
+much fewer events received, i.e., poorer signal.</p>
+</div>
+<div class="section" id="of-the-offset-fitting-function">
+<h2><span class="math">\(\chi^2\)</span> of the offset fitting function<a class="headerlink" href="#of-the-offset-fitting-function" title="Permalink to this headline">¶</a></h2>
+<p>The goodness of fit, <span class="math">\(\chi^2_{iws}\)</span>, of the offset fitting
+function</p>
+<div class="math">
+\[\sum_{p} |X_{0, p} - (1+offset)X_{0, p}|/\chi^2_{p}\]</div>
+<p>is an important measure of fitting quality on each spectrum (indexed as
+iws).</p>
+</div>
+<div class="section" id="deviation-of-highest-peaks">
+<h2>Deviation of highest peaks<a class="headerlink" href="#deviation-of-highest-peaks" title="Permalink to this headline">¶</a></h2>
+<p>We observed that in some situation, the calibrated peaks&#8217; positions of
+some spectra are far off to the targeted peak positions, while goodness
+of fit such as <span class="math">\(\chi^2\)</span> are still good. It is usally caused by the
+bad fit of one or two peaks in that spectrum, which feeds some erroreous
+peak positions to peak offset fitting function.</p>
+<p>This type of bad fitting is very easily identified by visualization,
+because the shift of peaks from the correct positions is significant in
+fill plot.</p>
+<p>Therefore, deviation of highest peak if spectrum i, <span class="math">\(D_{i}\)</span> is
+defined as:</p>
+<div class="math">
+\[D_{i} = |X^{(o)}\cdots(1+offset) - X^{(c)}|\]</div>
+<p>where <span class="math">\(X^{(o)}\)</span> is the fitted centre of the highest peak of
+spectrum i, and <span class="math">\(X^{(c)}\)</span> is the theoretical centre of this peak.</p>
+</div>
+<div class="section" id="collective-quantities-to-illustrate-goodness-of-fitting-still-in-developement">
+<h2>Collective quantities to illustrate goodness of fitting (still in developement)<a class="headerlink" href="#collective-quantities-to-illustrate-goodness-of-fitting-still-in-developement" title="Permalink to this headline">¶</a></h2>
+<p>Be noticed that the idea of this section is still under development and
+has not been implemented yet.</p>
+<p>On the other hand, since GetDetOffsetsMultiPeaks always operates on an
+EventWorkspace with thousands or several ten thousands of spectra, it is
+very hard to tell the quality of fitting by looking at
+<span class="math">\(\chi^2_{iws}\)</span> of all spectra. Hence, Here are two other
+parameters are defined for comparison of results.</p>
+<blockquote>
+<div><span class="math">\(g_1 = \frac{\sum_{s}D_{s}^2}{N_{nm}}\)</span></div></blockquote>
+<p>, where s is the index of any unmasked spectrum and <span class="math">\(N_{mn}\)</span> is
+the number of unmasked spectra;</p>
+<blockquote>
+<div><span class="math">\(g_2 = \frac{\sum_{s}D_{s}^2\cdot H_{s}^2}{N_{nm}}\)</span>,</div></blockquote>
+<p>where <span class="math">\(H_{s}\)</span> is the height of highest peak of spectrum s.</p>
+</div>
+<div class="section" id="standard-error-on-offset">
+<h2>Standard error on offset<a class="headerlink" href="#standard-error-on-offset" title="Permalink to this headline">¶</a></h2>
+<p>The offset in unit of d-spacing differs is proportional to peak&#8217;s
+position by definition:</p>
+<div class="math">
+\[X_0^{(f)} = X_0^{(o)} * (1+offset)\]</div>
+<p>where <span class="math">\(X_0^{(f)}\)</span> is the focussed peak position, and
+<span class="math">\(X_0^{(o)}\)</span> is the observed peak position by fitting.</p>
+<p>As different spectrum covers different d-space range, the highest peak
+differs. Therefore, the error of offset should be normalized by the
+peak&#8217;s position.</p>
+<div class="math">
+\[E = (X_0^{(f)} - X_0^{(o)}*(1+offset))/X_0^{(f)} = 1 - \frac{X_0^{(o)}}{X_0^{(f)}}\cdot(1+offset)\]</div>
+<p>And it is unitless.</p>
+<p>By this mean, the error of all peaks should be close if they are fitted
+correctly.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p><strong>Python</strong></p>
+<p>OutputW,NumberPeaksFitted,Mask =
+GetDetOffsetsMultiPeaks(&#8220;InputW&#8221;,0.01,2.0,1.8,2.2,&#8221;output.cal&#8221;)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Description</a><ul>
+<li><a class="reference internal" href="#fit-for-peak-offset">Fit for peak offset</a><ul>
+<li><a class="reference internal" href="#spectra-to-mask">Spectra to mask</a></li>
+<li><a class="reference internal" href="#criteria-on-peaks">Criteria on peaks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generate-fit-window">Generate fit window</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fitting-quality">Fitting Quality</a><ul>
+<li><a class="reference internal" href="#number-of-spectra-that-are-not-masked">Number of spectra that are NOT masked</a></li>
+<li><a class="reference internal" href="#of-the-offset-fitting-function"><span class="math">\(\chi^2\)</span> of the offset fitting function</a></li>
+<li><a class="reference internal" href="#deviation-of-highest-peaks">Deviation of highest peaks</a></li>
+<li><a class="reference internal" href="#collective-quantities-to-illustrate-goodness-of-fitting-still-in-developement">Collective quantities to illustrate goodness of fitting (still in developement)</a></li>
+<li><a class="reference internal" href="#standard-error-on-offset">Standard error on offset</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/GetDetOffsetsMultiPeaks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

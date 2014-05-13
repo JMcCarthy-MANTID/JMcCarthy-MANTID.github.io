@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Processing Either Generically or Assuming Rectangular Detectors &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm performs a moving-average smoothing of data by summing
+spectra of nearest neighbours over the face of detectors. The output
+workspace has the same number of spectra as the input workspace. This
+works on both <a class="reference external" href="EventWorkspace">EventWorkspaces</a> and
+<a class="reference external" href="Workspace2D">Workspace2D</a>&#8216;s. It has two main modes of operation.</p>
+<div class="section" id="processing-either-generically-or-assuming-rectangular-detectors">
+<h1>Processing Either Generically or Assuming Rectangular Detectors<a class="headerlink" href="#processing-either-generically-or-assuming-rectangular-detectors" title="Permalink to this headline">¶</a></h1>
+<p>You may either specify properties for the Rectangular Detector Group, or
+the Non-uniform Detector Group, but not both. If you provide inputs for
+the Rectangular Detector group, then the algorithm execution will assume
+that this is your desired processing route.</p>
+</div>
+<div class="section" id="for-all-instruments">
+<h1>For All Instruments<a class="headerlink" href="#for-all-instruments" title="Permalink to this headline">¶</a></h1>
+<p>Going through the input workspace pixel-by-pixel, Mantid finds the
+nearest-neighbours with the given Radius of each pixel. The spectra are
+then summed together, and normalizing to unity (see the weighting
+section below).</p>
+</div>
+<div class="section" id="for-instruments-with-rectangular-detectors">
+<h1>For Instruments With Rectangular Detectors<a class="headerlink" href="#for-instruments-with-rectangular-detectors" title="Permalink to this headline">¶</a></h1>
+<p>The algorithm looks through the <a class="reference external" href="Instrument">Instrument</a> to find all
+the <a class="reference external" href="RectangularDetector">RectangularDetectors</a> defined. For each
+pixel in each detector, the AdjX*AdjY neighboring spectra are summed
+together and saved in the output workspace.</p>
+</div>
+<div class="section" id="weightedsum-parameter">
+<h1>WeightedSum parameter<a class="headerlink" href="#weightedsum-parameter" title="Permalink to this headline">¶</a></h1>
+<p>A weighting strategy can be applied to control how the weights are
+calculated. This defaults to a flat weighting strategy. Weights are
+summed and scaled so that they add up to 1.</p>
+<div class="section" id="flat-weighting">
+<h2>Flat Weighting<a class="headerlink" href="#flat-weighting" title="Permalink to this headline">¶</a></h2>
+<p>All weights are 1. This is completely position in-senitive.</p>
+</div>
+<div class="section" id="linear-weighting">
+<h2>Linear Weighting<a class="headerlink" href="#linear-weighting" title="Permalink to this headline">¶</a></h2>
+<p>Weights are calculated according to <span class="math">\(w = 1 - r/R\)</span>, where w is the
+weighting factor, r is the distance from the detector and R is the
+cut-off radius.</p>
+</div>
+<div class="section" id="parabolic-weighting">
+<h2>Parabolic Weighting<a class="headerlink" href="#parabolic-weighting" title="Permalink to this headline">¶</a></h2>
+<p>For rectangular detectors it may be used as follows: The radius must be
+zero and a AdjX and AdjY parameter must be provided.
+<span class="math">\(w = AdjX - abs(x) + AdjY - abs(y) + 1\)</span></p>
+<p>For non-rectangular detectors, the cut-off radius is used in the
+calculation. <span class="math">\(w = R - abs(x) + R - abs(y) + 1\)</span></p>
+</div>
+<div class="section" id="gaussian-weighting">
+<h2>Gaussian Weighting<a class="headerlink" href="#gaussian-weighting" title="Permalink to this headline">¶</a></h2>
+<p>This weighting is calculated from the Gaussian distribution</p>
+<p><span class="math">\(w = e^{-r^2/(2\sigma^2)}\)</span></p>
+<p>where <span class="math">\(r^2 = x^2 + y^2 + z^2\)</span> and <span class="math">\(\sigma\)</span> is the number of
+standard deviations controlling the width of the distribution curve</p>
+<p>Important notes about this algorithm are that:</p>
+<ul class="simple">
+<li>Distances are normalised by the radius cut-off to make them
+dimensionless and scaled to 1 at the boundaries.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="for-eventworkspaces">
+<h1>For EventWorkspaces<a class="headerlink" href="#for-eventworkspaces" title="Permalink to this headline">¶</a></h1>
+<p>Both methods of smoothing will <strong>significantly</strong> increase the memory
+usage of the workspace. For example, if AdjX=AdjY=1, the algorithm will
+sum 9 nearest neighbours in most cases. This increases the memory used
+by a factor of 9.</p>
+</div>
+<div class="section" id="for-workspace2d-s">
+<h1>For Workspace2D&#8217;s<a class="headerlink" href="#for-workspace2d-s" title="Permalink to this headline">¶</a></h1>
+<p>You can use PreserveEvents = false to avoid the memory issues with an
+EventWorkspace input. Please note that the algorithm <strong>does not check</strong>
+that the bin X boundaries match.</p>
+</div>
+<div class="section" id="neighbour-searching">
+<h1>Neighbour Searching<a class="headerlink" href="#neighbour-searching" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="File:NNSearchByRadius.jpg">File:NNSearchByRadius.jpg</a>|<em>Fig. 1</em>.
+<a class="reference external" href="File:NNSearchIrregularGrid.jpg">File:NNSearchIrregularGrid.jpg</a>|<em>Fig. 2</em>.
+<a class="reference external" href="File:NNSearchLimitByRadius.jpg">File:NNSearchLimitByRadius.jpg</a>|<em>Fig. 3</em>
+<a class="reference external" href="File:NNSearchLimitByNNs.jpg">File:NNSearchLimitByNNs.jpg</a>|<em>Fig. 4</em> <a class="reference external" href="File:NNSearchXY.jpg">File:NNSearchXY.jpg</a>|<em>Fig.
+5</em></p>
+<div class="section" id="property-values-of-examples">
+<h2>Property Values of Examples<a class="headerlink" href="#property-values-of-examples" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><em>Fig. 1</em> : Requesting NumberOfNeighbours=36, Radius=3. Algorithm looks</div>
+</div>
+<p>for 36 nearest neighbours with a cut-off of 3 detector widths.
+| <em>Fig. 2</em> : Requesting NumberOfNeighbours=46, Radius=2. Algorithm looks
+for 46 nearest neighbours with a cut-off of 2 detector widths.
+| <em>Fig. 3</em> : Requesting NumberOfNeighbours=56, Radius=3. Algorithm looks
+for 56 nearest neighbours with a cut-off of 3 detector widths.
+| <em>Fig. 4</em> : Requesting NumberOfNeighbours=8, Radius=3. Algorithm looks
+for 8 nearest neighbours with a cut-off of 3 detector widths.
+| <em>Fig. 5</em> : Requesting AdjX=4, AdjY=2, Radius=0. Algorithm fetches
+neighbours in the specified pattern.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The algorithm will fetch neigbours using the intesection of those inside
+the radius cut-off and those less than the NumberOfNeighbours specified.
+<em>Fig. 1</em> illustrates this process. Searching is relative to the central
+detector, those constrained by both specified number of neighbours have
+been highlighted. In this case the radius cut-off and the number of
+neighbours constrain the same number of detectors.</p>
+<p>Searching via the number of neighbours will not necessarily return the
+neighbours in a grid with the same number of detectors in each axis.
+<em>Fig. 2</em> shows how neighbours might be returned if distances are
+non-uniform. If RectangularDetectors are available, you may force the
+searching to occur in rectangular manner (described below).</p>
+<p>The SmoothingNeighbours algorithm will only take those neighbours which
+are in the intersection between those constrained by the cut-off and
+those constrained by the specified number of neighbours. If the radius
+cut-off is the limiting factor, then those neighbours outside will not
+be considered. This is illustrated in <em>Fig. 3</em> where the blue detectors
+will not be considered, but will not with this radius cut-off, while the
+green ones will. Likewise, in <em>Fig. 4</em> the effect of reducing the
+NumberOfNeighbours property can be seen.</p>
+<p>If the radius is set to 0, the instrument is treated as though it has
+rectangular detectors. AdjX and AdjY can then be used to control the
+number of neighbours independently in x and y using the AdjX and AdjY
+properties. <em>Fig. 5</em> Shows the effect of this type of searching.</p>
+</div>
+</div>
+<div class="section" id="ignore-masks">
+<h1>Ignore Masks<a class="headerlink" href="#ignore-masks" title="Permalink to this headline">¶</a></h1>
+<p>The algorithm will ignore masked detectors if this flag is set.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Processing Either Generically or Assuming Rectangular Detectors</a></li>
+<li><a class="reference internal" href="#for-all-instruments">For All Instruments</a></li>
+<li><a class="reference internal" href="#for-instruments-with-rectangular-detectors">For Instruments With Rectangular Detectors</a></li>
+<li><a class="reference internal" href="#weightedsum-parameter">WeightedSum parameter</a><ul>
+<li><a class="reference internal" href="#flat-weighting">Flat Weighting</a></li>
+<li><a class="reference internal" href="#linear-weighting">Linear Weighting</a></li>
+<li><a class="reference internal" href="#parabolic-weighting">Parabolic Weighting</a></li>
+<li><a class="reference internal" href="#gaussian-weighting">Gaussian Weighting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#for-eventworkspaces">For EventWorkspaces</a></li>
+<li><a class="reference internal" href="#for-workspace2d-s">For Workspace2D&#8217;s</a></li>
+<li><a class="reference internal" href="#neighbour-searching">Neighbour Searching</a><ul>
+<li><a class="reference internal" href="#property-values-of-examples">Property Values of Examples</a></li>
+<li><a class="reference internal" href="#how-it-works">How it Works</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ignore-masks">Ignore Masks</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SmoothNeighbours.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

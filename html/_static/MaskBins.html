@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Related Algorithms &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Masks bins in a workspace. Masked bins should properly be regarded as
+having been completely removed from the workspace. Bins falling within
+the range given (even partially) are masked, i.e. their data and error
+values are set to zero and the bin is added to the list of masked bins.
+This range is masked for all spectra in the workspace (though the
+workspace does not have to have common X values in all spectra).</p>
+<p>At present, although the zeroing of data will obviously be &#8216;seen&#8217; by all
+downstream algorithms. Only
+<a class="reference external" href="DiffractionFocussing">DiffractionFocussing</a> (version 2) and
+<a class="reference external" href="Q1D">Q1D</a> have been modified to take account of masking. Several
+algorithms (e.g. <a class="reference external" href="Rebin">Rebin</a>, <a class="reference external" href="CropWorkspace">CropWorkspace</a>)
+have been modified to properly propagate the masking.</p>
+<div class="section" id="related-algorithms">
+<h1>Related Algorithms<a class="headerlink" href="#related-algorithms" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="removebins">
+<h2>RemoveBins<a class="headerlink" href="#removebins" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="RemoveBins">RemoveBins</a> can work in several ways, if the bins are at
+the edges of the workspace they will be removed, and that will in many
+ways act like Masking the bins. If the bins are in the middle of the
+workspace then the effect depends on the type of interpolation, but
+importantly these bins will continue to influence future algorithms as
+opposed to masked bins. For example, with no interpolation
+<a class="reference external" href="RemoveBins">RemoveBins</a> sets the bin values to 0. This 0 values will
+be included in the summing performed in DiffractionFocussing, pushing
+down the values in that region. MaskBins is more clever. While if you
+look at the data, it will appear that it has simply set the values to 0.
+It has also set a series of flags inside that mark those bins to not be
+included in further claculations. This means that when you Focus the
+data these values are simply missed out of the summing that is
+performed.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Related Algorithms</a><ul>
+<li><a class="reference internal" href="#removebins">RemoveBins</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/MaskBins.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

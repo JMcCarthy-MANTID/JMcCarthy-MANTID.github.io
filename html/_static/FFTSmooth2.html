@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Zeroing &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>FFTSmooth uses the FFT algorithm to create a Fourier transform of a
+spectrum, applies a filter to it and transforms it back. The filters
+remove higher frequencies from the spectrum which reduces the noise.</p>
+<p>The second version of the FFTSmooth algorithm has two filters:</p>
+<div class="section" id="zeroing">
+<h1>Zeroing<a class="headerlink" href="#zeroing" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Filter: &#8220;Zeroing&#8221;</li>
+<li>Params: &#8220;n&#8221; - an integer greater than 1 meaning that the Fourier
+coefficients with frequencies outside the 1/n of the original range
+will be set to zero.</li>
+</ul>
+</div>
+<div class="section" id="butterworth">
+<h1>Butterworth<a class="headerlink" href="#butterworth" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Filter: &#8220;Butterworth&#8221;</li>
+<li>Params: A string containing two positive integer parameters separated
+by a comma, such as 20,2.</li>
+</ul>
+<p>&#8220;n&#8221;- the first integer, specifies the cutoff frequency for the filter,
+in the same way as for the &#8220;Zeroing&#8221; filter. That is, the cutoff is at
+m/n where m is the original range. &#8220;n&#8221; is required to be strictly more
+than 1.</p>
+<p>&#8220;order&#8221;- the second integer, specifies the order of the filter. For low
+order values, such as 1 or 2, the Butterworth filter will smooth the
+data without the strong &#8220;ringing&#8221; artifacts produced by the abrupt
+cutoff of the &#8220;Zeroing&#8221; filter. As the order parameter is increased, the
+action of the &#8220;Butterworth&#8221; filter will approach the action of the
+&#8220;Zeroing&#8221; filter.</p>
+<p>For both filter types, the resulting spectrum has the same size as the
+original one.</p>
+<div class="section" id="previous-versions">
+<h2>Previous Versions<a class="headerlink" href="#previous-versions" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="version-1">
+<h1>Version 1<a class="headerlink" href="#version-1" title="Permalink to this headline">¶</a></h1>
+<p>Version 1 did not support the Butterworth Filter and did not offer the
+options to ignore X bins or smooth all spectra.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Zeroing</a></li>
+<li><a class="reference internal" href="#butterworth">Butterworth</a><ul>
+<li><a class="reference internal" href="#previous-versions">Previous Versions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-1">Version 1</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/FFTSmooth2.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

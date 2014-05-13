@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ChildAlgorithms used &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Calculates the probability of a neutron being transmitted through the
+sample using detected counts from two monitors, one in front and one
+behind the sample. A data workspace can be corrected for transmission by
+<a class="reference external" href="Divide">dividing</a> by the output of this algorithm.</p>
+<div class="line-block">
+<div class="line">Because the detection efficiency of the monitors can be different the</div>
+</div>
+<p>transmission calculation is done using two runs, one run with the sample
+(represented by <span class="math">\(S\)</span> below) and a direct run without
+it(<span class="math">\(D\)</span>). The fraction transmitted through the sample <span class="math">\(f\)</span>
+is calculated from this formula:
+| <span class="math">\(p = \frac{S_T}{D_T}\frac{D_I}{S_I}\)</span>
+| where <span class="math">\(S_I\)</span> is the number of counts from the monitor in front of
+the sample (the incident beam monitor), <span class="math">\(S_T\)</span> is the transmission
+monitor after the sample, etc.</p>
+<p>The resulting fraction as a function of wavelength is created as the
+OutputUnfittedData workspace. However, because of statistical variations
+it is recommended to use the OutputWorkspace, which is the evaluation of
+a fit to those transmission fractions. The unfitted data is not affected
+by the RebinParams or Fitmethod properties but these can be used to
+refine the fitted data. The RebinParams method is useful when the range
+of wavelengths passed to CalculateTransmission is different from that of
+the data to be corrected.</p>
+<div class="section" id="childalgorithms-used">
+<h1>ChildAlgorithms used<a class="headerlink" href="#childalgorithms-used" title="Permalink to this headline">¶</a></h1>
+<p>Uses the algorithm <a class="reference external" href="linear">linear</a> to fit to the calculated
+transmission fraction.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/CalculateTransmission.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

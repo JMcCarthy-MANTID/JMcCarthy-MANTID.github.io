@@ -1,0 +1,146 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Bins at either end of spectrum &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm removes bins from a workspace. A minimum and maximum X
+value to be removed needs to be provided. This can be in a different
+unit to the workspace, in which case it is transformed internally.</p>
+<p>The treatment of the removed bins is slightly different, depending on
+where in the spectrum the bins to be removed lie:</p>
+<div class="section" id="bins-at-either-end-of-spectrum">
+<h1>Bins at either end of spectrum<a class="headerlink" href="#bins-at-either-end-of-spectrum" title="Permalink to this headline">¶</a></h1>
+<p>If the workspaces has common X binning for all spectra, then the
+<a class="reference external" href="CropWorkspace">CropWorkspace</a> algorithm will be called as a child
+algorithm. This will result in the affected bins (which includes the bin
+in which the boundary - XMin or XMax - lies) being removed completely,
+leading to the output workspace having fewer bins than the input one. In
+the case where the X binning varies from spectrum to spectrum, the bin
+values will be set to zero regardless of the setting of the
+Interpolation property.</p>
+</div>
+<div class="section" id="bins-in-the-middle-of-a-spectrum">
+<h1>Bins in the middle of a spectrum<a class="headerlink" href="#bins-in-the-middle-of-a-spectrum" title="Permalink to this headline">¶</a></h1>
+<p>The Interpolation property is applicable to this situation. If it is set
+to &#8220;Linear&#8221; then the bins are set to values calculated from the values
+of the bins on either side of the range. If set to &#8220;None&#8221; then bins
+entirely within the range given are set to zero whilst the bins in which
+the boundary fall have their values scaled in proportion to the
+percentage of the bin&#8217;s width which falls outside XMin or XMax as
+appropriate.</p>
+</div>
+<div class="section" id="restrictions-on-the-input-workspace">
+<h1>Restrictions on the input workspace<a class="headerlink" href="#restrictions-on-the-input-workspace" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>The input workspace must have a unit set</li>
+<li>The input workspace must contain histogram data</li>
+</ul>
+<div class="section" id="related-algorithms">
+<h2>Related Algorithms<a class="headerlink" href="#related-algorithms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="maskbins">
+<h3>MaskBins<a class="headerlink" href="#maskbins" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="MaskBins">MaskBins</a> will set the data in the desired bins to 0 and
+importantly also marks those bins as masked, so that further algorithms
+should not include this data in their grouping calculations. This is
+particularly used for Diffraction Focussing.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Bins at either end of spectrum</a></li>
+<li><a class="reference internal" href="#bins-in-the-middle-of-a-spectrum">Bins in the middle of a spectrum</a></li>
+<li><a class="reference internal" href="#restrictions-on-the-input-workspace">Restrictions on the input workspace</a><ul>
+<li><a class="reference internal" href="#related-algorithms">Related Algorithms</a><ul>
+<li><a class="reference internal" href="#maskbins">MaskBins</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/RemoveBins.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

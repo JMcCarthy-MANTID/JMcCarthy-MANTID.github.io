@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>For EventWorkspaces &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p><img alt="Example of RAW GEM data focused across the 5 detector banks" src="_static\GEM_Focused.png" /> Given an
+InputWorkspace and a Grouping filename, the algorithm performs the
+following:</p>
+<ol class="arabic simple">
+<li>The calibration file is read and a map of corresponding udet-group is
+created.</li>
+<li>The algorithm determine the X boundaries for each group as the upper
+and lower limits of all contributing detectors to this group and
+determine a logarithmic step that will ensure preserving the number
+of bins in the initial workspace.</li>
+<li>All histograms are read and rebinned to the new grid for their group.</li>
+<li>A new workspace with N histograms is created.</li>
+</ol>
+<p>Within the <a class="reference external" href="CalFile">CalFile</a> any detectors with the &#8216;select&#8217; flag
+can be set to zero or with a group number of 0 or -ve groups are not
+included in the analysis.</p>
+<p>Since the new X boundaries depend on the group and not the entire
+workspace, this focusing algorithm does not create overestimated X
+ranges for multi-group instruments. However it is important to remember
+that this means that this algorithm outputs a <a class="reference external" href="Ragged_Workspace">ragged
+workspace</a>. Some 2D and 3D plots will not display
+the data correctly.</p>
+<p>The DiffractionFocussing algorithm uses GroupDetectors algorithm to
+combine data from several spectra according to GroupingFileName file
+which is a <a class="reference external" href="CalFile">CalFile</a>.</p>
+<div class="section" id="for-eventworkspaces">
+<h1>For EventWorkspaces<a class="headerlink" href="#for-eventworkspaces" title="Permalink to this headline">¶</a></h1>
+<p>The algorithm can be used with an <a class="reference external" href="EventWorkspace">EventWorkspace</a>
+input, and will create an EventWorkspace output if a different workspace
+is specified.</p>
+<p>The main difference vs. using a Workspace2D is that the event lists from
+all the incoming pixels are simply appended in the grouped spectra; this
+means that you can rebin the resulting spectra to finer bins with no
+loss of data. In fact, it is unnecessary to bin your incoming data at
+all; binning can be performed as the very last step.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/DiffractionFocussing.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

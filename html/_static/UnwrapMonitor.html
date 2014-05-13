@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Restrictions on the input workspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm is for use with white-beam instruments with choppers. The
+chopper cuts the range of wavelengths, so all detectors (including
+monitors) should be reduced to the same wavelength range. This is done
+using a &#8220;reference&#8221; flightpath, <span class="math">\(L_{ref}\)</span>, which is (usually, see
+below) the flightpath of the farthest detectors.</p>
+<p>If <span class="math">\(T_{min}\)</span> and <span class="math">\(T_{max}\)</span> are the beginning and end of the
+frame, for each detector <span class="math">\(D\)</span> at total flightpath <span class="math">\(L_d\)</span> the
+following times are defined:</p>
+<div class="math">
+\[T_1 = T_{max} - \left ( T_{min} \times \left ( 1 - \frac{L_d}{L_{ref}} \right ) \right )\]</div>
+<div class="math">
+\[T_2 = T_{max} \times \left ( \frac{L_d}{L_{ref}} \right )\]</div>
+<p>Thus if <span class="math">\(L_d &lt; L_{ref}\)</span> then <span class="math">\(T_1 &gt; T_2\)</span></p>
+<p>Neutron velocities (and hence wavelengths) for the detector <span class="math">\(D\)</span>
+are calculated in the following way:</p>
+<ul class="simple">
+<li>For <span class="math">\(T_{min} &lt; T &lt; T_2\)</span>, velocities are calculated in the usual
+way, i.e. <span class="math">\(v = \frac{L_d}{T}\)</span></li>
+<li>Data in the range <span class="math">\(T_2 &lt; T &lt; T_1\)</span> are ignored (i.e. they are
+not used in the wavelength-converted histograms)</li>
+<li>For <span class="math">\(T_1 &lt; T &lt; T_{max}\)</span>, velocities are calculated using the
+formula <span class="math">\(v = \frac{L_d}{T - T_{max} + T_{min}}\)</span></li>
+</ul>
+<p>Note that the minimum and maximum velocities for the points that are
+actually <em>used</em> are:</p>
+<div class="math">
+\[v_{max} = \frac{L_d}{T - T_{max} + T_{min}} = \frac{L_{ref}}{T_{min}}\]</div>
+<p>and <span class="math">\(v_{min} = \frac{L_d}{T_2} = \frac{L_{ref}}{T_{max}}\)</span></p>
+<p>In other words, these velocities are the same for all detectors, so the
+wavelength range in the transformed histogram will correspondingly be
+the same and this algorithm rebins the data into common bins in this
+range.</p>
+<p>Occasionally, it may be that some detectors (typically downstream
+monitors) may be at a *longer* flightpath than <span class="math">\(L_{ref}\)</span>. This
+depends entirely on the chopper aperture/setting. These detectors are
+&#8220;frame-overlapped&#8221; - in other words, there is an ambiguity in the
+definition of the wavelength for certain points, which should therefore
+be excluded. These points are at the very beginning and at the very end
+of the frame for a range <span class="math">\(Dt\)</span> (equal on both sides) given by</p>
+<div class="math">
+\[D_t = (T_{max} - T_{min}) \times \left (1 - \frac{L_{ref}}{L_d} \right)\]</div>
+<p>In other words, points between <span class="math">\(T_{min}\)</span> and <span class="math">\(T_{min} + D_t\)</span>
+and between <span class="math">\(T_{max} - D_t\)</span> and <span class="math">\(T_{max}\)</span> should be
+excluded. For all other points, velocities and wavelengths are
+calculated in the normal way.</p>
+<p>Note that since we are dealing with histogrammed data, the cut-off
+values above will almost certainly not fall exactly on a bin boundary.
+The approach taken by this algorithm is that if any part of a bin has a
+value that should be excluded, then the entire bin is excluded. What
+this means in practice is that the edge bins will possibly have a
+reduced number of counts.</p>
+<div class="section" id="restrictions-on-the-input-workspace">
+<h1>Restrictions on the input workspace<a class="headerlink" href="#restrictions-on-the-input-workspace" title="Permalink to this headline">¶</a></h1>
+<p>The input workspace must contain histogram data where the X unit is
+time-of-flight and the Y data is raw counts. The
+<a class="reference external" href="instrument">instrument</a> associated with the workspace must be fully
+defined because detector, source &amp; sample position are needed.</p>
+</div>
+<div class="section" id="child-algorithms-used">
+<h1>Child algorithms used<a class="headerlink" href="#child-algorithms-used" title="Permalink to this headline">¶</a></h1>
+<p>If the input workspace contains more than a single spectrum, Unwrap
+makes use of the <a class="reference external" href="rebin">rebin</a> algorithm to set the bins on the
+output workspace to common values which cover the maximum theoretically
+accessible wavelength range.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Restrictions on the input workspace</a></li>
+<li><a class="reference internal" href="#child-algorithms-used">Child algorithms used</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/UnwrapMonitor.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

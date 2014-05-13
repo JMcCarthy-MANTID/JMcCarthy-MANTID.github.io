@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Output &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm filters events from an
+<a class="reference external" href="EventWorkspace">EventWorkspace</a> to one or multiple
+<a class="reference external" href="EventWorkspace">EventWorkspaces</a> according to an input
+<a class="reference external" href="SplittersWorkspace">SplittersWorkspace</a> containing a series of
+splitters (i.e., <a class="reference external" href="SplittingInterval">SplittingIntervals</a>).</p>
+<div class="section" id="output">
+<h1>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h1>
+<p>The output will be one or multiple workspaces according to the number of
+index in splitters. The output workspace name is the combination of
+parameter OutputWorkspaceBaseName and the index in splitter.</p>
+</div>
+<div class="section" id="calibration-file">
+<h1>Calibration File<a class="headerlink" href="#calibration-file" title="Permalink to this headline">¶</a></h1>
+<p>The calibration, or say correction, from the detector to sample must be
+consider in fast log. Thus a calibration file is required. The math is</p>
+<p><tt class="docutils literal"><span class="pre">TOF_calibrated&nbsp;=&nbsp;TOF_raw&nbsp;*&nbsp;correction(detector&nbsp;ID).</span></tt></p>
+<p>The calibration is in column data format.</p>
+<p>A reasonable approximation of the correction is</p>
+<p><tt class="docutils literal"><span class="pre">correction(detector_ID)&nbsp;=&nbsp;L1/(L1+L2(detector_ID))</span></tt></p>
+</div>
+<div class="section" id="unfiltered-events">
+<h1>Unfiltered Events<a class="headerlink" href="#unfiltered-events" title="Permalink to this headline">¶</a></h1>
+<p>Some events are not inside any splitters. They are put to a workspace
+name ended with &#8216;_unfiltered&#8217;.</p>
+<p>If input property &#8216;OutputWorkspaceIndexedFrom1&#8217; is set to True, then
+this workspace shall not be outputed.</p>
+</div>
+<div class="section" id="difference-from-filterbylogvalue">
+<h1>Difference from FilterByLogValue<a class="headerlink" href="#difference-from-filterbylogvalue" title="Permalink to this headline">¶</a></h1>
+<p>In FilterByLogValue(), EventList.splitByTime() is used.</p>
+<p>In FilterEvents(), if FilterByPulse is selected true,
+EventList.SplitByTime is called; otherwise, EventList.SplitByFullTime()
+is called instead.</p>
+<p>The difference between splitByTime and splitByFullTime is that
+splitByTime filters events by pulse time, and splitByFullTime considers
+both pulse time and TOF.</p>
+<p>Therefore, FilterByLogValue is not suitable for fast log filtering.</p>
+<div class="section" id="comparing-with-other-event-filtering-algorithms">
+<h2>Comparing with other event filtering algorithms<a class="headerlink" href="#comparing-with-other-event-filtering-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>Wiki page <a class="reference external" href="EventFiltering">EventFiltering</a> has a detailed
+introduction on event filtering in MantidPlot.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Output</a></li>
+<li><a class="reference internal" href="#calibration-file">Calibration File</a></li>
+<li><a class="reference internal" href="#unfiltered-events">Unfiltered Events</a></li>
+<li><a class="reference internal" href="#difference-from-filterbylogvalue">Difference from FilterByLogValue</a><ul>
+<li><a class="reference internal" href="#comparing-with-other-event-filtering-algorithms">Comparing with other event filtering algorithms</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/FilterEvents.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Restrictions on the input workspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Combines the data contained in an arbitrary number of input workspaces.
+If the input workspaces do not have common binning, the bins in the
+output workspace will cover the entire range of all the input
+workspaces, with the largest bin widths used in regions of overlap.</p>
+<div class="section" id="restrictions-on-the-input-workspace">
+<h1>Restrictions on the input workspace<a class="headerlink" href="#restrictions-on-the-input-workspace" title="Permalink to this headline">¶</a></h1>
+<p>The input workspaces must contain histogram data with the same number of
+spectra and matching units and instrument name in order for the
+algorithm to succeed.</p>
+<p><strong>For `Workspace2Ds &lt;Workspace2D&gt;`__</strong>: Each input workspace must have
+common binning for all its spectra.</p>
+<p><strong>For `EventWorkspaces &lt;EventWorkspace&gt;`__</strong>: This algorithm is
+Event-aware; it will append event lists from common spectra. Binning
+parameters need not be compatible; the output workspace will use the
+first workspaces&#8217; X bin boundaries.</p>
+<p><strong>For `WorkspaceGroups &lt;WorkspaceGroup&gt;`__</strong>: Each nested has to be one
+of the above.</p>
+<p>Other than this it is currently left to the user to ensure that the
+combination of the workspaces is a valid operation.</p>
+<div class="section" id="processing-group-workspaces">
+<h2>Processing Group Workspaces<a class="headerlink" href="#processing-group-workspaces" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="multi-period-group-workspaces">
+<h1>Multi-period Group Workspaces<a class="headerlink" href="#multi-period-group-workspaces" title="Permalink to this headline">¶</a></h1>
+<p>Group workspaces will be merged respecting the periods within each
+group. For example if you have two multiperiod group workspaces A and B
+and an output workspace C. A contains matrix workspaces A_1 and A_2,
+and B contains matrix workspaces B_1 and B2. Since this is multiperiod
+data, A_1 and B_1 share the same period, as do A_2 and B_2. So
+merging must be with respect to workspaces of equivalent periods.
+Therefore, merging is conducted such that A_1 + B_1 = C_1 and A_2 +
+B_2 = C_2.</p>
+</div>
+<div class="section" id="group-workspaces-that-are-not-multiperiod">
+<h1>Group Workspaces that are not multiperiod<a class="headerlink" href="#group-workspaces-that-are-not-multiperiod" title="Permalink to this headline">¶</a></h1>
+<p>If group workspaces are provided that are not multi-period, this
+algorithm will merge across all nested workspaces, to give a singe
+output matrix workspace.</p>
+</div>
+<div class="section" id="childalgorithms-used">
+<h1>ChildAlgorithms used<a class="headerlink" href="#childalgorithms-used" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference external" href="Rebin">Rebin</a> algorithm is used, if neccessary, to put all the
+input workspaces onto a common binning.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Restrictions on the input workspace</a><ul>
+<li><a class="reference internal" href="#processing-group-workspaces">Processing Group Workspaces</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multi-period-group-workspaces">Multi-period Group Workspaces</a></li>
+<li><a class="reference internal" href="#group-workspaces-that-are-not-multiperiod">Group Workspaces that are not multiperiod</a></li>
+<li><a class="reference internal" href="#childalgorithms-used">ChildAlgorithms used</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/MergeRuns.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

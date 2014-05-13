@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mathematics &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm refines the instrumental geometry parameters for powder
+diffractomers. The parameters that can be refined are Dtt1, Zero, Dtt1t,
+Dtt2t, Zerot, Width and Tcross.</p>
+<p>It serves as the second step to fit/refine instrumental parameters that
+will be introduced in Le Bail Fit. It uses the outcome from algorithm
+FitPowderDiffPeaks().</p>
+<div class="section" id="mathematics">
+<h1>Mathematics<a class="headerlink" href="#mathematics" title="Permalink to this headline">¶</a></h1>
+<p>The function to fit is</p>
+<p>TOF_h = n(Zero + Dtt1*d) + (1-n)(Zerot + Dtt1t*d + Dtt2t/d) n = 1/2
+erfc(W*(1-Tcross/d))</p>
+<p>The coefficients in this function are strongly correlated to each other.</p>
+</div>
+<div class="section" id="refinement-algorithm">
+<h1>Refinement Algorithm<a class="headerlink" href="#refinement-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>Two refinement algorithms, DirectFit and MonteCarlo, are provided.</p>
+<div class="section" id="directfit">
+<h2>DirectFit<a class="headerlink" href="#directfit" title="Permalink to this headline">¶</a></h2>
+<p>This is a simple one step fitting. If there is one parameter to fit,
+Levenberg Marquart minimizer is chosen. As its coefficients are strongly
+correlated to each other, Simplex minimizer is used if there are more
+than 1 parameter to fit.</p>
+</div>
+<div class="section" id="montecarlo">
+<h2>MonteCarlo<a class="headerlink" href="#montecarlo" title="Permalink to this headline">¶</a></h2>
+<p>This adopts the concept of Monte Carlo random walk in the parameter
+space. In each MC step, one parameter will be chosen, and a new value is
+proposed for it. A constraint fitting by Simplex minimizer is used to
+fit the coefficients in new configuration.</p>
+<p>Simulated annealing will be tried as soon as it is implemented in
+Mantid.</p>
+</div>
+<div class="section" id="constraint">
+<h2>Constraint<a class="headerlink" href="#constraint" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="how-to-use-algorithm-with-other-algorithms">
+<h1>How to use algorithm with other algorithms<a class="headerlink" href="#how-to-use-algorithm-with-other-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>This algorithm is designed to work with other algorithms to do Le Bail
+fit. The introduction can be found in the wiki page of
+<a class="reference external" href="LeBailFit">LeBailFit</a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mathematics</a></li>
+<li><a class="reference internal" href="#refinement-algorithm">Refinement Algorithm</a><ul>
+<li><a class="reference internal" href="#directfit">DirectFit</a></li>
+<li><a class="reference internal" href="#montecarlo">MonteCarlo</a></li>
+<li><a class="reference internal" href="#constraint">Constraint</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-use-algorithm-with-other-algorithms">How to use algorithm with other algorithms</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/RefinePowderInstrumentParameters3.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

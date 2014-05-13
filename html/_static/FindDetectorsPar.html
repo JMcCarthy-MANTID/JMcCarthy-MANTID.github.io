@@ -1,0 +1,133 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>par and phx files &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Identifies geometrical parameters of detectors and groups of detectors
+after the workspaces were grouped using ASCII or XML map file. Located
+in DataHangdling\Instrument\Detectors group and intended to be used as
+Child Algorithm of saveNXSPE algorithm, though can be deployed
+independently. Dynamic casting from iAlgorithm and accessors functions
+return calculated parameters to saveNXSPE when FindDetectorsPar used as
+the Child Algorithm of saveNXSPE procedure;</p>
+<p>Internal Child Algorithm identifies the group topology, namely if a
+group of detectors is arranged into a rectangular shape or in a ring.
+The algorithm calculates the geometrical centre of the detectors group
+and 6 points, located within +-1/4 width of the first detector of the
+group. If the centre or any of these points belong to the group of the
+detectors itself, the group assumed to have a rectangular topology, and
+if not &#8211; the cylindrical one (ring).</p>
+<p>Single detector defined to have the rectangular shape.</p>
+<p>After identifying the topology, the parameters are calculated using
+formulas for angles in Cartesian or Cylindrical coordinate systems
+accordingly</p>
+<div class="section" id="par-and-phx-files">
+<h1><a class="reference external" href="SavePAR">par</a> and <a class="reference external" href="SavePHX">phx</a> files<a class="headerlink" href="#par-and-phx-files" title="Permalink to this headline">¶</a></h1>
+<p>These files are ascii files which are used to describe the combined
+detectors geometry defined by map files. There are no reasons for you to
+use it unless this Mantid algorithm is working unsatisfactory for you.
+In this case you can quickly modify and use par file until this
+algorithm is modified. It is your responsibility then to assure the
+correspondence between mapped detectors and parameters in the par file.</p>
+<p>The par files are simple ASCII files with the following columns:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1st&nbsp;column&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sample-detector&nbsp;distance&nbsp;(m)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2nd&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scattering&nbsp;angle&nbsp;(deg)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3rd&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;azimuthal&nbsp;angle&nbsp;(deg)&nbsp;&nbsp;&nbsp;(west&nbsp;bank&nbsp;=&nbsp;0&nbsp;deg,&nbsp;north&nbsp;bank&nbsp;=&nbsp;-90&nbsp;deg&nbsp;etc.)&nbsp;&nbsp;&nbsp;(Note&nbsp;the&nbsp;reversed&nbsp;sign&nbsp;convention&nbsp;cf&nbsp;.phx&nbsp;files)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4th&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;&nbsp;(m)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5th&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;(m)</span></tt></div>
+</div>
+<p>When processed by this algorithm, 4th and 5th column are transformed
+into angular values.</p>
+<p><a class="reference external" href="SavePHX">Phx</a> files are Mslice phx files, which do not contain
+secondary flight path. This path is calculated by the algorithm from the
+data in the instrument description and the angular values are calculated
+as in nxspe file. There are no reason to use phx files to build nxspe
+files at the moment unless you already have one and need to repeat your
+previous results with Mantid.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/FindDetectorsPar.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

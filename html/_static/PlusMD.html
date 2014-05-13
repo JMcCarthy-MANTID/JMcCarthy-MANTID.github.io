@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MDHistoWorkspaces &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm sums two <a class="reference external" href="MDHistoWorkspace">MDHistoWorkspaces</a> or
+merges two <a class="reference external" href="MDEventWorkspace">MDEventWorkspaces</a> together.</p>
+<div class="section" id="mdhistoworkspaces">
+<h1>MDHistoWorkspaces<a class="headerlink" href="#mdhistoworkspaces" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><strong>MDHistoWorkspace + MDHistoWorkspace</strong><ul>
+<li>The operation is performed element-by-element.</li>
+</ul>
+</li>
+<li><strong>MDHistoWorkspace + Scalar</strong> or <strong>Scalar + MDHistoWorkspace</strong><ul>
+<li>The scalar is subtracted from every element of the
+MDHistoWorkspace. The squares of errors are summed.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="mdeventworkspaces">
+<h1>MDEventWorkspaces<a class="headerlink" href="#mdeventworkspaces" title="Permalink to this headline">¶</a></h1>
+<p>This algorithm operates similary to calling Plus on two
+<a class="reference external" href="EventWorkspace">EventWorkspaces</a>: it combines the events from the
+two workspaces together to form one large workspace.</p>
+<div class="section" id="note-for-file-backed-workspaces">
+<h2>Note for file-backed workspaces<a class="headerlink" href="#note-for-file-backed-workspaces" title="Permalink to this headline">¶</a></h2>
+<p>The algorithm uses <a class="reference external" href="CloneMDWorkspace">CloneMDWorkspace</a> to create the
+output workspace, except when adding in place (e.g. <span class="math">\(A = A + B\)</span> ).
+See <a class="reference external" href="CloneMDWorkspace">CloneMDWorkspace</a> for details, but note that a
+file-backed <a class="reference external" href="MDEventWorkspace">MDEventWorkspace</a> will have its file
+copied.</p>
+<ul class="simple">
+<li>If A is in memory and B is file-backed, the operation
+<span class="math">\(C = A + B\)</span> will clone the B file-backed workspace and add A to
+it.</li>
+<li>However, the operation <span class="math">\(A = A + B\)</span> will clone the A workspace
+and add B into memory (which might be too big!)</li>
+</ul>
+<p>Also, be aware that events added to a MDEventWorkspace are currently
+added <strong>in memory</strong> and are not cached to file until <a class="reference external" href="SaveMD">SaveMD</a>
+or another algorithm requiring it is called. The workspace is marked as
+&#8216;requiring file update&#8217;.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MDHistoWorkspaces</a></li>
+<li><a class="reference internal" href="#mdeventworkspaces">MDEventWorkspaces</a><ul>
+<li><a class="reference internal" href="#note-for-file-backed-workspaces">Note for file-backed workspaces</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/PlusMD.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Requirements on input properties &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm can</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;add&nbsp;an&nbsp;Instrument&nbsp;to&nbsp;a&nbsp;Workspace&nbsp;without&nbsp;any&nbsp;real&nbsp;instrument&nbsp;associated&nbsp;with,&nbsp;or</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;replace&nbsp;a&nbsp;Workspace's&nbsp;Instrument&nbsp;with&nbsp;a&nbsp;new&nbsp;Instrument,&nbsp;or</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">3.&nbsp;edit&nbsp;all&nbsp;detectors'&nbsp;parameters&nbsp;of&nbsp;the&nbsp;instrument&nbsp;associated&nbsp;with&nbsp;a&nbsp;Workspace&nbsp;(partial&nbsp;instrument&nbsp;editing&nbsp;is&nbsp;not&nbsp;supported).&nbsp;</span></tt></div>
+</div>
+<div class="section" id="requirements-on-input-properties">
+<h1>Requirements on input properties<a class="headerlink" href="#requirements-on-input-properties" title="Permalink to this headline">¶</a></h1>
+<p>1. PrimaryFightPath (L1): If it is not given, L1 will be the distance
+between source and sample in the original instrument. Otherwise, L1 is
+read from input. The source position of the modified instrument is (0,
+0, -L1);</p>
+<p>2. SpectrumIDs: If not specified (empty list), then SpectrumIDs will be
+set up to any array such that SpectrumIDs[wsindex] is the spectrum ID of
+workspace index &#8216;wsindex&#8217;;</p>
+<ol class="arabic simple" start="3">
+<li>L2 and Polar cannot be empty list;</li>
+</ol>
+<p>4. SpectrumIDs[i], L2[i], Polar[i], Azimuthal[i] and optional
+DetectorIDs[i] correspond to the detector of a same spectrum.</p>
+</div>
+<div class="section" id="limitations">
+<h1>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h1>
+<p>There are some limitations of this algorithm.</p>
+<ol class="arabic simple">
+<li>The key to locate the detector is via spectrum ID;</li>
+</ol>
+<p>2. For each spectrum, there is only one and only one new detector. Thus,
+if one spectrum is associated with a group of detectors previously, the
+replacement (new) detector is the one which is (diffraction) focused on
+after this algorithm is called.</p>
+</div>
+<div class="section" id="instruction">
+<h1>Instruction<a class="headerlink" href="#instruction" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>For powder diffractomer with 3 spectra, user can input</li>
+</ol>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;SpectrumIDs&nbsp;=&nbsp;&quot;1,&nbsp;3,&nbsp;2&quot;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;L2&nbsp;=&nbsp;&quot;3.1,&nbsp;3.2,&nbsp;3.3&quot;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;Polar&nbsp;=&nbsp;&quot;90.01,&nbsp;90.02,&nbsp;90.03&quot;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;Azimuthal&nbsp;=&nbsp;&quot;0.1,0.2,0.3&quot;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;to&nbsp;set&nbsp;up&nbsp;the&nbsp;focused&nbsp;detectors'&nbsp;parameters&nbsp;for&nbsp;spectrum&nbsp;1,&nbsp;3&nbsp;and&nbsp;2.</span></tt></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Requirements on input properties</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+<li><a class="reference internal" href="#instruction">Instruction</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/EditInstrumentGeometry.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

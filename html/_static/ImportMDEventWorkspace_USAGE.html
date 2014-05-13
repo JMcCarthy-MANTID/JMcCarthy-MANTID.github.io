@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>The following example creates a 2D MDEventWorkspace called <em>demo</em> with
+10 * 2 bins.</p>
+<p><tt class="docutils literal"><span class="pre">ImportMDEventWorkspace(Filename=r'demo.txt',OutputWorkspace='demo')</span></tt></p>
+<p>demo.txt looks like:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;MANDATORY&nbsp;BLOCK.&nbsp;Dimensions&nbsp;are&nbsp;written&nbsp;in&nbsp;the&nbsp;format&nbsp;Id,&nbsp;Name,&nbsp;Units,&nbsp;number&nbsp;of&nbsp;bins</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;DIMENSIONS</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;a&nbsp;A&nbsp;U&nbsp;10</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;b&nbsp;B&nbsp;U&nbsp;2</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;MANDATORY&nbsp;BLOCK.&nbsp;Events&nbsp;are&nbsp;written&nbsp;in&nbsp;the&nbsp;format&nbsp;Signal,&nbsp;Error,&nbsp;DetectorId,&nbsp;RunId,&nbsp;coord1,&nbsp;coord2,&nbsp;...&nbsp;to&nbsp;end&nbsp;of&nbsp;coords</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;or&nbsp;&nbsp;Signal,&nbsp;Error,&nbsp;coord1,&nbsp;coord2,&nbsp;...&nbsp;to&nbsp;end&nbsp;of&nbsp;coords</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;MDEVENTS</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.0&nbsp;2.90&nbsp;&nbsp;&nbsp;&nbsp;-1.0&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.1&nbsp;2.80&nbsp;&nbsp;&nbsp;&nbsp;-0.9&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.2&nbsp;2.70&nbsp;&nbsp;&nbsp;&nbsp;-0.8&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.3&nbsp;2.60&nbsp;&nbsp;&nbsp;&nbsp;-0.7&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.4&nbsp;2.50&nbsp;&nbsp;&nbsp;&nbsp;-0.6&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.5&nbsp;2.40&nbsp;&nbsp;&nbsp;&nbsp;-0.5&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.6&nbsp;2.30&nbsp;&nbsp;&nbsp;&nbsp;-0.4&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.7&nbsp;2.20&nbsp;&nbsp;&nbsp;&nbsp;-0.3&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.8&nbsp;2.10&nbsp;&nbsp;&nbsp;&nbsp;-0.2&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.9&nbsp;2.00&nbsp;&nbsp;&nbsp;&nbsp;-0.1&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.0&nbsp;1.80&nbsp;&nbsp;&nbsp;&nbsp;-1.0&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.1&nbsp;1.70&nbsp;&nbsp;&nbsp;&nbsp;-0.9&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.2&nbsp;1.60&nbsp;&nbsp;&nbsp;&nbsp;-0.8&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.3&nbsp;1.50&nbsp;&nbsp;&nbsp;&nbsp;-0.7&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.4&nbsp;1.40&nbsp;&nbsp;&nbsp;&nbsp;-0.6&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.5&nbsp;1.30&nbsp;&nbsp;&nbsp;&nbsp;-0.5&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.6&nbsp;1.20&nbsp;&nbsp;&nbsp;&nbsp;-0.4&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.7&nbsp;1.10&nbsp;&nbsp;&nbsp;&nbsp;-0.3&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.8&nbsp;1.00&nbsp;&nbsp;&nbsp;&nbsp;-0.2&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.9&nbsp;0.90&nbsp;&nbsp;&nbsp;&nbsp;-0.1&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+</div>
+<p>The equivalent with run numbers and detector ids specified is:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;MANDATORY&nbsp;BLOCK.&nbsp;Dimensions&nbsp;are&nbsp;written&nbsp;in&nbsp;the&nbsp;format&nbsp;Id,&nbsp;Name,&nbsp;Units,&nbsp;number&nbsp;of&nbsp;bins</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;DIMENSIONS</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;a&nbsp;A&nbsp;U&nbsp;10</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;b&nbsp;B&nbsp;U&nbsp;2</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;MANDATORY&nbsp;BLOCK.&nbsp;Events&nbsp;are&nbsp;written&nbsp;in&nbsp;the&nbsp;format&nbsp;Signal,&nbsp;Error,&nbsp;DetectorId,&nbsp;RunId,&nbsp;coord1,&nbsp;coord2,&nbsp;...&nbsp;to&nbsp;end&nbsp;of&nbsp;coords</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;#&nbsp;or&nbsp;&nbsp;Signal,&nbsp;Error,&nbsp;RunNumber,&nbsp;DetectorId,&nbsp;coord1,&nbsp;coord2,&nbsp;...&nbsp;to&nbsp;end&nbsp;of&nbsp;coords</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;MDEVENTS</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.0&nbsp;2.90&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;-1.0&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.1&nbsp;2.80&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;-0.9&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.2&nbsp;2.70&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;-0.8&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.3&nbsp;2.60&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;-0.7&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.4&nbsp;2.50&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;-0.6&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.5&nbsp;2.40&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;-0.5&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.6&nbsp;2.30&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;-0.4&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.7&nbsp;2.20&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;-0.3&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.8&nbsp;2.10&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;-0.2&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;1.9&nbsp;2.00&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;-0.1&nbsp;&nbsp;&nbsp;&nbsp;-1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.0&nbsp;1.80&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;-1.0&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.1&nbsp;1.70&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;-0.9&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.2&nbsp;1.60&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;-0.8&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.3&nbsp;1.50&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;-0.7&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.4&nbsp;1.40&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;-0.6&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.5&nbsp;1.30&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;-0.5&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.6&nbsp;1.20&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;18&nbsp;&nbsp;-0.4&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.7&nbsp;1.10&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;-0.3&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.8&nbsp;1.00&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;-0.2&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;2.9&nbsp;0.90&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;-0.1&nbsp;&nbsp;&nbsp;&nbsp;1</span></tt></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/ImportMDEventWorkspace_USAGE.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Restrictions on Input Workspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm corrects the detection efficiency of He3 tubes using an
+exponential function and certain detector properties. The correction
+scheme is given by the following:</p>
+<p><span class="math">\(\epsilon = \frac{A}{1-e^{\frac{-\alpha P (L - 2W) \lambda}{T sin(\theta)}}}\)</span></p>
+<p>where <em>A</em> is a dimensionless scaling factor, <span class="math">\(\alpha\)</span> is a
+constant with units <em>(Kelvin / (metres :math:`AA` atm))</em>, <em>P</em> is
+pressure in units of <em>atm</em>, <em>L</em> is the tube diameter in units of
+<em>metres</em>, <em>W</em> is the tube thickness in units of <em>metres</em>, <em>T</em> is the
+temperature in units of <em>Kelvin</em>, <em>sin(:math:`theta`)</em> is the angle
+of the neutron trajectory with respect to the long axis of the He3 tube
+and <span class="math">\(\lambda\)</span> is in units of <span class="math">\(\AA\)</span>.</p>
+<p>The Optional properties that are of num list type can be used in the
+following manner. If no input value is given, the detector parameter is
+pulled from the detector itself. If a single value is used as input,
+that value is applied to all detectors. If an array of values is used,
+that array <em>must</em> be the same size as the number of spectra in the
+workspace. If it is not, the spectra indicies that do not have values
+will be zeroed in the output workspace.</p>
+<div class="section" id="restrictions-on-input-workspace">
+<h1>Restrictions on Input Workspace<a class="headerlink" href="#restrictions-on-input-workspace" title="Permalink to this headline">¶</a></h1>
+<p>The input workspace must be in units of wavelength.</p>
+<p>The input workspace must be histogram data.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/He3TubeEfficiency.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Just Live Event Data &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Here are some examples of usage of StartLiveData, most use the
+FakeEventDataListener so they will always work, but this can be swapped
+for any instrument such as OFFSPEC, GEM, HYSPEC etc.</p>
+<p>Note: After running each of these you will need to cancel the ongoing
+data loading by cancelling the MonitorLiveData algorithm. You will find
+this by clicking the details button in the bottom left corner of
+Mantidplot.</p>
+<div class="section" id="just-live-event-data">
+<h1>Just Live Event Data<a class="headerlink" href="#just-live-event-data" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;FakeEventDataListener&#39;</span><span class="p">,</span>
+  <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="live-event-rebin-using-an-algorithm-and-plotting">
+<h1>Live Event Rebin using an algorithm and plotting<a class="headerlink" href="#live-event-rebin-using-an-algorithm-and-plotting" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;FakeEventDataListener&#39;</span><span class="p">,</span>
+  <span class="n">ProcessingAlgorithm</span><span class="o">=</span><span class="s">&#39;Rebin&#39;</span><span class="p">,</span><span class="n">ProcessingProperties</span><span class="o">=</span><span class="s">&#39;Params=10e3,1000,60e3;PreserveEvents=1&#39;</span><span class="p">,</span>
+  <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">)</span>
+<span class="n">plotSpectrum</span><span class="p">(</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="live-event-rebin-using-a-python-script">
+<h1>Live Event Rebin using a python script<a class="headerlink" href="#live-event-rebin-using-a-python-script" title="Permalink to this headline">¶</a></h1>
+<p>The script can be as simple or complicated as you want, you have to call
+the input workspace input, and the output workspace at the end output.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">script</span><span class="o">=</span><span class="s">&#39;Rebin(InputWorkspace=input,OutputWorkspace=output,Params=&quot;40000,100,50000&quot;)&#39;</span>
+<span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;FakeEventDataListener&#39;</span><span class="p">,</span>
+  <span class="n">ProcessingScript</span><span class="o">=</span><span class="n">script</span><span class="p">,</span><span class="n">ProcessingProperties</span><span class="o">=</span><span class="s">&#39;Params=10e3,1000,60e3;PreserveEvents=1&#39;</span><span class="p">,</span>
+  <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">)</span>
+<span class="n">plotSpectrum</span><span class="p">(</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="live-event-pre-and-post-processing">
+<h1>Live Event Pre and post processing<a class="headerlink" href="#live-event-pre-and-post-processing" title="Permalink to this headline">¶</a></h1>
+<p>This uses rebin to select a region of time of flight, and then after the
+data is accumulated it uses SumSpectra to sum all of the data into a
+single spectrum. When using post processing you have to give the
+accumulation workspace a name.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;FakeEventDataListener&#39;</span><span class="p">,</span>
+  <span class="n">ProcessingAlgorithm</span><span class="o">=</span><span class="s">&#39;Rebin&#39;</span><span class="p">,</span><span class="n">ProcessingProperties</span><span class="o">=</span><span class="s">&#39;Params=10e3,1000,60e3;PreserveEvents=1&#39;</span><span class="p">,</span>
+  <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="n">AccumulationWorkspace</span><span class="o">=</span><span class="s">&quot;accumulation&quot;</span><span class="p">,</span>
+  <span class="n">PostProcessingAlgorithm</span><span class="o">=</span><span class="s">&quot;SumSpectra&quot;</span><span class="p">,</span><span class="n">PostProcessingProperties</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plotSpectrum</span><span class="p">(</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="live-histogram-data-and-plotting">
+<h1>Live Histogram Data and plotting<a class="headerlink" href="#live-histogram-data-and-plotting" title="Permalink to this headline">¶</a></h1>
+<p>For Histogram data the accumulationMethod needs to be set to Replace,
+you will get a warning otherwise.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;OFFSPEC&#39;</span><span class="p">,</span>
+ <span class="n">AccumulationMethod</span><span class="o">=</span><span class="s">&quot;Replace&quot;</span><span class="p">,</span> <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">)</span>
+<span class="n">plotSpectrum</span><span class="p">(</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Just Live Event Data</a></li>
+<li><a class="reference internal" href="#live-event-rebin-using-an-algorithm-and-plotting">Live Event Rebin using an algorithm and plotting</a></li>
+<li><a class="reference internal" href="#live-event-rebin-using-a-python-script">Live Event Rebin using a python script</a></li>
+<li><a class="reference internal" href="#live-event-pre-and-post-processing">Live Event Pre and post processing</a></li>
+<li><a class="reference internal" href="#live-histogram-data-and-plotting">Live Histogram Data and plotting</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/StartLiveData_USAGE.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

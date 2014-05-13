@@ -1,0 +1,103 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm outputs the data in ASCII as a 3 column X, Y ,E format
+for use in subsequent analysis by other programs. The output files can
+be read for example into FullProf with format instrument=10.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">For&nbsp;data&nbsp;where&nbsp;the&nbsp;focusing&nbsp;routine&nbsp;has&nbsp;generated&nbsp;several&nbsp;spectra&nbsp;(for&nbsp;example,&nbsp;multi-bank&nbsp;instruments),</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">the&nbsp;option&nbsp;is&nbsp;provided&nbsp;for&nbsp;saving&nbsp;all&nbsp;spectra&nbsp;into&nbsp;a&nbsp;single&nbsp;file,&nbsp;separated&nbsp;by&nbsp;headers,&nbsp;or&nbsp;into</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">several&nbsp;files&nbsp;that&nbsp;will&nbsp;be&nbsp;named&nbsp;&quot;workspaceName-&quot;+spectra_number</span></tt></div>
+</div>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">==&nbsp;Current&nbsp;Issues&nbsp;==</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">Fullprof&nbsp;expects&nbsp;the&nbsp;data&nbsp;to&nbsp;be&nbsp;in&nbsp;TOF,&nbsp;however&nbsp;at&nbsp;present&nbsp;the&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`DiffractionFocussing</span></tt> &lt;DiffractionFocussing&gt;`__<tt class="docutils literal"><span class="pre">&nbsp;algorithm&nbsp;in&nbsp;Mantid&nbsp;leaves&nbsp;the&nbsp;data&nbsp;in&nbsp;d-spacing.</span></tt></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">If&nbsp;the&nbsp;written&nbsp;file&nbsp;is&nbsp;to&nbsp;be&nbsp;loaded&nbsp;into&nbsp;TOPAS,&nbsp;then&nbsp;headers&nbsp;should&nbsp;be&nbsp;omitted&nbsp;(set&nbsp;the&nbsp;IncludeHeader&nbsp;property&nbsp;to&nbsp;false);</span></tt></p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SaveFocusedXYE.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

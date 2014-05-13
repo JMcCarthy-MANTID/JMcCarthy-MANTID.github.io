@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Given a set of peaks (Q in the goniometer frame, HKL values), and given
+lattice parameters <span class="math">\((a,b,c,\alpha,\beta,\gamma)\)</span>, it will try to
+find the U matrix, using least squares approach and quaternions
+<a class="reference external" href="http://www.cs.iastate.edu/~cs577/handouts/quaternion.pdf">1</a>. Units
+of length are in in <span class="math">\(\rm \AA\)</span>, angles are in degrees.</p>
+<p>The algorithm calculates first the B matrix according to Busing and
+Levi.</p>
+<p>Given a set of peaks in the reference frame of the inner axis of the
+goniometer, <span class="math">\(\rm Q_{gon}\)</span>, indexed by <span class="math">\((h_i, k_i, l_i)\)</span>, we
+want to find the U matrix that maps peaks in the reciprocal space of the
+sample to the peaks in the goniometer frame</p>
+<p>:math:<a href="#id1"><span class="problematic" id="id2">`</span></a>rm U rm B left(</p>
+<blockquote>
+<div><blockquote>
+<div><p>begin{array}{c}</p>
+<blockquote>
+<div><p>h_i \</p>
+<p>k_i \</p>
+<p>l_i \</p>
+</div></blockquote>
+<p>end{array}</p>
+</div></blockquote>
+<p>right) = rm Q_{gon,i}` (1)</p>
+</div></blockquote>
+<p>For simplicity, we define</p>
+<p>:math:<a href="#id3"><span class="problematic" id="id4">`</span></a>rm Q_{hkl,i} = rm B left(</p>
+<blockquote>
+<div><blockquote>
+<div><p>begin{array}{c}</p>
+<blockquote>
+<div><p>h_i \</p>
+<p>k_i \</p>
+<p>l_i \</p>
+</div></blockquote>
+<p>end{array}</p>
+</div></blockquote>
+<p>right)` (2)</p>
+</div></blockquote>
+<p>In the real world, such a matrix is not always possible to find.
+Therefore we just try minimize the difference between the two sets of p</p>
+<p><span class="math">\(\sum_i |\rm U \rm Q_{hkl,i} - \rm Q_{gon,i}|^2 = \sum_i \left(|\rm U \rm Q_{hkl,i}|^2 + |\rm Q_{gon,i}|^2 -2 \rm U \rm Q_{hkl,i} \cdot \rm Q_{gon,i}\right)\)</span>
+(3)</p>
+<p>In equation (3)
+<span class="math">\(\left|\rm U \rm Q_{hkl,i}\right|^2 = |\rm Q_{hkl,i}|^2\)</span>, so the
+first two terms on the left side are U independent. Therefore we want to
+maximize</p>
+<p><span class="math">\(\sum_i \left(\rm U \rm Q_{hkl,i} \cdot \rm Q_{gon,i}\right)\)</span> (4)</p>
+<p>We are going to write the scalar product of the vectors in terms of
+quaternions<a class="reference external" href="http://en.wikipedia.org/wiki/Quaternion">2</a>. We define
+<span class="math">\(q_{hkl,i} = \left(0, Q_{hkl,i}\right)\)</span>,
+<span class="math">\(q_{gon,i} = \left(0, Q_{gon,i}\right)\)</span> and the rotation U is
+described by quaternion <span class="math">\(u = \left(w,x,y,z\right)\)</span></p>
+<p>Then equation (4) will be written as</p>
+<p><span class="math">\(\sum_i \left(\rm U \rm Q_{hkl,i} \cdot \rm Q_{gon,i}\right) = 0.5 \cdot \left(u q_{hkl,i} u^*\right) q_{gon,i}\ + 0.5 \cdot q_{gon,i} \left(u q_{hkl,i} u^*\right)\)</span>
+(5)</p>
+<p>We define matrices <span class="math">\(H_i= \left(\begin{array}{cccc}
+0 &amp; -q_{hkl,i,x} &amp; -q_{hkl,i,y} &amp; -q_{hkl,i,z} \\
+q_{hkl,i,x} &amp; 0 &amp; q_{hkl,i,z} &amp; -q_{hkl,i,y} \\
+q_{hkl,i,y} &amp; -q_{hkl,i,z} &amp; 0 &amp; q_{hkl,i,x} \\
+q_{hkl,i,z} &amp; q_{hkl,i,y} &amp; -q_{hkl,i,x} &amp; 0
+\end{array} \right)\)</span> (6)</p>
+<p>and <span class="math">\(S_i= \left(\begin{array}{cccc}
+0 &amp; -q_{gonl,i,x} &amp; -q_{gon,i,y} &amp; -q_{gon,i,z} \\
+q_{gon,i,x} &amp; 0 &amp; -q_{gon,i,z} &amp; q_{gon,i,y} \\
+q_{gon,i,y} &amp; q_{gon,i,z} &amp; 0 &amp; -q_{gon,i,x} \\
+q_{gon,i,z} &amp; -q_{gon,i,y} &amp; q_{gon,i,x} &amp; 0
+\end{array} \right)\)</span> (7)</p>
+<p>Then, we can rewrite equation (5) using
+matrices<a class="reference external" href="http://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Pairs_of_unit_quaternions_as_rotations_in_4D_space">3</a>,<a class="reference external" href="http://www.cs.iastate.edu/~cs577/handouts/quaternion.pdf">4</a>:</p>
+<p>:math:<a href="#id5"><span class="problematic" id="id6">`</span></a>sum_i left(rm U rm Q_{hkl,i} cdot rm Q_{gon,i}right) = left(begin{array}{cccc}
+w &amp; x &amp; y &amp; zend{array} right)  sum_i H_i S_i left(</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>begin{array}{c}</dt>
+<dd>w \
+x \
+y \</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>z</dt>
+<dd><blockquote class="first">
+<div>end{array}</div></blockquote>
+<p class="last">right)` (8)</p>
+</dd>
+</dl>
+<p>The problem of finding <span class="math">\(\left(w,x,y,z\right)\)</span> that maximizes the
+sum can now be rewritten in terms of eigenvectors of
+<span class="math">\(HS= \sum_i \left(H_i S_i\right)\)</span> . Let <span class="math">\(\epsilon_j\)</span> and
+<span class="math">\(\nu_j\)</span> be the eigenvalues and corresponding eigenvectors of
+<span class="math">\(HS\)</span>, with
+<span class="math">\(\epsilon_0 &gt; \epsilon_1 &gt; \epsilon_2 &gt; \epsilon_3\)</span>. We can write
+any vector <span class="math">\((w,x,y,z)\)</span> as a linear combination of the eigenvectors
+of <span class="math">\(HS\)</span>:</p>
+<p><span class="math">\(\left(w,x,y,z\right) = \delta_0 \nu_0 +\delta_1 \nu_1 +\delta_2 \nu_2 +\delta_3 \nu_3\)</span>
+(9)</p>
+<p>:math:<a href="#id7"><span class="problematic" id="id8">`</span></a>left(begin{array}{cccc}
+w &amp; x &amp; y &amp; zend{array} right)  HS left(</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>begin{array}{c}</dt>
+<dd>w \
+x \
+y \</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>z</dt>
+<dd><blockquote class="first">
+<div>end{array}</div></blockquote>
+<p class="last">right) = delta_0^2 nu_0 HS nu_0 + delta_1^2 nu_1 HS nu_1 +delta_2^2 nu_2 HS nu_2 +delta_3 nu_3 HS nu_3`</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="10">
+<li></li>
+</ol>
+<p><span class="math">\(= \delta_0^2 \epsilon_0 + \delta_1^2 \epsilon_1 +\delta_2^2 \epsilon_2 +\delta_3 ^2 \epsilon_3\)</span>
+(11)</p>
+<p><span class="math">\(u\)</span> is a unit quaternion,
+<span class="math">\(\delta_0^2  + \delta_1^2 +\delta_2^2 +\delta_3 ^2=1\)</span> (12)</p>
+<p>Then the sum in equation (11) is maximized for
+<span class="math">\(\epsilon_0 =1, \epsilon_1 =0,  \epsilon_2 =0 \epsilon_3 =0\)</span> (13)</p>
+<p>Therefore U is the rotation represented by the quaternion <span class="math">\(u\)</span>,
+which is the eigenvector corresponding to the largest eigenvalue of
+<span class="math">\(HS\)</span>.</p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/CalculateUMatrix.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

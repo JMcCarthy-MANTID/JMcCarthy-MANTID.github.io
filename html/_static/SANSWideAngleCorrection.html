@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Algorithm Reference Discussion &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="algorithm-reference-discussion">
+<h1>Algorithm Reference Discussion<a class="headerlink" href="#algorithm-reference-discussion" title="Permalink to this headline">¶</a></h1>
+<p>Looking at <a class="reference external" href="https://kur.web.psi.ch/sans1/manuals/sas_manual.pdf">Computing guide for Small Angle Scattering
+Experiments</a> by
+Ghosh, Egelhaaf &amp; Rennie, we see that for scattering at larger angles
+the transmission should be modified due to the longer path length after
+the scattering event.</p>
+<p>The longer path length after scattering will also slightly increase the
+probability of a second scattering event, but this is not dealt with
+here.</p>
+<p>If our on-axis transmission is <span class="math">\(T_0\)</span> through a sample of thickness
+<span class="math">\(d\)</span>, then the transmission at some other thickness <span class="math">\(x\)</span> is
+<span class="math">\(\exp(-\mu x)\)</span> where attenuation coefficient
+<span class="math">\(\mu = -\ln( \frac{T_0}{d})\)</span>.</p>
+<p>If a neutron scatters at angle <span class="math">\(2\theta\)</span> at distance <span class="math">\(x\)</span>
+into the sample, its total transmission is then:</p>
+<p><span class="math">\(T^{''} = \exp(-\mu x) \exp( \frac{-\mu(d-x)}{\cos(2\theta)})\)</span></p>
+<p><span class="math">\(T^{''}\)</span> should be integrated and averaged between <span class="math">\(x = 0\)</span>
+and <span class="math">\(x = d\)</span>.</p>
+<p>Hammouda, gives an approximate result for the integral, see page 208 of
+<a class="reference external" href="http://www.ncnr.nist.gov/staff/hammouda/the_SANS_toolbox.pdfSANStoolbox">http://www.ncnr.nist.gov/staff/hammouda/the_SANS_toolbox.pdf SANS
+toolbox</a>:</p>
+<p><span class="math">\(T^{'} = \frac{T_0(T_0^A - 1)}{A \ln(T_0)}\)</span></p>
+<p>For:</p>
+<p><span class="math">\(A = \frac{1}{\cos(2\theta)} - 1\)</span></p>
+<p>For example if <span class="math">\(T_0 = 0.2\)</span> and <span class="math">\(2\theta = 40\)</span> then
+<span class="math">\(T^{'} = 0.158\)</span>, a shift of <span class="math">\(~20\)</span>% of the SANS curve. Note
+that the result is independent of sample thickness.</p>
+<p><span class="math">\(T_0\)</span> is a function of neutron wavelength, whilst <span class="math">\(A\)</span> is a
+function of detector pixel location.</p>
+<p>The output of this algorithm is:</p>
+<p><span class="math">\(OutputWorkspace = \frac{T^'}{T_0}\)</span></p>
+<div class="section" id="error-propagation">
+<h2>Error Propagation<a class="headerlink" href="#error-propagation" title="Permalink to this headline">¶</a></h2>
+<p>The error propagation follows this formula:</p>
+<p><tt class="docutils literal"><span class="pre">&nbsp;</span></tt><span class="math">\(OutputWorkspace_{error} = \frac{T_{0E} ^A - 1}{A\ln(T_0E)}\)</span></p>
+<p>Which means, that we do not consider the error in the definition of the
+<span class="math">\(2\theta\)</span> (the parameter A)</p>
+</div>
+</div>
+<div class="section" id="enabling-wide-angle-correction-for-reduction-of-sans-isis">
+<h1>Enabling Wide Angle Correction for Reduction of SANS ISIS<a class="headerlink" href="#enabling-wide-angle-correction-for-reduction-of-sans-isis" title="Permalink to this headline">¶</a></h1>
+<p>To enable the Wide Angle correction use the User File settings:</p>
+<p><tt class="docutils literal"><span class="pre">SAMPLE/PATH/ON</span></tt></p>
+<p>More information on:
+<a class="reference external" href="SANS_User_File_Commands#SAMPLE">SANS_User_File_Commands#SAMPLE</a></p>
+</div>
+<div class="section" id="sans-isis-reduction">
+<h1>SANS ISIS Reduction<a class="headerlink" href="#sans-isis-reduction" title="Permalink to this headline">¶</a></h1>
+<p>The output of SANSWideAngleCorrection is used as WavePixelAdj parameter
+at <a class="reference external" href="Q1D">Q1D</a>.</p>
+</div>
+<div class="section" id="wide-angle-correction-and-the-sans-reduction">
+<h1>Wide Angle Correction and the SANS Reduction<a class="headerlink" href="#wide-angle-correction-and-the-sans-reduction" title="Permalink to this headline">¶</a></h1>
+<p>The equation for the reduction is (see <a class="reference external" href="Q1D">Q1D</a>)</p>
+<p><span class="math">\(P_I(Q) = \frac{\sum_{\{i, j, n\} \supset \{I\}} S(i,j,n)}{\sum_{\{i, j, n\} \supset \{I\}}M(n)\eta(n)T(n)\Omega_{i j}F_{i j}}\)</span></p>
+<p>But, <span class="math">\(T(n)\)</span> is not really <span class="math">\(T(n)\)</span>, because of the wide
+angles, it is now <span class="math">\(T(n,theta)\)</span> or <span class="math">\(T(n,i,j)\)</span>.</p>
+<p>So, we decided to have a new factor that changes this equation to:</p>
+<p><span class="math">\(P_I(Q) = \frac{\sum_{\{i, j, n\} \supset \{I\}} S(i,j,n)}{\sum_{\{i, j, n\} \supset \{I\}}M(n)\eta(n)T(n)\Omega_{i j}F_{i j}Corr(i,j,n)}\)</span></p>
+<p>Where Corr (Correction factor) in this case will be:</p>
+<p><span class="math">\(Corr = \frac{T_0^A - 1}{A \ln(T_0)}\)</span></p>
+<p>Which is the OutputWorkspace of SANSWideAngleCorrection.</p>
+<p>This parameter enters inside <a class="reference external" href="Q1D">Q1D</a> as WavePixelAdj. But, this is
+all done for you inside the Reduction Script.</p>
+</div>
+<div class="section" id="comparison-with-wide-angle-correction-at-sns">
+<h1>Comparison with Wide Angle Correction at SNS<a class="headerlink" href="#comparison-with-wide-angle-correction-at-sns" title="Permalink to this headline">¶</a></h1>
+<p>The transmission correction applied at SNS is described
+<a class="reference external" href="http://www.mantidproject.org/HFIR_SANS#Transmission_correction">here</a>,
+and it is applied through the
+<a class="reference external" href="ApplyTransmissionCorrection">ApplyTransmissionCorrection</a> algorithm.
+The correction applied there is an approximation for the same equations
+described here. The picture above compare their results</p>
+<div class="figure">
+<img alt="SNS_ISIS_WideAngleCorrections.png" src="_static\images\SNS_ISIS_WideAngleCorrections.png" />
+<p class="caption">SNS_ISIS_WideAngleCorrections.png</p>
+</div>
+<p>Note a difference among them is when they are applied. At SNS, the
+correction is applied before averaging the counters per bin inside
+<a class="reference external" href="Q1D">Q1D</a> algorithm, while at ISIS, it is used after, inside the
+<a class="reference external" href="Q1D">Q1D</a> algorithm, for the division of the counters per bin
+normalized by the transmission counters.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<p>Annie Brulet et al. - Improvement of data treatment in SANS - J. Appl.
+Cryst. (2007). 40</p>
+<p>Ghosh, Egelhaaf &amp; Rennie - Computing guide for Small Angle Scattering
+Experiments</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Algorithm Reference Discussion</a><ul>
+<li><a class="reference internal" href="#error-propagation">Error Propagation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#enabling-wide-angle-correction-for-reduction-of-sans-isis">Enabling Wide Angle Correction for Reduction of SANS ISIS</a></li>
+<li><a class="reference internal" href="#sans-isis-reduction">SANS ISIS Reduction</a></li>
+<li><a class="reference internal" href="#wide-angle-correction-and-the-sans-reduction">Wide Angle Correction and the SANS Reduction</a></li>
+<li><a class="reference internal" href="#comparison-with-wide-angle-correction-at-sns">Comparison with Wide Angle Correction at SNS</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SANSWideAngleCorrection.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>“A” Workflow &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm calibrates sets of Rectangular Detectors in one
+instrument. The initial path, time offset,panel widths, panel heights,
+panel locations and orientation are all adjusted so the error in q
+positions from the theoretical q positions is minimized. Also, there are
+optimize options that take into account sample position and the need for
+rigid rotations.</p>
+<p>Some features:</p>
+<ol class="arabic simple">
+<li>Panels can be grouped.</li>
+</ol>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;All&nbsp;panels&nbsp;in&nbsp;a&nbsp;group&nbsp;will&nbsp;move&nbsp;the&nbsp;same&nbsp;way&nbsp;and&nbsp;rotate&nbsp;the&nbsp;same&nbsp;way.&nbsp;&nbsp;If&nbsp;rigid&nbsp;rotations&nbsp;are</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;used,&nbsp;each&nbsp;panel&nbsp;is&nbsp;rotated&nbsp;about&nbsp;the&nbsp;center&nbsp;of&nbsp;the&nbsp;instrument,&nbsp;along&nbsp;with&nbsp;panel&nbsp;pixels&nbsp;rotating</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;around&nbsp;the&nbsp;panel's&nbsp;center.&nbsp;The&nbsp;height&nbsp;and&nbsp;&nbsp;widths&nbsp;of&nbsp;the&nbsp;panels&nbsp;in&nbsp;a&nbsp;group&nbsp;will</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;change&nbsp;by&nbsp;the&nbsp;same&nbsp;factor</span></tt></div>
+</div>
+<p>2) The user can select which quantities to keep fixed during the
+optimization.</p>
+<p>3) The results can be saved to an ISAW-like DetCal file or in an xml
+file that can be used with the LoadParameter algorithm.</p>
+<p>4) Results from a previous optimization can be applied before another
+optimization is done.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;The&nbsp;Levenberg-Marquardt&nbsp;optimization&nbsp;algorithm&nbsp;is&nbsp;used.&nbsp;Later&nbsp;iterations&nbsp;may&nbsp;have&nbsp;too&nbsp;small&nbsp;of&nbsp;changes&nbsp;for&nbsp;the&nbsp;parameters&nbsp;to</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;get&nbsp;to&nbsp;another&nbsp;optimum&nbsp;value.&nbsp;&nbsp;Restarting&nbsp;allows&nbsp;for&nbsp;the&nbsp;consideration&nbsp;of&nbsp;parameter&nbsp;values&nbsp;further&nbsp;away&nbsp;and&nbsp;also&nbsp;can&nbsp;change</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;constraints&nbsp;for&nbsp;the&nbsp;parameter&nbsp;values.&nbsp;This&nbsp;is&nbsp;also&nbsp;useful&nbsp;when&nbsp;fine&nbsp;tuning&nbsp;parameters&nbsp;that&nbsp;do&nbsp;not&nbsp;influence&nbsp;the&nbsp;errors&nbsp;as</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;much&nbsp;as&nbsp;other&nbsp;parameters.</span></tt></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>There are several output tables indicating the results of the fit</li>
+</ol>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;A)&nbsp;ResultWorkspace&nbsp;contains&nbsp;the&nbsp;results&nbsp;from&nbsp;fitting.</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;-t0&nbsp;is&nbsp;in&nbsp;microseconds</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;-L0&nbsp;is&nbsp;in&nbsp;meters</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;-*Xoffset,*Yoffset,and&nbsp;*Zoffset&nbsp;are&nbsp;in&nbsp;meters</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;-*Xrot,*Yrot,&nbsp;and&nbsp;*Zrot&nbsp;are&nbsp;in&nbsp;degrees.&nbsp;Note&nbsp;that&nbsp;Zrot&nbsp;is&nbsp;done&nbsp;first,&nbsp;then&nbsp;Yrot&nbsp;,&nbsp;the&nbsp;Xrot.</span></tt></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;B)QErrorWorkspace&nbsp;contains&nbsp;the&nbsp;Error&nbsp;in&nbsp;Q&nbsp;values&nbsp;for&nbsp;each&nbsp;peak,&nbsp;along&nbsp;with&nbsp;other&nbsp;associated&nbsp;information&nbsp;about&nbsp;the&nbsp;peak</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;C)CovarianceInfo&nbsp;contains&nbsp;the&nbsp;&quot;correlations&quot;(*100)&nbsp;between&nbsp;each&nbsp;of&nbsp;the&nbsp;parameters</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">6)&nbsp;Maximum&nbsp;changes&nbsp;in&nbsp;the&nbsp;quantities&nbsp;that&nbsp;are&nbsp;altered&nbsp;during&nbsp;optimization&nbsp;are&nbsp;now&nbsp;settable.</span></tt></p>
+<div class="section" id="a-workflow">
+<h1>&#8220;A&#8221; Workflow<a class="headerlink" href="#a-workflow" title="Permalink to this headline">¶</a></h1>
+<p>Optimizing all variables at once may not be the best option. The errors
+become too large, so optimization in several stages subsets of the
+variables are optimized at each stage.</p>
+<p>First: NOTE that the input PeaksWorkspace does NOT CHANGE. This means
+you should be able to keep trying different sets of variables until
+things look good.</p>
+<p>To work on another set of variables with the optimized first round of
+optimized values</p>
+<ol class="arabic simple">
+<li>Use Preprocessinstrument to apply the previous DetCal or xml file
+before optimizing AND</li>
+<li>Change the name of the target DetCal file, in case the choice of
+variables is not good. Then you will not clobber the good</li>
+</ol>
+<p>DetCal file. AND</p>
+<ol class="arabic simple">
+<li>Change the name of the ResultWorkspace in the properties list. This
+means you will have a copy of the results from the</li>
+</ol>
+<p>previous trial(s)( along with chiSq values) to compare results.</p>
+<p>Do check the chiSquared values. If they do not decrease, you were close
+to a minimum and the optimization could not get back to that minimum. It
+makes a large jump at the beginning.</p>
+</div>
+<div class="section" id="after-calibration">
+<h1>After Calibration<a class="headerlink" href="#after-calibration" title="Permalink to this headline">¶</a></h1>
+<p>After calibration, you can save the workspace to Nexus (or Nexus
+processed) and get it back by loading in a later Mantid session. You can
+copy the calibration to another workspace using the same instrument by
+means of the <a class="reference external" href="CopyInstrumentParameters">CopyInstrumentParameters</a>
+algorithm. To do so select the workspace, which you have calibrated as
+the InputWorkspace and the workspace you want to copy the calibration
+to, the OutputWorkspace.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">&#8220;A&#8221; Workflow</a></li>
+<li><a class="reference internal" href="#after-calibration">After Calibration</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SCDCalibratePanels.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

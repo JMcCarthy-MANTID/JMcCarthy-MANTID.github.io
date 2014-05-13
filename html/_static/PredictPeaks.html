@@ -1,0 +1,120 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using HKLPeaksWorkspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm will predict the position of single-crystal diffraction
+peaks (both in detector position/TOF and Q-space) and create an output
+<a class="reference external" href="PeaksWorkspace">PeaksWorkspace</a> containing the result.</p>
+<p>This algorithm uses the InputWorkspace to determine the instrument in
+use, as well as the UB Matrix and Unit Cell of the sample used. You can
+use the <a class="reference external" href="CopySample">CopySample</a> algorithm (with CopyLattice=1) to
+copy a UB matrix from a PeaksWorkspace to another workspace.</p>
+<p>The algorithm operates by calculating the scattering direction (given
+the UB matrix) for a particular HKL, and determining whether that hits a
+detector. The Max/MinDSpacing parameters are used to determine what
+HKL&#8217;s to try.</p>
+<p>The parameters of WavelengthMin/WavelengthMax also limit the peaks
+attempted to those that can be detected/produced by your instrument.</p>
+<div class="section" id="using-hklpeaksworkspace">
+<h1>Using HKLPeaksWorkspace<a class="headerlink" href="#using-hklpeaksworkspace" title="Permalink to this headline">¶</a></h1>
+<p>If you specify the HKLPeaksWorkspace parameter, then the algorithm will
+use the list of HKL in that workspace as the starting point of HKLs,
+instead of doing all HKLs within range of Max/MinDSpacing and
+WavelengthMin/WavelengthMax.</p>
+<p>A typical use case for this method is to use
+<a class="reference external" href="FindPeaksMD">FindPeaksMD</a> followed by <a class="reference external" href="IndexPeaks">IndexPeaks</a> to
+find the HKL of each peak. The HKLs found will be floats, so specify
+RoundHKL=True in PredictPeaks to predict the position at the exact
+integer HKL. This may help locate the center of peaks.</p>
+<p>Another way to use this algorithm is to use
+<a class="reference external" href="CreatePeaksWorkspace">CreatePeaksWorkspace</a> to create a workspace
+with the desired number of peaks. Use python or the GUI to enter the
+desired HKLs. If these are fraction (e.g. magnetic peaks) then make sure
+RoundHKL=False.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/PredictPeaks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

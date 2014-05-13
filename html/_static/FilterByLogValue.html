@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PulseFilter (e.g. for Veto Pulses) &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Filters out events using the entries in the Sample Logs.</p>
+<p>Sample logs consist of a series of pairs. The first step in filtering is
+to generate a list of start-stop time intervals that will be kept, using
+those logs.</p>
+<ul class="simple">
+<li>Each log value is compared to the min/max value filters to determine
+whether it is &#8220;good&#8221; or not.<ul>
+<li>For a single log value that satisfies the criteria at time T, all
+events between T+-Tolerance (LogBoundary=Centre), or T and
+T+Tolerance (LogBoundary=Left) are kept.</li>
+<li>If there are several consecutive log values matching the filter,
+events between T1-Tolerance and T2+Tolerance, where T2 is the last
+&#8220;good&#8221; value (LogBoundary=Centre), or T1 and T2, where T2 is the
+first &#8220;bad&#8221; value (LogBoundary=Left) are kept.</li>
+</ul>
+</li>
+<li>The filter is then applied to all events in all spectra. Any events
+with pulse times outside of any &#8220;good&#8221; time ranges are removed.</li>
+</ul>
+<p>There is no interpolation of log values between the discrete sample log
+times at this time. However, the log value is assumed to be constant at
+times before its first point and after its last. For example, if the
+first temperature measurement was at time=10 seconds and a temperature
+within the acceptable range, then all events between 0 and 10 seconds
+will be included also. If a log has a single point in time, then that
+log value is assumed to be constant for all time and if it falls within
+the range, then all events will be kept.</p>
+<div class="section" id="pulsefilter-e-g-for-veto-pulses">
+<h1>PulseFilter (e.g. for Veto Pulses)<a class="headerlink" href="#pulsefilter-e-g-for-veto-pulses" title="Permalink to this headline">¶</a></h1>
+<p>If you select PulseFilter, then events will be filtered OUT in notches
+around each time in the selected sample log, and the MinValue/MaxValue
+parameters are ignored. For example:</p>
+<ul class="simple">
+<li>If you have 3 entries at times:<ul>
+<li>10, 20, 30 seconds.</li>
+<li>A TimeTolerance of 1 second.</li>
+</ul>
+</li>
+<li>Then the events at the following times will be EXCLUDED from the
+output:<ul>
+<li>9-11; 19-21; 29-30 seconds.</li>
+</ul>
+</li>
+</ul>
+<p>The typical use for this is to filter out &#8220;veto&#8221; pulses from a SNS event
+nexus file. Some of these files have a sample log called
+&#8220;veto_pulse_time&#8221; that only contains times of the pulses to be
+rejected. For example, this call will filter out veto pulses:</p>
+<p><tt class="docutils literal"><span class="pre">FilterByLogValue(InputWorkspace=&quot;ws&quot;,&nbsp;OutputWorkspace=&quot;ws&quot;,&nbsp;LogName=&quot;veto_pulse_time&quot;,&nbsp;PulseFilter=&quot;1&quot;)</span></tt></p>
+<div class="section" id="comparing-with-other-event-filtering-algorithms">
+<h2>Comparing with other event filtering algorithms<a class="headerlink" href="#comparing-with-other-event-filtering-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>Wiki page <a class="reference external" href="EventFiltering">EventFiltering</a> has a detailed
+introduction on event filtering in MantidPlot.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">PulseFilter (e.g. for Veto Pulses)</a><ul>
+<li><a class="reference internal" href="#comparing-with-other-event-filtering-algorithms">Comparing with other event filtering algorithms</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/FilterByLogValue.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

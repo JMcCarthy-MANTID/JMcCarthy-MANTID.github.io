@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Live Plots &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>The StartLiveData algorithm launches a background job that monitors and
+processes live data.</p>
+<p>The background algorithm started is
+<a class="reference external" href="MonitorLiveData">MonitorLiveData</a>, which simply calls
+<a class="reference external" href="LoadLiveData">LoadLiveData</a> at a fixed interval.</p>
+<p>For details on the way to specify the data processing steps, see:
+<a class="reference external" href="LoadLiveData#Description">LoadLiveData</a>.</p>
+<div class="section" id="live-plots">
+<h1>Live Plots<a class="headerlink" href="#live-plots" title="Permalink to this headline">¶</a></h1>
+<p>Once live data monitoring has started, you can open a plot in
+MantidPlot. For example, you can right-click a workspace and choose
+&#8220;Plot Spectra&#8221;.</p>
+<p>As the data is acquired, this plot updates automatically.</p>
+<p>Another way to start plots is to use <a class="reference external" href="MantidPlot:_Help#Python_Scripting_in_MantidPlot">python MantidPlot
+commands</a>. The
+StartLiveData algorithm returns after the first chunk of data has been
+loaded and processed. This makes it simple to write a script that will
+open a live plot. For example:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">StartLiveData</span><span class="p">(</span><span class="n">UpdateEvery</span><span class="o">=</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span><span class="n">Instrument</span><span class="o">=</span><span class="s">&#39;FakeEventDataListener&#39;</span><span class="p">,</span>
+  <span class="n">ProcessingAlgorithm</span><span class="o">=</span><span class="s">&#39;Rebin&#39;</span><span class="p">,</span><span class="n">ProcessingProperties</span><span class="o">=</span><span class="s">&#39;Params=10e3,1000,60e3;PreserveEvents=1&#39;</span><span class="p">,</span>
+  <span class="n">OutputWorkspace</span><span class="o">=</span><span class="s">&#39;live&#39;</span><span class="p">)</span>
+<span class="n">plotSpectrum</span><span class="p">(</span><span class="s">&#39;live&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="end-of-run-behavior">
+<h1>End-Of-Run Behavior<a class="headerlink" href="#end-of-run-behavior" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>When the experimenter stops a run, the Live Data Listener receives
+this as a signal.</li>
+<li>The <em>EndRunBehavior</em> property specifies what to do when the run ends.<ul>
+<li>Restart: the accumulated data from the previous run is discarded
+as soon as the next chunk of data arrives.</li>
+<li>Stop: live data monitoring ends. It will have to be restarted
+manually.</li>
+<li>Rename: the previous workspaces are renamed, and monitoring
+continues with cleared ones. The run number, if found, is used to
+rename the old workspaces.<ul>
+<li>There is a check for available memory before renaming; if there
+is not enough memory, the old data is discarded.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Note that LiveData continues monitoring even if outside of a run
+(i.e. before a run begins you will still receive live data).</li>
+</ul>
+</div>
+<div class="section" id="multiple-live-data-sessions">
+<h1>Multiple Live Data Sessions<a class="headerlink" href="#multiple-live-data-sessions" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to have multiple live data sessions running at the same
+time. Simply call StartLiveData more than once, but make sure to specify
+unique names for the <em>OutputWorkspace</em>.</p>
+<p>Please note that you may be limited in how much simultaneous processing
+you can do by your available memory and CPUs.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Live Plots</a></li>
+<li><a class="reference internal" href="#end-of-run-behavior">End-Of-Run Behavior</a></li>
+<li><a class="reference internal" href="#multiple-live-data-sessions">Multiple Live Data Sessions</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/StartLiveData.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

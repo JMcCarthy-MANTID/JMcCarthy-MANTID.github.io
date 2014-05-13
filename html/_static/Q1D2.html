@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Q Unit Conversion &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="q-unit-conversion">
+<h1>Q Unit Conversion<a class="headerlink" href="#q-unit-conversion" title="Permalink to this headline">¶</a></h1>
+<p>The equation for <span class="math">\(Q\)</span> as function of wavelength, <span class="math">\(\lambda\)</span>,
+and neglecting gravity, is</p>
+<div class="math">
+\[Q = \frac{4\pi}{\lambda} sin(\theta)\]</div>
+<p>where <span class="math">\(2 \theta\)</span> is the particle&#8217;s angle of deflection. If a
+particle&#8217;s measured deflection over the sample to the detector (pixel)
+distance, <span class="math">\(L_2\)</span>, is <span class="math">\(x\)</span> along the x-axis and <span class="math">\(y\)</span> along
+the y-axis then <span class="math">\(\theta\)</span> is</p>
+<div class="math">
+\[\theta = \frac{1}{2} arcsin\left (\frac{\sqrt{x^2+y^2}}{L_2} \right )\]</div>
+<p>Including gravity adds another term to this equation which becomes:</p>
+<div class="math">
+\[\theta = \frac{1}{2} arcsin\left (\frac{ \sqrt{x^2+\left (y+\frac{gm^2}{2h^2} \lambda^2 L_2^2 \right)^2}}{L_2} \right )\]</div>
+<p>where <span class="math">\(m\)</span> is the particle&#8217;s mass, <span class="math">\(g\)</span> is the acceleration
+due to gravity and <span class="math">\(h\)</span> is <a class="reference external" href="http://en.wikipedia.org/wiki/Planks_constant">plank&#8217;s
+constant</a> (this assumes
+neutrons are all travelling in horizontal at sample, and that
+<span class="math">\(x=y=0\)</span> would be beam centre at <span class="math">\(\lambda = 0\)</span>).</p>
+</div>
+<div class="section" id="normalized-intensity">
+<h1>Normalized Intensity<a class="headerlink" href="#normalized-intensity" title="Permalink to this headline">¶</a></h1>
+<p>This <a class="reference external" href="Algorithm">algorithm</a> takes a workspace of number of neutron
+counts against <a class="reference external" href="Units">wavelength</a> and creates a workspace of cross
+section against Q. The output Q bins boundaries are defined by setting
+the property OutputBinning.</p>
+<p>Below is the formula used to calculate the cross section,
+<span class="math">\(P_I(Q)\)</span>, for one bin in the output workspace whose bin number is
+denoted by I, when the input workspace has just one detector. Each bin
+is calculated from the sum of all input wavelength bins, n, that
+evaluate to the same Q using the formula for Q at the top of this page.
+In equations this relationship between the input bins and the output
+bins is represented by <span class="math">\(n \supset I\)</span> and an example of a set of
+two bins is shown diagrammatically below. <a href="#id1"><span class="problematic" id="id2">|Each Q bin contains the sum
+of many, one, or no wavelength bins\|centre|</span></a></p>
+<p>In the equation the number of counts in the input spectrum number is
+denoted by <span class="math">\(S(n)\)</span>, <span class="math">\(N(n)\)</span> is the wavelength dependent
+correction and <span class="math">\(\Omega\)</span> is the <a class="reference external" href="SolidAngle">solid angle</a> of the
+detector</p>
+<div class="math">
+\[P_I(Q) = \frac{ \sum_{n \supset I} S(n)}{\Omega\sum_{n \supset I}N(n)}\]</div>
+<p>The wavelength dependent correction is supplied to the algorithm through
+the WavelengthAdj property and this workspace must have the same
+wavelength binning as the input workspace and should be equal to the
+following:</p>
+<div class="math">
+\[N(n) = M(n)\eta(n)T(n)\]</div>
+<p>where <span class="math">\(M\)</span>, <span class="math">\(\eta\)</span> and <span class="math">\(T\)</span> are the monitor counts,
+detector efficiency and transmission fraction respectively.</p>
+<p>Normally there will be many spectra each from a different pixel with a
+row number <span class="math">\(i\)</span> and column number <span class="math">\(j\)</span>. Because the value of
+<span class="math">\(\theta\)</span> varies between pixels corresponding input bins (n) from
+different input spectra can contribute to different output bins (I) i.e.
+<span class="math">\(n \supset I\)</span> will be different for different pixels. For multiple
+spectra the sum for each output bin will be over the set of input bins
+in each pixel that have the correct Q, that is
+<span class="math">\(\{i, j, n\} \supset \{I\}\)</span> while <span class="math">\(\Omega_{i j}\)</span> is detector
+dependent:</p>
+<div class="math">
+\[P_I(Q) = \frac{\sum_{\{i, j, n\} \supset \{I\}} S(i,j,n)}{\sum_{\{i, j, n\} \supset \{I\}}M(n)\eta(n)T(n)\Omega_{i j}F_{i j}}\]</div>
+<p>where <span class="math">\(F\)</span> is the detector dependent (e.g. flood) scaling specified
+by the PixelAdj property, and where a <span class="math">\(\lambda\)</span> bin <span class="math">\(n\)</span>
+spans more than one <span class="math">\(Q\)</span> bin <span class="math">\(I\)</span>, it is split assuming a
+uniform distribution of the counts in <span class="math">\(\lambda\)</span>. The normalization
+takes any <a class="reference external" href="MaskBins">bin masking</a> into account.</p>
+<p>Although the units on the y-axis of the output workspace space are
+quoted in 1/cm note that conversion to a cross section requires scaling
+by an <a class="reference external" href="instrument">instrument</a> dependent absolute units constant.</p>
+</div>
+<div class="section" id="resolution-and-cutoffs">
+<h1>Resolution and Cutoffs<a class="headerlink" href="#resolution-and-cutoffs" title="Permalink to this headline">¶</a></h1>
+<p>There are two sources of uncertainty in the intensity: the statistical
+(counting) error and the finite size of the bins, i.e. both time bins
+and the spatial extent of the detectors (pixels). The first error is
+reducible by increasing the length of the experiment or bin sizes while
+the second reduces with smaller bin sizes. The first is represented by
+the errors on the output workspace but the second is not included in the
+error calculation although it increases uncertainties and degrades the
+effective resolution of the data none the less. This algorithm allows
+the resolution to be improved by removing the bins with the worst
+resolution.</p>
+<p>Normally the bins that give the worst resolution are those near the beam
+center and with short wavelengths. When the optional properties
+<span class="math">\(RadiusCut\)</span> and <span class="math">\(WaveCut\)</span> are set bins from this region of
+the input workspace are removed from the intensity calculation (both
+from the numerator and denominator). For a pixel at distance R from the
+beam center the wavelength cutoff, <span class="math">\(W_{low}\)</span>, is defined by the
+input properties <span class="math">\(RadiusCut\)</span> and <span class="math">\(WaveCut\)</span> as:</p>
+<div class="math">
+\[W_{low} = \frac{WaveCut (RadiusCut-R)}{RadiusCut}\]</div>
+<p>The bin that contains the wavelength <span class="math">\(W_{low}\)</span> and all lower
+indices are excluded from the summations for that detector pixel.</p>
+<p>From the equation it is possible to see that for pixels in
+<span class="math">\(R &gt; RadiusCut\)</span> all (positive) wavelengths are included. Also
+substituting <span class="math">\(WaveCut = W_{low}\)</span> we have that <span class="math">\(R = 0\)</span> and
+hence all detectors contribute at wavelengths above <span class="math">\(WaveCut\)</span>.</p>
+<p><em>Practically, it is more likely to be necessary to implement
+:math:`RadiusCut` and :math:`WaveCut` in situations where the scattering
+near to the beamstop is weak and &#8216;contaminated&#8217; by short wavelength
+scatter. This might arise, for example, when running at long
+sample-detector distances, or at short sample-detector distances with
+large diameter beams, or where the sample generates Bragg peaks at
+low-Q. The best recourse is to check the wavelength overlap. If it is
+not too bad it may be possible to improve the data presentation simply
+by altering :math:`Q{min}` and the binning scheme.</em></p>
+<p><strong>References</strong></p>
+<p><a class="reference external" href="http://scripts.iucr.org/cgi-bin/paper?gk0158">R.P. Hjelm Jr. *J. Appl. Cryst.* (1988), 21,
+618-628</a>.</p>
+<p><a class="reference external" href="http://scripts.iucr.org/cgi-bin/paper?gk0573">P.A. Seeger &amp; R.P. Hjelm Jr. *J. Appl. Cryst.* (1991), 24,
+467-478</a>.</p>
+</div>
+<div class="section" id="variations-on-applying-the-normalization">
+<h1>Variations on applying the normalization<a class="headerlink" href="#variations-on-applying-the-normalization" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to divide the input workspace by the WavelenghAdj and
+PixelAdj workspaces prior to calling this algorithm. The results will be
+same as if these workspaces were passed to Q1D instead when there are
+high numbers of particle counts. However, in this scheme the
+probabilities tend to converge on the true high count probabablities
+more slowly with increasing number of counts and so the result is less
+accuate.</p>
+<p>Depending on the input and output bins there could be a significant
+difference in CPU time required by these two methods.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<p>Calculation of Q is from Seeger, P. A. and Hjelm, R. P. Jr, &#8220;Small-Angle
+Neutron Scattering at Pulsed Spallation Sources&#8221; (1991) J. Appl <strong>24</strong>
+467-478</p>
+<div class="section" id="previous-versions">
+<h2>Previous Versions<a class="headerlink" href="#previous-versions" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="version-1">
+<h1>Version 1<a class="headerlink" href="#version-1" title="Permalink to this headline">¶</a></h1>
+<p>Before July 2011 the intensity was calculated with an equation like the
+following:</p>
+<div class="math">
+\[P_I(Q) = \frac{ \sum_{\{i, j, n\} \supset \{I\}}G(i,j,n) }{ \sum_{\{i, j, n\} \supset \{I\}} \Omega_{i j} }\]</div>
+<p>where G is the input workspace normally related to the raw counts
+workspace as:</p>
+<div class="math">
+\[G(i,j,n) = S(i,j,n)/(M(n)\eta(n)T(n)F_{i j})\]</div>
+<p>That is the normalization was performed before the Q calculation which
+gives the same probilities at high numbers of particles counts but
+weighted noisy, low count data too highly, giving more noise in
+<span class="math">\(P_I(Q)\)</span>.</p>
+<p>The error was calculation did not include the errors due the
+normalization or any corrections.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="9%" />
+<col width="6%" />
+<col width="8%" />
+<col width="6%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Order</th>
+<th class="head">Name</th>
+<th class="head">Direction</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>InputWorkspace</td>
+<td>Input</td>
+<td>MatrixWorkspace</td>
+<td>Mandatory</td>
+<td>The (partly) corrected data in units of wavelength.</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>InputForErrors</td>
+<td>Input</td>
+<td>MatrixWorkspace</td>
+<td>Mandatory</td>
+<td>The workspace containing the counts to use for the error calculation. Must also be in units of wavelength and have matching bins to the InputWorkspace.</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>OutputWorkspace</td>
+<td>Output</td>
+<td>MatrixWorkspace</td>
+<td>Mandatory</td>
+<td>The workspace name under which to store the result histogram.</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>OutputBinning</td>
+<td>Input</td>
+<td>String</td>
+<td>Mandatory</td>
+<td>The bin parameters to use for the final result (in the format used by the <a class="reference external" href="Rebin">Rebin</a> algorithm).</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>AccountForGravity</td>
+<td>Input</td>
+<td>Boolean</td>
+<td>False</td>
+<td>Whether to correct for the effects of gravity.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Q Unit Conversion</a></li>
+<li><a class="reference internal" href="#normalized-intensity">Normalized Intensity</a></li>
+<li><a class="reference internal" href="#resolution-and-cutoffs">Resolution and Cutoffs</a></li>
+<li><a class="reference internal" href="#variations-on-applying-the-normalization">Variations on applying the normalization</a></li>
+<li><a class="reference internal" href="#references">References</a><ul>
+<li><a class="reference internal" href="#previous-versions">Previous Versions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-1">Version 1</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/Q1D2.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2 Types of Mask Workspace &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm is used to save the masking from a workspace to an XML
+file. This algorithm has previously been renamed from
+<a class="reference external" href="SaveDetectorMasks">SaveDetectorMasks</a>.</p>
+<div class="section" id="types-of-mask-workspace">
+<h1>2 Types of Mask Workspace<a class="headerlink" href="#types-of-mask-workspace" title="Permalink to this headline">¶</a></h1>
+<p>There are two types of mask workspace that can serve as input.</p>
+<div class="section" id="maskworkspace">
+<h2>1. <a class="reference external" href="MaskWorkspace">MaskWorkspace</a><a class="headerlink" href="#maskworkspace" title="Permalink to this headline">¶</a></h2>
+<p>In this case, <a class="reference external" href="SaveMask">SaveMask</a> will read Y values to determine
+which detectors are masked;</p>
+</div>
+<div class="section" id="a-non-maskworkspace-matrixworkspace-containing-instrument">
+<h2>2. A non-<a class="reference external" href="MaskWorkspace">MaskWorkspace</a> <a class="reference external" href="MatrixWorkspace">MatrixWorkspace</a> containing <a class="reference external" href="Instrument">Instrument</a><a class="headerlink" href="#a-non-maskworkspace-matrixworkspace-containing-instrument" title="Permalink to this headline">¶</a></h2>
+<p>In this case, <a class="reference external" href="SaveMask">SaveMask</a> will scan through all detectors to
+determine which are masked.</p>
+</div>
+</div>
+<div class="section" id="definition-of-mask">
+<h1>Definition of Mask<a class="headerlink" href="#definition-of-mask" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">*&nbsp;If&nbsp;a&nbsp;pixel&nbsp;is&nbsp;masked,&nbsp;it&nbsp;means&nbsp;that&nbsp;the&nbsp;data&nbsp;from&nbsp;this&nbsp;pixel&nbsp;won't&nbsp;be&nbsp;used.&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;In&nbsp;the&nbsp;masking&nbsp;workspace&nbsp;(i.e.,&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`SpecialWorkspace2D</span></tt> &lt;SpecialWorkspace2D&gt;`__<tt class="docutils literal"><span class="pre">),&nbsp;the&nbsp;corresponding&nbsp;value&nbsp;is&nbsp;1.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">*&nbsp;If&nbsp;a&nbsp;pixel&nbsp;is&nbsp;NOT&nbsp;masked,&nbsp;it&nbsp;means&nbsp;that&nbsp;the&nbsp;data&nbsp;from&nbsp;this&nbsp;pixel&nbsp;will&nbsp;be&nbsp;used.&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;In&nbsp;the&nbsp;masking&nbsp;workspace&nbsp;(i.e.,&nbsp;</span></tt><tt class="docutils literal"><span class="pre">`SpecialWorkspace2D</span></tt> &lt;SpecialWorkspace2D&gt;`__<tt class="docutils literal"><span class="pre">),&nbsp;the&nbsp;corresponding&nbsp;value&nbsp;is&nbsp;0.</span></tt></div>
+</div>
+</div>
+<div class="section" id="xml-file-format">
+<h1>XML File Format<a class="headerlink" href="#xml-file-format" title="Permalink to this headline">¶</a></h1>
+<p>Example 1:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;</span></tt><tt class="docutils literal"><span class="pre">3,34-44,47</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;</span></tt><tt class="docutils literal"><span class="pre">bank123</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;</span></tt><tt class="docutils literal"><span class="pre">bank124</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2 Types of Mask Workspace</a><ul>
+<li><a class="reference internal" href="#maskworkspace">1. MaskWorkspace</a></li>
+<li><a class="reference internal" href="#a-non-maskworkspace-matrixworkspace-containing-instrument">2. A non-MaskWorkspace MatrixWorkspace containing Instrument</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#definition-of-mask">Definition of Mask</a></li>
+<li><a class="reference internal" href="#xml-file-format">XML File Format</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SaveMask.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

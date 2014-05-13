@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Axis-Aligned Slice &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Algorithm that can take a slice out of an original
+<a class="reference external" href="MDEventWorkspace">MDEventWorkspace</a> while preserving all the events
+contained therein.</p>
+<p>It uses the same parameters as <a class="reference external" href="BinMD">BinMD</a> to determine a
+transformation to make from input-&gt;output workspace. The difference is
+that <a class="reference external" href="BinMD">BinMD</a> sums events in a regular grid whereas SliceMD
+moves the events into the output workspace, which boxes itself.</p>
+<p>Please see <a class="reference external" href="BinMD">BinMD</a> for a detailed description of the
+parameters.</p>
+<div class="section" id="axis-aligned-slice">
+<h1>Axis-Aligned Slice<a class="headerlink" href="#axis-aligned-slice" title="Permalink to this headline">¶</a></h1>
+<p>Events outside the range of the slice are dropped. The new output
+MDEventWorkspace&#8217;s dimensions only extend as far as the limit specified.</p>
+</div>
+<div class="section" id="non-axis-aligned-slice">
+<h1>Non-Axis-Aligned Slice<a class="headerlink" href="#non-axis-aligned-slice" title="Permalink to this headline">¶</a></h1>
+<p>The coordinates of each event are transformed according to the new basis
+vectors, and placed in the output MDEventWorkspace. The dimensions of
+the output workspace are along the basis vectors specified.</p>
+</div>
+<div class="section" id="splitting-parameters">
+<h1>Splitting Parameters<a class="headerlink" href="#splitting-parameters" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>OutputBins</strong> parameter is interpreted as the &#8220;SplitInto&#8221; parameter
+for each dimension. For instance, if you want the output workspace to
+split in 2x2x2, you would specify OutputBins=&#8221;2,2,2&#8221;.</p>
+<p>For 1D slices, it may make sense to specify a SplitInto parameter of 1
+in every other dimension - that way, boxes will only be split along the
+1D direction.</p>
+</div>
+<div class="section" id="slicing-a-mdhistoworkspace">
+<h1>Slicing a MDHistoWorkspace<a class="headerlink" href="#slicing-a-mdhistoworkspace" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to slice a <a class="reference external" href="MDHistoWorkspace">MDHistoWorkspace</a>. Each
+MDHistoWorkspace holds a reference to the
+<a class="reference external" href="MDEventWorkspace">MDEventWorkspace</a> that created it, as well as the
+coordinate transformation that was used.</p>
+<p>In this case, the algorithm is executed on the original
+MDEventWorkspace, in the proper coordinates. Perhaps surprisingly, the
+output of SliceMD on a MDHistoWorkspace is a MDEventWorkspace!</p>
+<p>Only the non-axis aligned slice method can be performed on a
+MDHistoWorkspace! Of course, your basis vectors can be aligned with the
+dimensions, which is equivalent.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Axis-Aligned Slice</a></li>
+<li><a class="reference internal" href="#non-axis-aligned-slice">Non-Axis-Aligned Slice</a></li>
+<li><a class="reference internal" href="#splitting-parameters">Splitting Parameters</a></li>
+<li><a class="reference internal" href="#slicing-a-mdhistoworkspace">Slicing a MDHistoWorkspace</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SliceMD.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

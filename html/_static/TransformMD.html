@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Notes &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm applies a simple linear transformation to a
+<a class="reference external" href="MDWorkspace">MDWorkspace</a> or
+<a class="reference external" href="MDHistoWorkspace">MDHistoWorkspace</a>. This could be used, for
+example, to scale the Energy dimension to different units.</p>
+<p>Each coordinate is tranformed so that <span class="math">\(x'_d = (x_d * s_d) + o_d\)</span>
+where:</p>
+<ul class="simple">
+<li>d : index of the dimension, from 0 to the number of dimensions</li>
+<li>s : value of the Scaling parameter</li>
+<li>o : value of the Offset parameter.</li>
+</ul>
+<p>You can specify either a single value for Scaling and Offset, in which
+case the same m_scaling or m_offset are applied to each dimension; or
+you can specify a list with one entry for each dimension.</p>
+<div class="section" id="notes">
+<h1>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h1>
+<p>The relationship between the workspace and the original
+<a class="reference external" href="MDWorkspace">MDWorkspace</a>, for example when the MDHistoWorkspace is
+the result of <a class="reference external" href="BinMD">BinMD</a>, is lost. This means that you cannot
+re-bin a transformed <a class="reference external" href="MDHistoWorkspace">MDHistoWorkspace</a>.</p>
+<p>No units are not modified by this algorithm.</p>
+</div>
+<div class="section" id="performance-notes">
+<h1>Performance Notes<a class="headerlink" href="#performance-notes" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Performing the operation in-place (input=output) is always faster
+because the first step of the algorithm if NOT in-place is to clone
+the original workspace.</li>
+<li>For <a class="reference external" href="MDHistoWorkspace">MDHistoWorkspaces</a> done in-place,
+TransformMD is very quick (no data is modified, just the
+coordinates).</li>
+<li>For <a class="reference external" href="MDWorkspace">MDWorkspaces</a>, every event&#8217;s coordinates gets
+modified, so this may take a while for large workspaces.</li>
+<li>For file-backed <a class="reference external" href="MDWorkspace">MDWorkspaces</a>, you will find much
+better performance if you perform the change in-place (input=output),
+because the data gets written out to disk twice otherwise.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Notes</a></li>
+<li><a class="reference internal" href="#performance-notes">Performance Notes</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/TransformMD.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

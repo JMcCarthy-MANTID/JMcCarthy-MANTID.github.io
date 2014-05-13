@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Summary of data format &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Saves a HDF5 file to the ZODS (Zurich Oak Ridge Disorder Simulation
+program) format. This format consists of a slice of a
+<a class="reference external" href="MDHistoWorkspace">MDHistoWorkspace</a> and some information about its
+location.</p>
+<p><strong>You must be in HKL space for the output of this algorithm to make
+sense!</strong></p>
+<p>From <a class="reference external" href="http://www.crystal.mat.ethz.ch/research/DiffuseXrayScattering">http://www.crystal.mat.ethz.ch/research/DiffuseXrayScattering</a>:</p>
+<ul class="simple">
+<li>In the frame of an international cooperation between our group, the
+University of Zurich and Oak Ridge National Laboratories, we are
+further developing Monte Carlo simulation techniques for modeling
+disordered crystal structures. A major goal of this project is to
+develop the Monte Carlo simulation computer program ZODS (Zurich Oak
+Ridge Disorder Simulation program), which is designed to be not only
+user friendly, but also fast and flexible. Special focus is on the
+efficient use of modern super-computer architectures and of
+multi-core desktop computers to take full advantage of current trends
+in computing technologies.</li>
+</ul>
+<div class="section" id="summary-of-data-format">
+<h1>Summary of data format<a class="headerlink" href="#summary-of-data-format" title="Permalink to this headline">¶</a></h1>
+<p>In general it contains collection of grids with intensities and each
+grid is described by specifying origin, size of grid (in each direction)
+and grid base vectors (a1,a2,a3) so a point at node (i,j,k) of grid has
+coordinates r = origin+i*a1+j*a2+k*a3.</p>
+<p>Please contact Michal Chodkiewicz (<a class="reference external" href="mailto:michal&#46;chodkiewicz&#37;&#52;&#48;gmail&#46;com">michal<span>&#46;</span>chodkiewicz<span>&#64;</span>gmail<span>&#46;</span>com</a>); Vickie
+Lynch (<a class="reference external" href="mailto:vel&#37;&#52;&#48;ornl&#46;gov">vel<span>&#64;</span>ornl<span>&#46;</span>gov</a>) for more details.</p>
+</div>
+<div class="section" id="description-of-data-fields">
+<h1>Description of data fields<a class="headerlink" href="#description-of-data-fields" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>The CoordinateSystem data object has the attribute &#8220;isLocal&#8221;.<ul>
+<li>If <strong>isLocal</strong>=1, then we are in HKL space:<ul>
+<li>The <strong>direction_1</strong> vector (0.04,0,0) represents a step of
+0.04 in the (1,0,0) direction (a*) in reciprocal space.</li>
+<li><strong>This is currently the only mode in which SaveZODS saves</strong>.</li>
+</ul>
+</li>
+<li>If <strong>isLocal</strong>=0, then we are in Q-space.<ul>
+<li>The <strong>direction_1</strong> vector (0.04,0,0) represents a step of
+0.04 Angstrom^(-1) in X direction of Cartesian coordinate
+system (with X colinear with a and Z with c*)</li>
+<li>In this case CoordinateSystem has additional attribute
+UnitCell, which is a vector with 6 components
+(a,b,c,alpha,beta,gamma) a,b,c in angstroms and angles in
+degrees.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The <strong>origin</strong> field gives the origin of the center of the (0,0,0)
+cell; in HKL space for our case of isLocal=1.</li>
+<li>The <strong>size</strong> field gives the number of bins in each direction.</li>
+<li>The <strong>data</strong> field contains the actual intensity at each bin.<ul>
+<li>The grid of points (r = origin+i*a1+j*a2+k*a3) specifies the
+centers of histogram, not the corners.</li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Summary of data format</a></li>
+<li><a class="reference internal" href="#description-of-data-fields">Description of data fields</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/SaveZODS.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

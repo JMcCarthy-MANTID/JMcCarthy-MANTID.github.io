@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Version &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>This algorithm fits a certain set of single peaks in a powder
+diffraction pattern.</p>
+<p>It serves as the first step to fit/refine instrumental parameters that
+will be introduced in <a class="reference external" href="LeBailFit">Le Bail Fit</a>. The second step is
+realized by algorithm RefinePowderInstrumentParameters.</p>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<p>Current implementation of FitPowderDiffPeaks is version 2.</p>
+<div class="section" id="peak-fitting-algorithms">
+<h2>Peak Fitting Algorithms<a class="headerlink" href="#peak-fitting-algorithms" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="peak-fitting-mode">
+<h1>Peak Fitting Mode<a class="headerlink" href="#peak-fitting-mode" title="Permalink to this headline">¶</a></h1>
+<p>Fitting mode determines the approach (or algorithm) to fit diffraction
+peaks.</p>
+<ol class="arabic simple">
+<li>Robust</li>
+</ol>
+<p>2. Confident: User is confident on the input peak parameters. Thus the
+fitting will be a one-step minimizer by Levenberg-Marquardt.</p>
+</div>
+<div class="section" id="starting-values-of-peaks-parameters">
+<h1>Starting Values of Peaks&#8217; Parameters<a class="headerlink" href="#starting-values-of-peaks-parameters" title="Permalink to this headline">¶</a></h1>
+<p>1. &#8220;(HKL) &amp; Calculation&#8221;: the starting values are calculated from each
+peak&#8217;s miller index and thermal neutron peak profile formula;</p>
+<p>2. &#8220;From Bragg Peak Table&#8221;: the starting values come from the Bragg Peak
+Parameter table.</p>
+</div>
+<div class="section" id="peak-fitting-sequence">
+<h1>Peak-fitting sequence<a class="headerlink" href="#peak-fitting-sequence" title="Permalink to this headline">¶</a></h1>
+<p>Peaks are fitted from high d-spacing, i.e., lowest possible Miller
+index, to low d-spacing values. If MinimumHKL is specified, then peak
+will be fitted from maximum d-spacing/TOF, to the peak with Miller index
+as MinimumHKL.</p>
+</div>
+<div class="section" id="correlated-peak-profile-parameters">
+<h1>Correlated peak profile parameters<a class="headerlink" href="#correlated-peak-profile-parameters" title="Permalink to this headline">¶</a></h1>
+<p>If peaks profile parameters are correlated by analytical functions, then
+the starting values of one peak will be the fitted peak profile
+parameters of its right neighbour.</p>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<p>Several use cases are listed below about how to use this algorithm.</p>
+</div>
+</div>
+<div class="section" id="use-case-1-robust-fitting">
+<h1>Use case 1: robust fitting<a class="headerlink" href="#use-case-1-robust-fitting" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;User&nbsp;wants&nbsp;to&nbsp;use&nbsp;the&nbsp;starting&nbsp;values&nbsp;of&nbsp;peaks&nbsp;parameters&nbsp;from&nbsp;input&nbsp;thermal&nbsp;neutron&nbsp;peak&nbsp;parameters&nbsp;such&nbsp;as&nbsp;Alph0,&nbsp;Alph1,&nbsp;and&nbsp;etc.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;User&nbsp;specifies&nbsp;the&nbsp;right&nbsp;most&nbsp;peak&nbsp;range&nbsp;and&nbsp;its&nbsp;Miller&nbsp;index</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">3.&nbsp;</span></tt><em>``FitPowderDiffPeaks``</em><tt class="docutils literal"><span class="pre">&nbsp;calculates&nbsp;Alpha,&nbsp;Beta&nbsp;and&nbsp;Sigma&nbsp;for&nbsp;each&nbsp;peak&nbsp;from&nbsp;parameter&nbsp;values&nbsp;from&nbsp;InstrumentParameterTable;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">4.&nbsp;</span></tt><em>``FitPowderDiffPeaks``</em><tt class="docutils literal"><span class="pre">&nbsp;fit&nbsp;peak&nbsp;parameters&nbsp;of&nbsp;each&nbsp;peak&nbsp;from&nbsp;high&nbsp;TOF&nbsp;to&nbsp;low&nbsp;TOF;</span></tt></div>
+</div>
+</div>
+<div class="section" id="use-case-2-confident-fitting">
+<h1>Use Case 2: Confident fitting<a class="headerlink" href="#use-case-2-confident-fitting" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;</span></tt></div>
+</div>
+</div>
+<div class="section" id="use-case-3-fitting-peak-parameters-from-scratch">
+<h1>Use Case 3: Fitting Peak Parameters From Scratch<a class="headerlink" href="#use-case-3-fitting-peak-parameters-from-scratch" title="Permalink to this headline">¶</a></h1>
+<p>This is the extreme case such that</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;Input&nbsp;instrumental&nbsp;geometry&nbsp;parameters,&nbsp;including&nbsp;Dtt1,&nbsp;Dtt1t,&nbsp;Dtt2t,&nbsp;Zero,&nbsp;Zerot,&nbsp;Tcross&nbsp;and&nbsp;Width,&nbsp;have&nbsp;roughly-guessed&nbsp;values;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;There&nbsp;is&nbsp;no&nbsp;pre-knowledge&nbsp;for&nbsp;each&nbsp;peak's&nbsp;peak&nbsp;parameters,&nbsp;including&nbsp;Alpha,&nbsp;Beta,&nbsp;and&nbsp;Sigma.&nbsp;</span></tt></div>
+</div>
+<div class="section" id="how-to-use-algorithm-with-other-algorithms">
+<h2>How to use algorithm with other algorithms<a class="headerlink" href="#how-to-use-algorithm-with-other-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>This algorithm is designed to work with other algorithms to do Le Bail
+fit. The introduction can be found in the wiki page of
+<a class="reference external" href="LeBailFit">LeBailFit</a>.</p>
+</div>
+</div>
+<div class="section" id="example-of-working-with-other-algorithms">
+<h1>Example of Working With Other Algorithms<a class="headerlink" href="#example-of-working-with-other-algorithms" title="Permalink to this headline">¶</a></h1>
+<p><em>FitPowderDiffPeaks</em> is designed to work with other algorithms, such
+<em>RefinePowderInstrumentParameters</em>, and <em>LeBailFit</em>. See <a class="reference external" href="LeBailFit">Le Bail
+Fit</a> for full list of such algorithms.</p>
+<p>A common scenario is that the starting values of instrumental geometry
+related parameters (Dtt1, Dtt1t, and etc) are enough far from the real
+values.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">1.&nbsp;</span></tt><em>``FitPowderDiffPeaks``</em><tt class="docutils literal"><span class="pre">&nbsp;fits&nbsp;the&nbsp;single&nbsp;peaks&nbsp;from&nbsp;high&nbsp;TOF&nbsp;region&nbsp;in&nbsp;robust&nbsp;mode;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">2.&nbsp;</span></tt><em>``RefinePowderInstrumentParameters``</em><tt class="docutils literal"><span class="pre">&nbsp;refines&nbsp;the&nbsp;instrumental&nbsp;geometry&nbsp;related&nbsp;parameters&nbsp;by&nbsp;using&nbsp;the&nbsp;d-TOF&nbsp;function;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">3.&nbsp;Repeat&nbsp;step&nbsp;1&nbsp;and&nbsp;2&nbsp;for&nbsp;&nbsp;more&nbsp;single&nbsp;peaks&nbsp;incrementally.&nbsp;The&nbsp;predicted&nbsp;peak&nbsp;positions&nbsp;are&nbsp;more&nbsp;accurate&nbsp;in&nbsp;this&nbsp;step.</span></tt></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Version</a><ul>
+<li><a class="reference internal" href="#peak-fitting-algorithms">Peak Fitting Algorithms</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#peak-fitting-mode">Peak Fitting Mode</a></li>
+<li><a class="reference internal" href="#starting-values-of-peaks-parameters">Starting Values of Peaks&#8217; Parameters</a></li>
+<li><a class="reference internal" href="#peak-fitting-sequence">Peak-fitting sequence</a></li>
+<li><a class="reference internal" href="#correlated-peak-profile-parameters">Correlated peak profile parameters</a><ul>
+<li><a class="reference internal" href="#use-cases">Use Cases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-case-1-robust-fitting">Use case 1: robust fitting</a></li>
+<li><a class="reference internal" href="#use-case-2-confident-fitting">Use Case 2: Confident fitting</a></li>
+<li><a class="reference internal" href="#use-case-3-fitting-peak-parameters-from-scratch">Use Case 3: Fitting Peak Parameters From Scratch</a><ul>
+<li><a class="reference internal" href="#how-to-use-algorithm-with-other-algorithms">How to use algorithm with other algorithms</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-of-working-with-other-algorithms">Example of Working With Other Algorithms</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/FitPowderDiffPeaks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Notes on Horace SQW files &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>The algorithm takes every pixel defined in the SQW horace file and
+converts it into an event.</p>
+<p>Only top level binning information is currently taken from DND/Image
+data. All DND image information is currently ignored and the resulting
+MDEvent workspace is in the units of <span class="math">\(Q^{-1}\)</span> (SQW dimensions,
+recalculated to the Crystal? frame, without HKL transformation).</p>
+<p>U matrix is set to unity but the B-matrix is read from the SQW and
+attached to the workspace which may confuse the algorithms which work
+with <a class="reference external" href="MDEventWorkspace">MDEventWorkspace</a> produced by Mantid
+algorithms.</p>
+<div class="section" id="notes-on-horace-sqw-files">
+<h1>Notes on Horace SQW files<a class="headerlink" href="#notes-on-horace-sqw-files" title="Permalink to this headline">¶</a></h1>
+<p>Sqw objects comes in two flavours:</p>
+<ul class="simple">
+<li>sqw-type</li>
+<li>dnd-type</li>
+</ul>
+<p>The former has the four main fields fully filled. The fields description
+is given below. The latter has:</p>
+<ul class="simple">
+<li><strong>main_header</strong>, <strong>header</strong>, <strong>detpar</strong> as empty structures (0x0</li>
+</ul>
+<p>struct array with no fields)</p>
+<ul class="simple">
+<li>data.urange and data.pix do not exist.</li>
+</ul>
+<p>The dnd-type is created from d0d, d1d,... objects for most algorithms so
+as to use private methods of sqw objects.</p>
+<p>DND-type object can not be currently read or understood by Mantid.</p>
+</div>
+<div class="section" id="structure-of-sqw-class-with-remarks-on-what-is-currently-used-and-what-is-ignored">
+<h1>Structure of sqw class with remarks on what is currently used and what is ignored<a class="headerlink" href="#structure-of-sqw-class-with-remarks-on-what-is-currently-used-and-what-is-ignored" title="Permalink to this headline">¶</a></h1>
+<p>String started by:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">%&nbsp;--&nbsp;ignored</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">*&nbsp;--&nbsp;used</span></tt></div>
+</div>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt><strong>``Main_header``</strong><tt class="docutils literal"><span class="pre">:</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;main_headerfilename&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;sqw&nbsp;file&nbsp;that&nbsp;is&nbsp;being&nbsp;read,&nbsp;excluding&nbsp;path</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;main_headerfilepath&nbsp;&nbsp;&nbsp;Path&nbsp;to&nbsp;sqw&nbsp;file&nbsp;that&nbsp;is&nbsp;being&nbsp;read,&nbsp;including&nbsp;terminating&nbsp;file&nbsp;separator</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;main_headertitle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Title&nbsp;of&nbsp;sqw&nbsp;data&nbsp;structure</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;main_headernfiles&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;spe&nbsp;files&nbsp;that&nbsp;contribute&nbsp;to&nbsp;the&nbsp;sqw&nbsp;object</span></tt></div>
+</div>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt><strong>``Header``</strong><tt class="docutils literal"><span class="pre">:&nbsp;(scalar&nbsp;structure,&nbsp;or&nbsp;cellarray&nbsp;of&nbsp;scalar&nbsp;structures&nbsp;if&nbsp;more&nbsp;than&nbsp;one&nbsp;spe&nbsp;file)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.filename&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;sqw&nbsp;file&nbsp;excluding&nbsp;path</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.filepath&nbsp;&nbsp;&nbsp;Path&nbsp;to&nbsp;sqw&nbsp;file&nbsp;including&nbsp;terminating&nbsp;file&nbsp;separator</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.efix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fixed&nbsp;energy&nbsp;(ei&nbsp;or&nbsp;ef&nbsp;depending&nbsp;on&nbsp;emode)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.emode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Emode=1&nbsp;direct&nbsp;geometry,&nbsp;=2&nbsp;indirect&nbsp;geometry,&nbsp;=0&nbsp;if&nbsp;diffraction&nbsp;'''&nbsp;Only&nbsp;emode&nbsp;1&nbsp;have&nbsp;ever&nbsp;been&nbsp;tried&nbsp;'''</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.alatt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lattice&nbsp;parameters&nbsp;(Angstroms)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.angdeg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lattice&nbsp;angles&nbsp;(deg)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.cu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First&nbsp;vector&nbsp;defining&nbsp;scattering&nbsp;plane&nbsp;(r.l.u.)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.cv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second&nbsp;vector&nbsp;defining&nbsp;scattering&nbsp;plane&nbsp;(r.l.u.)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.psi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orientation&nbsp;angle&nbsp;(rad)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.omega&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--|</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.dpsi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;Crystal&nbsp;misorientation&nbsp;description&nbsp;(rad)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.gl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;(See&nbsp;notes&nbsp;elsewhere&nbsp;e.g.&nbsp;Tobyfit&nbsp;manual</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.gs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--|</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.en&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Energy&nbsp;bin&nbsp;boundaries&nbsp;(meV)&nbsp;in&nbsp;the&nbsp;input&nbsp;spe&nbsp;file&nbsp;[column&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.uoffset&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;of&nbsp;origin&nbsp;of&nbsp;pixel&nbsp;projection&nbsp;axes&nbsp;in&nbsp;r.l.u.&nbsp;and&nbsp;energy&nbsp;i.e.&nbsp;[h;&nbsp;k;&nbsp;l;&nbsp;en]&nbsp;[column&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.u_to_rlu&nbsp;&nbsp;&nbsp;Matrix&nbsp;(4x4)&nbsp;of&nbsp;pixel&nbsp;projection&nbsp;axes&nbsp;in&nbsp;hkle&nbsp;representation</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u(:,1)&nbsp;first&nbsp;vector&nbsp;-&nbsp;u(1:3,1)&nbsp;r.l.u.,&nbsp;u(4,1)&nbsp;energy&nbsp;etc.</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.ulen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length&nbsp;of&nbsp;pixel&nbsp;projection&nbsp;axes&nbsp;vectors&nbsp;in&nbsp;Ang^-1&nbsp;or&nbsp;meV&nbsp;[row&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;header{i}.ulabel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Labels&nbsp;of&nbsp;the&nbsp;pixel&nbsp;projection&nbsp;axes&nbsp;[1x4&nbsp;cell&nbsp;array&nbsp;of&nbsp;character&nbsp;strings]</span></tt></div>
+</div>
+<p>The pixel projection axes, u1, u2, u3 are the orthonormal vectors of the
+crystal Cartesian coordinate frame i.e. u1 || a*, u2 in plane of a*,
+and b*, and u3 || a* x b*. They form the coordinate frame in which
+the pixel coordinates are stored in data.pix. The pixel projection axes
+must necessarily be identical for all contributing spe files.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt><strong>``Detpar``</strong><tt class="docutils literal"><span class="pre">:</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.filename&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;file&nbsp;excluding&nbsp;path</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.filepath&nbsp;&nbsp;&nbsp;&nbsp;Path&nbsp;to&nbsp;file&nbsp;including&nbsp;terminating&nbsp;file&nbsp;separator</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.group&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;detector&nbsp;group&nbsp;number</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.x2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;secondary&nbsp;flightpaths&nbsp;(m)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.phi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;scattering&nbsp;angles&nbsp;(deg)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.azim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;azimuthal&nbsp;angles&nbsp;(deg)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(West&nbsp;bank=0&nbsp;deg,&nbsp;North&nbsp;bank=90&nbsp;deg&nbsp;etc.)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;detector&nbsp;widths&nbsp;(m)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;detpar.height&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row&nbsp;vector&nbsp;of&nbsp;detector&nbsp;heights&nbsp;(m)</span></tt></div>
+</div>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;</span></tt><strong>``Data``</strong><tt class="docutils literal"><span class="pre">:</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.filename&nbsp;&nbsp;&nbsp;Name&nbsp;of&nbsp;sqw&nbsp;file&nbsp;that&nbsp;is&nbsp;being&nbsp;read,&nbsp;excluding&nbsp;path</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.filepath&nbsp;&nbsp;&nbsp;Path&nbsp;to&nbsp;sqw&nbsp;file&nbsp;that&nbsp;is&nbsp;being&nbsp;read,&nbsp;including&nbsp;terminating&nbsp;file&nbsp;separator</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Title&nbsp;of&nbsp;sqw&nbsp;data&nbsp;structure</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;data.alatt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lattice&nbsp;parameters&nbsp;for&nbsp;data&nbsp;field&nbsp;(Ang^-1)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;data.angdeg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lattice&nbsp;angles&nbsp;for&nbsp;data&nbsp;field&nbsp;(degrees)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.uoffset&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;of&nbsp;origin&nbsp;of&nbsp;projection&nbsp;axes&nbsp;in&nbsp;r.l.u.&nbsp;and&nbsp;energy&nbsp;ie.&nbsp;[h;&nbsp;k;&nbsp;l;&nbsp;en]&nbsp;[column&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.u_to_rlu&nbsp;&nbsp;&nbsp;Matrix&nbsp;(4x4)&nbsp;of&nbsp;projection&nbsp;axes&nbsp;in&nbsp;hkle&nbsp;representation</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u(:,1)&nbsp;first&nbsp;vector&nbsp;-&nbsp;u(1:3,1)&nbsp;r.l.u.,&nbsp;u(4,1)&nbsp;energy&nbsp;etc.</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.ulen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length&nbsp;of&nbsp;projection&nbsp;axes&nbsp;vectors&nbsp;in&nbsp;Ang^-1&nbsp;or&nbsp;meV&nbsp;[row&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.ulabel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Labels&nbsp;of&nbsp;the&nbsp;projection&nbsp;axes&nbsp;[1x4&nbsp;cell&nbsp;array&nbsp;of&nbsp;character&nbsp;strings]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.iax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Index&nbsp;of&nbsp;integration&nbsp;axes&nbsp;into&nbsp;the&nbsp;projection&nbsp;axes&nbsp;&nbsp;[row&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Always&nbsp;in&nbsp;increasing&nbsp;numerical&nbsp;order</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g.&nbsp;if&nbsp;data&nbsp;is&nbsp;2D,&nbsp;data.iax=[1,3]&nbsp;means&nbsp;summation&nbsp;has&nbsp;been&nbsp;performed&nbsp;along&nbsp;u1&nbsp;and&nbsp;u3&nbsp;axes</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.iint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Integration&nbsp;range&nbsp;along&nbsp;each&nbsp;of&nbsp;the&nbsp;integration&nbsp;axes.&nbsp;[iint(2,length(iax))]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g.&nbsp;in&nbsp;2D&nbsp;case&nbsp;above,&nbsp;is&nbsp;the&nbsp;matrix&nbsp;vector&nbsp;[u1_lo,&nbsp;u3_lo;&nbsp;u1_hi,&nbsp;u3_hi]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.pax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Index&nbsp;of&nbsp;plot&nbsp;axes&nbsp;into&nbsp;the&nbsp;projection&nbsp;axes&nbsp;&nbsp;[row&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Always&nbsp;in&nbsp;increasing&nbsp;numerical&nbsp;order</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g.&nbsp;if&nbsp;data&nbsp;is&nbsp;3D,&nbsp;data.pax=[1,2,4]&nbsp;means&nbsp;u1,&nbsp;u2,&nbsp;u4&nbsp;axes&nbsp;are&nbsp;x,y,z&nbsp;in&nbsp;any&nbsp;plotting</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2D,&nbsp;data.pax=[2,4]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;&nbsp;&nbsp;&nbsp;u2,&nbsp;u4,&nbsp;&nbsp;&nbsp;&nbsp;axes&nbsp;are&nbsp;x,y&nbsp;&nbsp;&nbsp;in&nbsp;any&nbsp;plotting</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call&nbsp;array&nbsp;containing&nbsp;bin&nbsp;boundaries&nbsp;along&nbsp;the&nbsp;plot&nbsp;axes&nbsp;[column&nbsp;vectors]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.e.&nbsp;row&nbsp;cell&nbsp;array&nbsp;{data.p{1},&nbsp;data.p{2}&nbsp;...}&nbsp;(for&nbsp;as&nbsp;many&nbsp;axes&nbsp;as&nbsp;length&nbsp;of&nbsp;data.pax)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.dax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Index&nbsp;into&nbsp;data.pax&nbsp;of&nbsp;the&nbsp;axes&nbsp;for&nbsp;display&nbsp;purposes.&nbsp;For&nbsp;example&nbsp;we&nbsp;may&nbsp;have&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.pax=[1,3,4]&nbsp;and&nbsp;data.dax=[3,1,2]&nbsp;This&nbsp;means&nbsp;that&nbsp;the&nbsp;first&nbsp;display&nbsp;axis&nbsp;is&nbsp;data.pax(3)=4,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;second&nbsp;is&nbsp;data.pax(1)=1,&nbsp;the&nbsp;third&nbsp;is&nbsp;data.pax(2)=3.&nbsp;The&nbsp;reason&nbsp;for&nbsp;data.dax&nbsp;is&nbsp;to&nbsp;allow</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;display&nbsp;axes&nbsp;to&nbsp;be&nbsp;permuted&nbsp;but&nbsp;without&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;fields&nbsp;p,&nbsp;s,..pix&nbsp;needing&nbsp;to</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;be&nbsp;reordered&nbsp;[row&nbsp;vector]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;-----&gt;&nbsp;Large&nbsp;data&nbsp;fields,&nbsp;data&nbsp;for&nbsp;MD&nbsp;image</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cumulative&nbsp;signal.&nbsp;&nbsp;[size(data.s)=(length(data.p1)-1,&nbsp;length(data.p2)-1,&nbsp;...)]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cumulative&nbsp;variance&nbsp;[size(data.e)=(length(data.p1)-1,&nbsp;length(data.p2)-1,&nbsp;...)]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;data.npix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;contributing&nbsp;pixels&nbsp;to&nbsp;each&nbsp;bin&nbsp;of&nbsp;the&nbsp;plot&nbsp;axes.</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[size(data.pix)=(length(data.p1)-1,&nbsp;length(data.p2)-1,&nbsp;...)]</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;-----&gt;&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;data.urange&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True&nbsp;range&nbsp;of&nbsp;the&nbsp;data&nbsp;along&nbsp;each&nbsp;axis&nbsp;[urange(2,4)]&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;----&gt;&nbsp;Pixels&nbsp;or&nbsp;events&nbsp;data&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;data.pix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array&nbsp;containing&nbsp;data&nbsp;for&nbsp;each&nbsp;pixel:</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;npixtot=sum(npix),&nbsp;then&nbsp;pix(9,npixtot)&nbsp;contains:</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-|</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;Coordinates&nbsp;of&nbsp;pixel&nbsp;in&nbsp;the&nbsp;pixel&nbsp;projection&nbsp;axes</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-|</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;irun&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run&nbsp;index&nbsp;in&nbsp;the&nbsp;header&nbsp;block&nbsp;from&nbsp;which&nbsp;pixel&nbsp;came</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;group&nbsp;number&nbsp;in&nbsp;the&nbsp;detector&nbsp;listing&nbsp;for&nbsp;the&nbsp;pixel</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ien&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Energy&nbsp;bin&nbsp;number&nbsp;for&nbsp;the&nbsp;pixel&nbsp;in&nbsp;the&nbsp;array&nbsp;in&nbsp;the&nbsp;(irun)th&nbsp;header</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signal&nbsp;array</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;err&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error&nbsp;array&nbsp;(variance&nbsp;i.e.&nbsp;error&nbsp;bar&nbsp;squared)</span></tt></div>
+</div>
+<p>data.s is normalized by the number of pixels, as is the variance data.e.
+For those elements where data.npix==0, data.s=0 and data.e=0</p>
+</div>
+<div class="section" id="general-notes-about-sqw-file-assumptions">
+<h1>General notes about SQW file assumptions<a class="headerlink" href="#general-notes-about-sqw-file-assumptions" title="Permalink to this headline">¶</a></h1>
+<p>Parts of the code were written with the idea of generalising
+functionality at a later stage. However, we can now assume that:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;-&nbsp;the&nbsp;lattice&nbsp;parameters&nbsp;are&nbsp;all&nbsp;the&nbsp;same&nbsp;for&nbsp;all&nbsp;contributing&nbsp;spe&nbsp;files</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;-&nbsp;the&nbsp;energy&nbsp;offset&nbsp;is&nbsp;zero&nbsp;in&nbsp;cuts</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;Requires&nbsp;that&nbsp;all&nbsp;sqw&nbsp;files&nbsp;that&nbsp;are&nbsp;to&nbsp;be&nbsp;combined&nbsp;have</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;(1)&nbsp;&nbsp;&nbsp;each&nbsp;been&nbsp;created&nbsp;from&nbsp;only&nbsp;one&nbsp;spe&nbsp;file</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;(2)&nbsp;&nbsp;&nbsp;the&nbsp;same&nbsp;lattice&nbsp;parameters&nbsp;and&nbsp;pixel&nbsp;projection&nbsp;axes&nbsp;as&nbsp;held&nbsp;in&nbsp;the&nbsp;header&nbsp;block</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;(3)&nbsp;&nbsp;&nbsp;the&nbsp;same&nbsp;projection&nbsp;axes&nbsp;and&nbsp;offsets,&nbsp;as&nbsp;held&nbsp;in&nbsp;the&nbsp;data&nbsp;block</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;(4)&nbsp;&nbsp;&nbsp;the&nbsp;same&nbsp;plot&nbsp;and&nbsp;integration&nbsp;axes,&nbsp;with&nbsp;same&nbsp;bins&nbsp;and&nbsp;integration&nbsp;ranges</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;The&nbsp;display&nbsp;axes&nbsp;will&nbsp;be&nbsp;taken&nbsp;from&nbsp;the&nbsp;first&nbsp;sqw&nbsp;object&nbsp;in&nbsp;the&nbsp;list&nbsp;to&nbsp;be&nbsp;combined&nbsp;&nbsp;&nbsp;`</span></tt></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Notes on Horace SQW files</a></li>
+<li><a class="reference internal" href="#structure-of-sqw-class-with-remarks-on-what-is-currently-used-and-what-is-ignored">Structure of sqw class with remarks on what is currently used and what is ignored</a></li>
+<li><a class="reference internal" href="#general-notes-about-sqw-file-assumptions">General notes about SQW file assumptions</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/LoadSQW.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

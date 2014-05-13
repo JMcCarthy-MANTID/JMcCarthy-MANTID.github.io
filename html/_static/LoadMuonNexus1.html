@@ -1,0 +1,154 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Time series data &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>The algorithm LoadMuonNexus will read a Muon Nexus data file (original
+format) and place the data into the named workspace. The file name can
+be an absolute or relative path and should have the extension .nxs or
+.NXS. If the file contains data for more than one period, a separate
+workspace will be generated for each. After the first period the
+workspace names will have &#8220;_2&#8221;, &#8220;_3&#8221;, and so on, appended to the given
+workspace name. For single period data, the optional parameters can be
+used to control which spectra are loaded into the workspace. If
+spectrum_min and spectrum_max are given, then only that range to data
+will be loaded. If a spectrum_list is given than those values will be
+loaded.</p>
+<ul class="simple">
+<li>TODO get XML descriptions of Muon instruments. This data is not in
+existing Muon Nexus files.</li>
+<li>TODO load the spectra detector mapping. This may be very simple for
+Muon instruments.</li>
+</ul>
+<div class="section" id="time-series-data">
+<h1>Time series data<a class="headerlink" href="#time-series-data" title="Permalink to this headline">¶</a></h1>
+<p>The log data in the Nexus file (NX_LOG sections) will be loaded as
+TimeSeriesProperty data within the workspace. Time is stored as seconds
+from the Unix epoch.</p>
+</div>
+<div class="section" id="errors">
+<h1>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h1>
+<p>The error for each histogram count is set as the square root of the
+number of counts.</p>
+</div>
+<div class="section" id="time-bin-data">
+<h1>Time bin data<a class="headerlink" href="#time-bin-data" title="Permalink to this headline">¶</a></h1>
+<p>The <em>corrected_times</em> field of the Nexus file is used to provide time
+bin data and the bin edge values are calculated from these bin centre
+times.</p>
+</div>
+<div class="section" id="multiperiod-data">
+<h1>Multiperiod data<a class="headerlink" href="#multiperiod-data" title="Permalink to this headline">¶</a></h1>
+<p>To determine if a file contains data from more than one period the field
+<em>switching_states</em> is read from the Nexus file. If this value is
+greater than one it is taken to be the number of periods, <span class="math">\(N_p\)</span> of
+the data. In this case the <span class="math">\(N_s\)</span> spectra in the <em>histogram_data</em>
+field are split with <span class="math">\(N_s/N_p\)</span> assigned to each period.</p>
+</div>
+<div class="section" id="childalgorithms-used">
+<h1>ChildAlgorithms used<a class="headerlink" href="#childalgorithms-used" title="Permalink to this headline">¶</a></h1>
+<p>The ChildAlgorithms used by LoadMuonNexus are:</p>
+<ul class="simple">
+<li>LoadMuonLog - this reads log information from the Nexus file and uses
+it to create TimeSeriesProperty entries in the workspace.</li>
+<li>LoadInstrument - this algorithm looks for an XML description of the
+instrument and if found reads it.</li>
+<li>LoadIntstrumentFromNexus - this is called if the normal
+LoadInstrument fails. As the Nexus file has limited instrument data,
+this only populates a few fields.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Time series data</a></li>
+<li><a class="reference internal" href="#errors">Errors</a></li>
+<li><a class="reference internal" href="#time-bin-data">Time bin data</a></li>
+<li><a class="reference internal" href="#multiperiod-data">Multiperiod data</a></li>
+<li><a class="reference internal" href="#childalgorithms-used">ChildAlgorithms used</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/LoadMuonNexus1.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

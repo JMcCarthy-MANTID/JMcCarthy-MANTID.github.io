@@ -1,0 +1,132 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>A composite function is a function containing other functions. It
+combines the values calculated by the member functions by adding them.
+The members are indexed from 0 to the number of functions minus 1. The
+indices are defined by the order in which the functions were added.
+Composite functions do not have their own parameters, instead they use
+parameters of the member functions. Parameter names are formed from the
+member function&#8217;s index and its parameter name: f[index].[name]. For
+example, name &#8220;f0.Sigma&#8221; would be given to the &#8220;Sigma&#8221; parameter of a
+Gaussian added first to the composite function. If a member function is
+a composite function itself the same principle applies: &#8216;f[index].&#8217; is
+prepended to a name, e.g. &#8220;f0.f1.Sigma&#8221;.</p>
+<p>The input string to the Fit algorithm for a CompositeFunction is
+constructed by joining the inputs of the member functions using the
+semicolon &#8216;;&#8217; as a separator. For example, the string for two
+<a class="reference external" href="Gaussian">Gaussians</a> with tied sigma parameters may look like the
+following:</p>
+<p><tt class="docutils literal"><span class="pre">name=Gaussian,PeakCentre=0,Height=1,Sigma=0.1,constraints=(0&lt;Sigma&lt;1);name=Gaussian,PeakCentre=1,Height=1,Sigma=0.1;ties=(f1.Sigma=f0.Sigma)</span></tt></p>
+<p>Note that the ties clause is also separated by a semicolon. It is done
+because the parameters are from different functions. Ties between
+parameters of the same function can be placed inside the member
+definition in which the local parameter names must be used, for example:</p>
+<p><tt class="docutils literal"><span class="pre">name&nbsp;=&nbsp;FunctionType,&nbsp;P1=0,&nbsp;ties=(&nbsp;P2&nbsp;=&nbsp;2*P1&nbsp;);&nbsp;name&nbsp;=&nbsp;FunctionType,&nbsp;P1=0,&nbsp;ties=(&nbsp;P2&nbsp;=&nbsp;3&nbsp;)</span></tt></p>
+<p>which is equivalent to</p>
+<p><tt class="docutils literal"><span class="pre">name&nbsp;=&nbsp;FunctionType,&nbsp;P1=0;&nbsp;name&nbsp;=&nbsp;FunctionType,&nbsp;P1=0;&nbsp;ties=(&nbsp;f0.P2&nbsp;=&nbsp;2*f0.P1,&nbsp;f1.P2&nbsp;=&nbsp;3&nbsp;)</span></tt></p>
+<p>Boundary constraints usually make sense to put in a local function
+definition but they can also be moved to the composite function level,
+i.e. can be separated by &#8216;;&#8217;. In this case the full parameter name must
+be used, for example:</p>
+<p><tt class="docutils literal"><span class="pre">name=Gaussian,PeakCentre=0,Height=1,Sigma=0.1;name=Gaussian,PeakCentre=1,Height=1,Sigma=0.1;ties=(f1.Sigma=f0.Sigma);constraints=(0&lt;f0.Sigma&lt;1)</span></tt></p>
+<p>Mantid defines a number of fitting functions which extend
+CompositeFunction. These are functions which also include other
+functions but use different operations to combine them. Examples are
+<a class="reference external" href="ProductFunction">ProductFunction</a> and <a class="reference external" href="Convolution">Convolution</a>.
+Everything said about parameters of the CompositeFunction applies to
+these functions.</p>
+<p>Input strings of an extended composite function must start with
+&#8220;composite=FunctionName;&#8221; and followed by the definitions of its members
+as described for CompositeFunction. For example,</p>
+<p><tt class="docutils literal"><span class="pre">composite=ProductFunction;name=LinearBackground;name=ExpDecay</span></tt></p>
+<p>To define a composite function inside a composite function enclose the
+inner one in brackets:</p>
+<p><tt class="docutils literal"><span class="pre">name=LinearBackground;(composite=Convolution;name=Resolution;name=Lorentzian)</span></tt></p>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/CompositeFunction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

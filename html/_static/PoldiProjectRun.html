@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Data manager &mdash; DocTest 1 documentation</title>
+    
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="stylesheet" href="pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DocTest 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>PoldiProjectRun algorithm is used to analyze a bunch of POLDI raw data
+files, following a standard POLDI analysis process. This algorithm take
+as parameter a tableMatrix with a list of the sample to analyze, and for
+each sample a bunch of setup information for the different algorithms
+(such as the data file path, etc...).</p>
+<p>This tableWorkspace can be built easily using the two algorithms
+<a class="reference external" href="PoldiProjectAddFile">PoldiProjectAddFile</a> and
+<a class="reference external" href="PoldiProjectAddDir">PoldiProjectAddDir</a>, which will create and/or
+fill properly a targeted tableWorkspace. The needed columns and there
+content are describe in the following <a class="reference external" href="PoldiProjectRun#Data_Manager">Data
+Manager</a> paragraph.</p>
+<ul class="simple">
+<li>WIKI_USAGE*</li>
+</ul>
+<p>The algorithm is used the classical way. Only one parameter is
+compulsory.</p>
+<p><tt class="docutils literal"><span class="pre">OutputWorkspace&nbsp;=&nbsp;PoldiProjectRun(InputWorkspace=sample_manager_ws)</span></tt></p>
+<ul class="simple">
+<li>WIKI_USAGE*</li>
+</ul>
+<p>Data are processed alone, or grouped together. For each acquisition
+file, setup information have to be loaded. During the data treatment
+process, transitional workspace are created.</p>
+<p>In a close future, it will possible to share different workspace between
+data-file: for example when one knows that some acquisitions should be
+strictly the same, auto-correlation and peak detection could be done
+only one for all the data.</p>
+<div class="section" id="data-manager">
+<h1>Data manager<a class="headerlink" href="#data-manager" title="Permalink to this headline">¶</a></h1>
+<p>A MatrixWorkspace is created to store all the information about
+data-files and the future workspace needed during the analysis. The
+stored information are:</p>
+<ol class="arabic simple">
+<li>spl Name - name of the sample, extract from the sample
+<tt class="docutils literal"><span class="pre">file&nbsp;name,&nbsp;without&nbsp;the&nbsp;extension&nbsp;</span></tt></li>
+<li>year - year of the acquisition</li>
+<li>number - id number of the acquisition</li>
+<li>data file - full path of the data file</li>
+<li>spl log - name of the MatrixWorkspace where the data log are loaded</li>
+<li>spl corr - name of the MatrixWorkspace where the
+<tt class="docutils literal"><span class="pre">correlated&nbsp;spectra&nbsp;is&nbsp;loaded</span></tt></li>
+<li>spl dead wires - name of the MatrixWorkspace where the
+<tt class="docutils literal"><span class="pre">dead&nbsp;wires&nbsp;are&nbsp;loaded&nbsp;</span></tt></li>
+<li>spl peak - name of the MatrixWorkspace where the
+<tt class="docutils literal"><span class="pre">detected&nbsp;peak&nbsp;information&nbsp;are&nbsp;stored&nbsp;</span></tt></li>
+</ol>
+</div>
+<div class="section" id="poldi-setup-manager">
+<h1>POLDI setup manager<a class="headerlink" href="#poldi-setup-manager" title="Permalink to this headline">¶</a></h1>
+<p>For each acquisition file, the IDF are loaded:</p>
+<ol class="arabic simple">
+<li>Instrument Definition files - The POLDI instrument geometry.</li>
+<li>Instrument Parameters files - The setup parameters
+<tt class="docutils literal"><span class="pre">for&nbsp;the&nbsp;data,&nbsp;at&nbsp;t&nbsp;he&nbsp;time&nbsp;of&nbsp;the&nbsp;acquisition.&nbsp;</span></tt></li>
+</ol>
+<p>The POLDI setup informations can be shared between acquisition obtained
+during the same beam-time. While loading each instrument files, the
+different POLDI configurations used are stored in a MatrixWorkspace
+(most often, there is only one per year), with an example of data. The
+needed POLDI setup informations will then be extracted from the IDF of
+each of these example sample.</p>
+<p>Therefore each POLDI setup are loaded only once and shared between the
+different data files.</p>
+</div>
+<div class="section" id="analysis-steps">
+<h1>Analysis steps<a class="headerlink" href="#analysis-steps" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="loading-the-data">
+<h2>Loading the data<a class="headerlink" href="#loading-the-data" title="Permalink to this headline">¶</a></h2>
+<p>Each data-file is loaded on a 2DWorkspace. The associated log and setup
+information are loaded in dedicated workspace as specified in the
+sample-manager TableWorkspace.</p>
+<blockquote>
+<div><a class="reference external" href="LoadSINQFile">LoadSINQFile</a></div></blockquote>
+<p>The raw data are loaded in a 2DWorkspace, using the generic file-loader
+for SINQ data, given the instrument name <em>POLDI</em> as parameter.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">LoadSINQFile(Instrument&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&quot;POLDI&quot;,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_file_path,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutputWorkspace&nbsp;=&nbsp;sample_name)</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="PoldiLoadLog">PoldiLoadLog</a></div></blockquote>
+<p>The associated <em>logs</em> informations are extracted from the <em>hdf</em> raw data
+file, an store in a dedicated MatrixWorkspace. A dictionary file
+contains the set of key/path to extract and store all the needed
+information. More specifically, the acquisition starting time is
+extracted and store in the sample WS to initialize the <em>run_start</em>
+variable.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiLoadLog(InputWorkspace&nbsp;=&nbsp;sample_output_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filename&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_file_path,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;poldi_dictionnary_file_path,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiLog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_log_ws)</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="LoadInstrument">LoadInstrument</a></div></blockquote>
+<p>For each raw data WS, the corresponding IDF is loaded, based on the
+acquisition starting time.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">LoadInstrument(Workspace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_output_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InstrumentName&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&quot;Poldi&quot;,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RewriteSpectraMap&nbsp;=&nbsp;True)</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="PoldiRemoveDeadWires">PoldiRemoveDeadWires</a></div></blockquote>
+<p>Some wires are permanently dead and should not be taken into account.
+They are listed in the IDF of a given setup (IPP). Some others wires
+should not be used, because they seem untrustable (dead wires, hot
+wires, random behavior,...). These wires are detected by successive
+comparison with there neighbors: intensity from two successive wires
+should not differ more than <em>BadWiresThreshold</em>(*100)%. One by one,
+the most deviant wires are checks and removed until they all fit the
+condition.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiRemoveDeadWires(InputWorkspace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_output_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveExcludedWires&nbsp;=&nbsp;True,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AutoRemoveBadWires&nbsp;&nbsp;=&nbsp;True,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BadWiresThreshold&nbsp;&nbsp;&nbsp;=&nbsp;BadWiresThreshold,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiDeadWires&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_dead_wires_ws)</span></tt></div>
+</div>
+</div>
+<div class="section" id="loading-poldi-parameters">
+<h2>Loading POLDI parameters<a class="headerlink" href="#loading-poldi-parameters" title="Permalink to this headline">¶</a></h2>
+<p>While loading the data, the different needed setup have been store in a
+dedicated workspace.</p>
+<p>they are now all extracted, using an example sample for each of them.</p>
+<blockquote>
+<div><a class="reference external" href="PoldiLoadChopperSlits">PoldiLoadChopperSlits</a></div></blockquote>
+<p>The chopper configuration is loaded in a dedicated Workspace, one per
+<em>Poldi IPP</em> setup detected.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiLoadChopperSlits(InputWorkspace&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ex_of_sample_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiChopperSlits&nbsp;=&nbsp;ipp_chopper_slits)</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="PoldiLoadSpectra">PoldiLoadSpectra</a></div></blockquote>
+<p>The characteristic Poldi spectra (<em>Intensity=f(wavelength)</em>) is
+extracted from each IDF.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiLoadSpectra(InputWorkspace&nbsp;=&nbsp;ex_of_sample_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiSpectra&nbsp;&nbsp;&nbsp;=&nbsp;ipp_Poldi_spectra)</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="PoldiLoadIPP">PoldiLoadIPP</a></div></blockquote>
+<p>Local setup information (such as the detector position, chopper offset,
+etc...) are extracted and stores in a dedicated workspace.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiLoadIPP(InputWorkspace&nbsp;=&nbsp;ex_of_sample_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiIPP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ipp_ipp_data)</span></tt></div>
+</div>
+</div>
+<div class="section" id="pre-analyzing-data">
+<h2>Pre-analyzing data<a class="headerlink" href="#pre-analyzing-data" title="Permalink to this headline">¶</a></h2>
+<p>In order to setup the 2D fit to analyze the data, some information need
+to be extracted from the file, such as an idea of the peaks position.
+This is done using an autocorrelation function, following by a peak
+detection algorithm.</p>
+<p>The process has been cut in different algorithm in order to give the
+possibility to change/improve/modify each steps. For example, the peak
+detection process can be based on some previous results to not start
+from scratch, or given the sample crystal structure/symetries/space
+group...</p>
+<blockquote>
+<div><a class="reference external" href="PoldiAutoCorrelation">PoldiAutoCorrelation</a></div></blockquote>
+<p>Almost all the previous loaded workspace are used by this algorithm.
+From the sample manager workspace, and the Poldi setup workspace, all
+the targeted workspace can be found and given as parameters to the
+algorithm. The auto-correlated graph is store in a dedicated workspace,
+on row (0).</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiAutoCorrelation(InputWorkspace&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_output_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiSampleLogs&nbsp;&nbsp;&nbsp;=&nbsp;sample_log_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiDeadWires&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_dead_wires_ws,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiChopperSlits&nbsp;=&nbsp;ipp_chopper_slits,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiSpectra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ipp_Poldi_spectra,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PoldiIPP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ipp_ipp_data,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wlenmin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;wlen_min,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wlenmax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;wlen_max,&nbsp;</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutputWorkspace&nbsp;&nbsp;&nbsp;=&nbsp;sample_correlated_ws)</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></tt></div>
+</div>
+<blockquote>
+<div><a class="reference external" href="PoldiPeakDetection">PoldiPeakDetection</a></div></blockquote>
+<p>The previous autocorrelation function is analyzed to detected possible
+peaks. The found peak are stored in a dedicated workspace, and added to
+the previously created <em>sample_correlated_ws</em>: on row (1) the detected
+peak, on row (2) the fitted peak.</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">PoldiPeakDetection(InputWorkspace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_correlated_ws,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PeakDetectionThreshold&nbsp;=&nbsp;PeakDetectionThreshold,</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutputWorkspace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sample_peak_ws)</span></tt></div>
+</div>
+<div class="section" id="how-to-use-algorithm-with-other-algorithms">
+<h3>How to use algorithm with other algorithms<a class="headerlink" href="#how-to-use-algorithm-with-other-algorithms" title="Permalink to this headline">¶</a></h3>
+<p>This algorithm is designed to work with other algorithms to proceed
+POLDI data. The introductions can be found in the wiki page of
+<a class="reference external" href="PoldiProjectRun">PoldiProjectRun</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Data manager</a></li>
+<li><a class="reference internal" href="#poldi-setup-manager">POLDI setup manager</a></li>
+<li><a class="reference internal" href="#analysis-steps">Analysis steps</a><ul>
+<li><a class="reference internal" href="#loading-the-data">Loading the data</a></li>
+<li><a class="reference internal" href="#loading-poldi-parameters">Loading POLDI parameters</a></li>
+<li><a class="reference internal" href="#pre-analyzing-data">Pre-analyzing data</a><ul>
+<li><a class="reference internal" href="#how-to-use-algorithm-with-other-algorithms">How to use algorithm with other algorithms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/_static/PoldiProjectRun.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">DocTest 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, James.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
